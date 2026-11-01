@@ -22,12 +22,15 @@ Dominio final: `porlaanarquia.antarquia.cl`
       Ejecutar `gh auth refresh -s workflow` y luego `git push`.
 - [x] Fuentes auto-hospedadas en `assets/fonts/` (se quitó Google Fonts).
 - [x] CSP y `Referrer-Policy` en `index.html`; escapado completo de todo el contenido en `app.js`.
+- [x] Imágenes en el CMS: portada editable (`datos/portada.json`) e imagen opcional por nota.
 
 ## Contenido real (antes de publicar)
 
-- [ ] Reemplazar las 6 noticias de ejemplo por notas reales.
+- [ ] Reemplazar las 9 notas de ejemplo por notas reales (6 de 2026 y 3 de archivo).
 - [ ] Reemplazar agenda, efemérides y comunicados de ejemplo.
-- [ ] Quitar la nota del pie sobre textos inventados.
+- [ ] Quitar la nota al pie del lector («Texto de ejemplo escrito para la maqueta…»).
+- [ ] Probar Pages CMS de punta a punta: subir una imagen, editar una nota y
+      confirmar commit + deploy.
 
 ## Publicado en GitHub Pages
 
