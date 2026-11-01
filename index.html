@@ -1,25 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Por la Anarquía</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: #fff; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
-        header { border-bottom: 2px solid #ff0000; padding: 2rem; text-align: center; background: linear-gradient(180deg, #1a0000 0%, #000 100%); }
-        h1 { color: #ff0000; text-transform: uppercase; letter-spacing: 4px; font-size: 2.5rem; }
-        main { max-width: 900px; margin: 0 auto; padding: 3rem 1rem; text-align: center; }
-        p { color: #ccc; margin-top: 1rem; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Por la anarquía — Difusión de noticias libertarias</title>
+<meta name="description" content="Noticias, agenda, efemérides y comunicados de los colectivos, bibliotecas y sindicatos libertarios de Chile.">
+<meta name="theme-color" content="#ebe1c5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b1712" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Por la Anarquía</h1>
-    </header>
-    <main>
-        <h2>En construcción</h2>
-        <p>Portal de noticias, difusión y articulación anarquista.</p>
-    </main>
+<div class="sheet">
+  <div class="strip">
+    <span>Maqueta de rediseño. Todo el contenido es de ejemplo.</span>
+    <button class="theme-btn" id="themeBtn" type="button">Edición nocturna</button>
+  </div>
+
+  <header class="masthead">
+    <div class="motto">Difusión de noticias libertarias</div>
+    <h1 class="title">Por la anarquía</h1>
+    <div class="tagline">Comunicados, agenda y memoria de los colectivos de Chile</div>
+    <div class="dateline">Vol. I, N.º 1<br><b id="dateline">Domingo 1 de noviembre de 2026</b></div>
+  </header>
+
+  <nav class="nav" aria-label="Secciones">
+    <a href="#portada">Portada</a>
+    <a href="#noticias">Noticias</a>
+    <a href="#agenda">Agenda</a>
+    <a href="#efemerides">Efemérides</a>
+    <a href="#comunicados">Comunicados</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <!-- PORTADA -->
+  <main>
+  <section class="view" id="v-portada">
+    <div class="headline">
+      <h2>Hoy en la difusión libertaria</h2>
+      <p>La feria del libro cumple diez años, <b>vuelve la olla común</b> y se abre la agenda de noviembre.</p>
+    </div>
+    <div class="banner" id="banner" role="img" aria-label="Grabado de la cordillera de los Andes sobre los techos de Santiago"></div>
+    <p class="caption">Santiago al amanecer, con la cordillera al fondo. <b>Grabado de ejemplo</b> para la portada.</p>
+
+    <div class="cols">
+      <div class="col">
+        <h3 class="col-title">Bienvenidas a la nueva edición</h3>
+        <p class="dropcap">Por la anarquía reúne en un solo lugar las noticias, convocatorias y comunicados que publican colectivos, bibliotecas, sindicatos y vecinas que trabajan sin jefes ni intermediarios.</p>
+        <h4 class="sub">Qué encontrarás aquí</h4>
+        <p>Una sección de noticias con filtros por tema, una agenda por ciudad que puedes guardar, efemérides con cuenta regresiva y los comunicados más recientes.</p>
+        <h4 class="sub">Cómo participar</h4>
+        <p>Escríbenos con tu convocatoria, tu texto o tu denuncia. Todo se publica con firma colectiva o personal, según prefieras.</p>
+        <button class="linkbtn" data-go="contacto" type="button">Ir a contacto</button>
+      </div>
+
+      <div class="col" id="leads"></div>
+
+      <div class="col">
+        <div class="box">
+          <h3>Últimos comunicados</h3>
+          <ul id="boxcoms"></ul>
+          <div class="btns">
+            <button class="btn" data-go="comunicados" type="button">Ver todos</button>
+            <button class="btn alt" data-go="agenda" type="button">Agenda</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTICIAS -->
+  <section class="view" id="v-noticias" hidden>
+    <div class="sect-head"><h2>Noticias</h2><p>Lo que pasa en los territorios, los talleres y las asambleas.</p></div>
+    <div id="newsList">
+      <div class="toolbar">
+        <div class="chips" id="catChips" role="group" aria-label="Filtrar por tema"></div>
+        <input class="search" id="q" type="search" placeholder="Buscar en las notas" aria-label="Buscar en las notas">
+      </div>
+      <div class="count" id="newsCount" aria-live="polite" style="margin:-12px 0 14px;text-align:right"></div>
+      <div class="grid" id="newsGrid"></div>
+    </div>
+    <article class="reader" id="reader" hidden></article>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="view" id="v-agenda" hidden>
+    <div class="sect-head"><h2>Agenda</h2><p>Encuentros, ferias, talleres y veladas. Guarda los que quieras recordar.</p></div>
+    <div class="toolbar">
+      <div class="chips" id="cityChips" role="group" aria-label="Filtrar por ciudad"></div>
+      <span class="count" id="agCount" aria-live="polite"></span>
+    </div>
+    <div id="agList"></div>
+  </section>
+
+  <!-- EFEMERIDES -->
+  <section class="view" id="v-efemerides" hidden>
+    <div class="sect-head"><h2>Efemérides</h2><p>Fechas de la memoria libertaria, ordenadas desde hoy.</p></div>
+    <div id="efList"></div>
+  </section>
+
+  <!-- COMUNICADOS -->
+  <section class="view" id="v-comunicados" hidden>
+    <div class="sect-head"><h2>Comunicados</h2><p>Avisos y convocatorias de los colectivos. Toca un título para leerlo.</p></div>
+    <div class="coms" id="comList"></div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="view" id="v-contacto" hidden>
+    <div class="sect-head"><h2>Contacto</h2><p>Para enviar convocatorias, textos y correcciones.</p></div>
+    <div class="contact">
+      <div>
+        <p class="dropcap">Recibimos convocatorias, comunicados, textos breves y fotografías. Mientras más claro el aviso (fecha, hora y lugar), más rápido sale publicado.</p>
+        <p>Dirección de ejemplo para la maqueta:</p>
+        <div class="addr"><code id="mail">contacto@porlaanarquia.example</code><button class="btn alt" id="copyBtn" type="button">Copiar</button></div>
+        <p style="font-style:italic;font-size:14px;color:var(--ink-soft)">Esta dirección no existe todavía. Se reemplazará por la definitiva.</p>
+      </div>
+      <div>
+        <form id="form" novalidate>
+          <label for="f-name">Nombre o colectivo</label>
+          <input class="field" id="f-name" type="text" autocomplete="off">
+          <label for="f-sub">Tipo de envío</label>
+          <input class="field" id="f-sub" type="text" placeholder="Convocatoria, texto, corrección…" autocomplete="off">
+          <label for="f-msg">Mensaje</label>
+          <textarea class="field" id="f-msg"></textarea>
+          <button class="btn" type="submit">Enviar</button>
+          <div class="status" id="status" role="status"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <footer class="foot">
+    <b>Por la anarquía</b>
+    <i>Santiago de Chile · Edición de ejemplo · 2026<br>Textos, fechas y lugares inventados para la maqueta.</i>
+    <b>Difusión libre, sin amos</b>
+  </footer>
+  <div class="after"></div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
