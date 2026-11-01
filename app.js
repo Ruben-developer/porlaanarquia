@@ -62,41 +62,20 @@ const store = {
 };
 const S = { cat: 'Todas', q: '', open: null, city: 'Todas', saved: new Set(store.get('pla-saved', [])) };
 
-/* Fecha de la cabecera */
+/* Fecha y año de la cabecera */
 (() => {
   const n = new Date();
-  $('#dateline').textContent = `${DIAS[n.getDay()]} ${n.getDate()} de ${MES[n.getMonth()]} de ${n.getFullYear()}`;
+  const roman = num => {
+    const vals = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+    const syms = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
+    let out = '';
+    vals.forEach((v, i) => { while (num >= v) { out += syms[i]; num -= v; } });
+    return out;
+  };
+  const year = n.getFullYear();
+  $('#year').textContent = `Año ${roman(Math.max(1, year - 2025))}`;
+  $('#dateline').textContent = `${DIAS[n.getDay()]} ${n.getDate()} de ${MES[n.getMonth()]} de ${year}`;
 })();
-
-/* Grabado de la portada */
-function banner() {
-  let s = 11; const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
-  let city = '', x = 0;
-  while (x < 1000) { const w = 9 + r() * 24, h = 6 + r() * 36; city += `<rect x="${x.toFixed(1)}" y="${(200 - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}"/>`; x += w + 1 + r() * 3; }
-  let roofs = '', y = 0;
-  while (y < 1000) { const w = 14 + r() * 30; roofs += `<rect x="${y.toFixed(1)}" y="${(208 - 8 - r() * 8).toFixed(1)}" width="${w.toFixed(1)}" height="30"/>`; y += w + 2; }
-  let hatch = '';
-  for (let i = 0; i < 40; i++) hatch += `<line x1="0" y1="${i * 5.5}" x2="1000" y2="${i * 5.5}"/>`;
-  $('#banner').innerHTML = `
-  <svg viewBox="0 0 1000 230" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--paper-deep)"/><stop offset="1" stop-color="var(--paper)"/></linearGradient>
-      <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.1 -.35"/></filter>
-    </defs>
-    <rect width="1000" height="230" fill="url(#sky)"/>
-    <g stroke="var(--ink)" stroke-width=".6" opacity=".16">${hatch}</g>
-    <circle cx="770" cy="74" r="28" fill="var(--paper)" opacity=".85"/>
-    <circle cx="770" cy="74" r="28" fill="none" stroke="var(--ink)" stroke-width=".8" opacity=".5"/>
-    <path d="M0 150 L55 112 L100 132 L170 70 L232 118 L300 84 L372 128 L440 96 L520 134 L610 58 L690 112 L760 90 L840 126 L920 86 L1000 120 V230 H0Z" fill="var(--ink)" opacity=".22"/>
-    <path d="M0 176 L70 140 L140 160 L220 108 L300 154 L380 126 L470 162 L560 120 L650 158 L730 132 L820 164 L900 130 L1000 160 V230 H0Z" fill="var(--ink)" opacity=".42"/>
-    <path d="M610 58 L590 82 L605 76 L618 92 L630 74 L648 86 L634 66Z" fill="var(--paper)" opacity=".8"/>
-    <path d="M220 108 L205 126 L218 120 L228 134 L240 118 L252 128 L236 112Z" fill="var(--paper)" opacity=".7"/>
-    <g fill="var(--ink)" opacity=".72">${city}</g>
-    <g fill="var(--ink)" opacity=".95">${roofs}</g>
-    <rect width="1000" height="230" filter="url(#gr)" opacity=".5"/>
-  </svg>`;
-}
-banner();
 
 /* Sello */
 const SEAL = `<svg class="seal" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

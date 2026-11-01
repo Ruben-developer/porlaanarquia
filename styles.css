@@ -45,7 +45,7 @@ h1, h2, h3, h4, p { margin: 0; }
 h1, h2, h3, h4 { text-wrap: balance; }
 
 /* Barra superior y cabecera */
-.strip { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+.strip { display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap;
   font-size: 12.5px; font-style: italic; color: var(--ink-soft); padding-bottom: 6px; }
 .theme-btn { background: none; border: 0; border-bottom: 1px solid var(--ink-soft); padding: 0; cursor: pointer; font-style: italic; color: var(--ink-soft); }
 .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
@@ -54,10 +54,11 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .motto { font-family: var(--f-head); font-weight: 900; text-transform: uppercase; letter-spacing: .06em; font-size: clamp(15px, 2.4vw, 20px); }
 .title { position: relative; font-family: var(--f-display); font-weight: 400; text-transform: uppercase;
   font-size: clamp(38px, 10.2vw, 100px); line-height: 1.02; letter-spacing: .015em; margin: 4px 0 8px; }
-.title::after { content: ""; position: absolute; left: 0; right: 0; top: 55%; border-top: 1px solid var(--ink); opacity: .75; pointer-events: none; }
 .tagline { font-family: var(--f-head); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; font-size: clamp(11px, 1.7vw, 14px); }
-.dateline { margin-top: 12px; font-size: 14px; line-height: 1.35; text-transform: uppercase; letter-spacing: .04em; }
-.dateline b { color: var(--accent); font-weight: 700; }
+.dateline { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap;
+  margin-top: 12px; font-size: 14px; line-height: 1.35; text-transform: uppercase; letter-spacing: .04em; }
+.dateline .year { text-transform: none; font-family: var(--f-head); font-weight: 700; letter-spacing: .12em; }
+.dateline b { color: var(--accent); font-weight: 700; text-align: right; }
 
 .nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 26px; padding: 9px 0;
   border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); }
@@ -76,7 +77,7 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .headline p b { color: var(--accent); }
 
 .banner { margin: 18px 0 8px; border: 1px solid var(--ink); padding: 3px; }
-.banner svg { display: block; width: 100%; height: auto; max-height: 230px; }
+.banner img { display: block; width: 100%; height: auto; }
 .caption { text-align: center; font-size: 13px; font-style: italic; margin-bottom: 22px; }
 .caption b { font-style: normal; }
 
