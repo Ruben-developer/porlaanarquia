@@ -1,0 +1,138 @@
+# Configuración de Pages CMS (https://pagescms.org)
+# Se lee desde la raíz del repo. Cada entrada edita un archivo de datos.
+# Los PDFs no se suben acá: van a Cloudflare R2 (ver MAREA).
+
+media:
+  input: assets
+  output: /assets
+
+content:
+  - name: noticias
+    label: Noticias
+    type: file
+    path: datos/noticias.json
+    format: json
+    list: true
+    fields:
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+      - name: categoria
+        label: Categoría
+        type: string
+        required: true
+        description: "Cultura, Solidaridad, Trabajo, Ecología, Memoria…"
+      - name: fecha
+        label: Fecha
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: lugar
+        label: Ciudad o lugar
+        type: string
+        required: true
+      - name: bajada
+        label: Bajada
+        type: text
+        required: true
+        description: Una o dos frases que resumen la nota.
+      - name: cuerpo
+        label: Cuerpo
+        type: text
+        required: true
+        description: Separa los párrafos con una línea en blanco.
+      - name: id
+        label: Identificador (opcional)
+        type: string
+        description: "Déjalo vacío: se genera solo con la fecha y el título."
+
+  - name: agenda
+    label: Agenda
+    type: file
+    path: datos/agenda.json
+    format: json
+    list: true
+    fields:
+      - name: titulo
+        label: Actividad
+        type: string
+        required: true
+      - name: fecha
+        label: Fecha
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: hora
+        label: Hora
+        type: string
+        required: true
+        description: "Formato 24 h, por ejemplo 19:30."
+      - name: lugar
+        label: Lugar
+        type: string
+        required: true
+      - name: ciudad
+        label: Ciudad
+        type: string
+        required: true
+      - name: id
+        label: Identificador (opcional)
+        type: string
+        description: "Déjalo vacío: se genera solo con la fecha y el título."
+
+  - name: efemerides
+    label: Efemérides
+    type: file
+    path: datos/efemerides.json
+    format: json
+    list: true
+    fields:
+      - name: titulo
+        label: Qué se conmemora
+        type: string
+        required: true
+      - name: dia
+        label: Día
+        type: number
+        required: true
+      - name: mes
+        label: Mes (1 a 12)
+        type: number
+        required: true
+      - name: anio
+        label: Año del hecho
+        type: number
+        required: true
+      - name: texto
+        label: Glosa
+        type: text
+        required: true
+
+  - name: comunicados
+    label: Comunicados
+    type: file
+    path: datos/comunicados.json
+    format: json
+    list: true
+    fields:
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+      - name: fecha
+        label: Fecha
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: texto
+        label: Texto
+        type: text
+        required: true
+      - name: id
+        label: Identificador (opcional)
+        type: string
+        description: "Déjalo vacío: se genera solo con la fecha y el título."

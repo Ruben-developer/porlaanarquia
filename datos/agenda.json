@@ -1,0 +1,50 @@
+[
+  {
+    "id": "e1",
+    "fecha": "2026-11-07",
+    "hora": "17:00",
+    "titulo": "Presentación del pliego «Memoria del salitre»",
+    "lugar": "Ateneo de barrio, calle ficticia 123",
+    "ciudad": "Santiago"
+  },
+  {
+    "id": "e2",
+    "fecha": "2026-11-11",
+    "hora": "19:00",
+    "titulo": "Velada por los mártires de Chicago",
+    "lugar": "Biblioteca autónoma del centro",
+    "ciudad": "Santiago"
+  },
+  {
+    "id": "e3",
+    "fecha": "2026-11-14",
+    "hora": "12:30",
+    "titulo": "Almuerzo solidario y feria de ropa",
+    "lugar": "Plazuela del cerro",
+    "ciudad": "Valparaíso"
+  },
+  {
+    "id": "e4",
+    "fecha": "2026-11-20",
+    "hora": "18:30",
+    "titulo": "Conversatorio a 90 años de la muerte de Durruti",
+    "lugar": "Sala del sindicato",
+    "ciudad": "Concepción"
+  },
+  {
+    "id": "e5",
+    "fecha": "2026-11-28",
+    "hora": "11:00",
+    "titulo": "Taller abierto de serigrafía",
+    "lugar": "Taller colectivo, barrio Yungay",
+    "ciudad": "Santiago"
+  },
+  {
+    "id": "e6",
+    "fecha": "2026-12-05",
+    "hora": "16:00",
+    "titulo": "Feria del libro libertario de diciembre",
+    "lugar": "Galpón cultural",
+    "ciudad": "Valparaíso"
+  }
+]

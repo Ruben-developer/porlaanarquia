@@ -10,9 +10,21 @@ Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
 
 - `index.html` — portada y secciones (noticias, agenda, efemérides, comunicados, contacto).
 - `styles.css` — estética de prensa libertaria: papel envejecido, tinta negra y acento rojo, con edición diurna y nocturna.
-- `app.js` — datos de ejemplo, filtros, búsqueda, agenda guardada, formulario de contacto (`mailto:`) y navegación por hash.
+- `app.js` — lógica: carga los datos, filtros, búsqueda, agenda guardada y navegación por hash.
+- `datos/` — contenido editable: `noticias.json`, `agenda.json`, `efemerides.json`, `comunicados.json`.
+- `.pages.yml` — configuración de Pages CMS para editar los JSON con formularios.
+- `scripts/validar.mjs` — revisa los datos antes de publicar (`node scripts/validar.mjs`).
 - `favicon.svg` — sello de la publicación.
 - `assets/portada-la-protesta.jpg` — imagen de portada.
+
+## Contenido
+
+El contenido vive en `datos/*.json`, no dentro del código. Para publicar:
+
+1. Edita el JSON en `github.dev` (tecla `.` en el repo) o con **Pages CMS**
+   (`app.pagescms.org`, login con GitHub).
+2. Ejecuta `node scripts/validar.mjs` (o confía en el Action del repo).
+3. Commit y push: GitHub Pages publica solo.
 
 ## Contacto
 

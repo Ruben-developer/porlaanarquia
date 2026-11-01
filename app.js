@@ -1,4 +1,5 @@
-/* Por la anarquía — lógica de la maqueta (datos de ejemplo incluidos). */
+/* Por la anarquía — lógica del portal.
+   Los datos viven en datos/*.json; este archivo solo los carga y los pinta. */
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -9,59 +10,58 @@ const fmt = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} 
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAIL = 'por-la-anarquia@riseup.net';
 
-const ARTS = [
-  { id: 'a1', cat: 'Cultura', t: 'La feria del libro libertario cumple diez años con veinte mesas y tres debates', deck: 'Colectivos, imprentas y bibliotecas autónomas se reunieron durante dos días en el barrio Yungay.', date: '2026-10-31', place: 'Santiago',
-    body: ['Durante el fin de semana, más de veinte mesas ocuparon el patio de un antiguo conventillo del barrio Yungay. Hubo folletos a precio de costo, afiches serigrafiados en el lugar y una mesa de intercambio donde cada persona podía dejar un libro y llevarse otro.',
-      'El sábado en la tarde se realizaron tres debates abiertos: sobre autogestión de espacios, sobre vivienda y sobre la circulación de la prensa libertaria en tiempos de redes sociales. Cada uno terminó con una ronda de propuestas que quedó anotada en un papelógrafo a la entrada.',
-      'Las organizadoras informaron que la próxima feria será en Valparaíso, en diciembre, y que quienes quieran poner mesa deben escribir con una semana de anticipación.'] },
-  { id: 'a2', cat: 'Solidaridad', t: 'Vecinas del barrio Matta reactivan la olla común de los domingos', deck: 'La cocina colectiva vuelve a funcionar con verduras donadas por una feria cercana.', date: '2026-10-29', place: 'Santiago',
-    body: ['Cada domingo a las doce, en la esquina de una plaza del barrio Matta, se arma una cocina al aire libre. Esta semana se repartieron ciento ochenta platos de legumbres con verduras de estación.',
-      'Las vecinas que sostienen la olla piden ollas grandes, leña seca y manos para pelar. También reciben utensilios y frascos limpios para llevar la comida a quienes no pueden acercarse.',
-      'La próxima jornada comienza a las nueve de la mañana, con la compra colectiva en la feria.'] },
-  { id: 'a3', cat: 'Trabajo', t: 'Sindicato de oficios varios discute la jornada de 40 horas en asamblea abierta', deck: 'La reunión terminó con un acuerdo para repartir un volante en los lugares de trabajo.', date: '2026-10-27', place: 'Santiago',
-    body: ['Más de cuarenta personas llegaron a la asamblea del sindicato, entre trabajadoras de casa particular, gásfiteres, cocineros y repartidores. La conversación giró en torno a cómo se aplicará la reducción de jornada en los oficios sin contrato fijo.',
-      'Se acordó imprimir un volante con preguntas y respuestas, y repartirlo en terminales, ferias y puntos de reparto. El borrador queda abierto para que lo corrija quien quiera.'] },
-  { id: 'a4', cat: 'Ecología', t: 'Taller de huerta urbana busca un sitio baldío para sembrar en primavera', deck: 'El grupo ya tiene semillas, compost y herramientas. Falta el terreno.', date: '2026-10-25', place: 'Concepción',
-    body: ['Un grupo de vecinas y estudiantes de Concepción prepara una huerta comunitaria y busca un sitio baldío con acceso a agua. Piden que quien conozca un terreno disponible deje el dato en la mesa del taller.',
-      'Las sesiones son los sábados por la mañana y cada persona lleva lo que pueda: semillas, palas, cajones o simplemente ganas de aprender.'] },
-  { id: 'a5', cat: 'Memoria', t: 'Ciclo de cine documental recorre las luchas obreras del norte salitrero', deck: 'Cuatro funciones gratuitas, con conversatorio después de cada proyección.', date: '2026-10-22', place: 'Valparaíso',
-    body: ['El ciclo reúne documentales y archivos sobre las oficinas salitreras, las mancomunales y las huelgas de comienzos del siglo XX. Cada función incluye una breve presentación histórica.',
-      'Tras la película se abre una conversación con el público. Hay mate, sopaipillas y una mesa con folletos para llevar.'] },
-  { id: 'a6', cat: 'Cultura', t: 'Una imprenta autogestionada prepara un pliego de poemas y grabados', deck: 'La tirada será pequeña, impresa a mano y vendida a precio de costo.', date: '2026-10-20', place: 'Santiago',
-    body: ['En un taller del centro, tres personas componen a mano un pliego de poemas ilustrado con grabados en linóleo. La tirada será de trescientos ejemplares numerados.',
-      'Quienes quieran aportar textos o ayudar a doblar y coser pueden pasar los jueves en la tarde.'] }
-];
-const CATS = ['Todas', ...new Set(ARTS.map(a => a.cat))];
+/* Los datos se llenan desde los JSON */
+let ARTS = [], AGENDA = [], EFEM = [], COMS = [];
+let CATS = ['Todas'], CITIES = ['Todas'];
 
-const AGENDA = [
-  { id: 'e1', iso: '2026-11-07', hora: '17:00', t: 'Presentación del pliego «Memoria del salitre»', place: 'Ateneo de barrio, calle ficticia 123', city: 'Santiago' },
-  { id: 'e2', iso: '2026-11-11', hora: '19:00', t: 'Velada por los mártires de Chicago', place: 'Biblioteca autónoma del centro', city: 'Santiago' },
-  { id: 'e3', iso: '2026-11-14', hora: '12:30', t: 'Almuerzo solidario y feria de ropa', place: 'Plazuela del cerro', city: 'Valparaíso' },
-  { id: 'e4', iso: '2026-11-20', hora: '18:30', t: 'Conversatorio a 90 años de la muerte de Durruti', place: 'Sala del sindicato', city: 'Concepción' },
-  { id: 'e5', iso: '2026-11-28', hora: '11:00', t: 'Taller abierto de serigrafía', place: 'Taller colectivo, barrio Yungay', city: 'Santiago' },
-  { id: 'e6', iso: '2026-12-05', hora: '16:00', t: 'Feria del libro libertario de diciembre', place: 'Galpón cultural', city: 'Valparaíso' }
-];
-const CITIES = ['Todas', ...new Set(AGENDA.map(a => a.city))];
+const parrafos = s => String(s || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+const porFecha = (a, b) => b.date.localeCompare(a.date);
+const slug = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const idDe = (item, campoFecha, campoTitulo) =>
+  item.id || `${item[campoFecha]}-${slug(item[campoTitulo])}`;
 
-const EFEM = [
-  { m: 11, d: 11, y: 1887, t: 'Ejecución de los mártires de Chicago', x: 'Cuatro anarquistas fueron ahorcados en Chicago tras el juicio por los hechos de Haymarket. Su memoria está en el origen de la conmemoración del 1.º de Mayo.' },
-  { m: 11, d: 20, y: 1936, t: 'Muere Buenaventura Durruti en Madrid', x: 'El militante anarcosindicalista murió durante la defensa de Madrid, en plena Guerra Civil española.' },
-  { m: 12, d: 9, y: 1842, t: 'Nace Piotr Kropotkin', x: 'Geógrafo y teórico del comunismo libertario, autor de El apoyo mutuo y La conquista del pan.' },
-  { m: 12, d: 21, y: 1907, t: 'Masacre de la escuela Santa María de Iquique', x: 'El ejército disparó contra obreros del salitre y sus familias reunidos en Iquique. Es uno de los episodios más recordados de la historia obrera chilena.' }
-];
+async function getJSON(url) {
+  const r = await fetch(url, { cache: 'no-cache' });
+  if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+  return r.json();
+}
 
-const COMS = [
-  { id: 'c1', iso: '2026-10-30', t: 'Convocatoria a asamblea de coordinación', x: 'Se invita a los colectivos, bibliotecas y talleres a la asamblea de coordinación de noviembre. Se conversará el calendario de actividades, la distribución de volantes y la próxima feria. Cada colectivo puede llevar un punto para la tabla.' },
-  { id: 'c2', iso: '2026-10-28', t: 'Cambio de local de la biblioteca autónoma', x: 'La biblioteca autónoma del centro se traslada a un local más amplio a media cuadra del anterior. Se necesitan manos para mover estantes y cajas el sábado en la mañana. Los horarios de préstamo no cambian.' },
-  { id: 'c3', iso: '2026-10-24', t: 'Se reciben textos para el próximo número', x: 'Estamos reuniendo crónicas breves, entrevistas y reseñas para el próximo número. Los textos deben tener menos de mil palabras y llegar con firma. También recibimos grabados y fotografías en blanco y negro.' }
-];
+async function cargarDatos() {
+  const [noticias, agenda, efem, coms] = await Promise.all([
+    getJSON('datos/noticias.json'),
+    getJSON('datos/agenda.json'),
+    getJSON('datos/efemerides.json'),
+    getJSON('datos/comunicados.json')
+  ]);
+
+  ARTS = noticias.map(n => ({
+    id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: n.bajada,
+    date: n.fecha, place: n.lugar, body: parrafos(n.cuerpo)
+  })).sort(porFecha);
+  CATS = ['Todas', ...new Set(ARTS.map(a => a.cat))];
+
+  AGENDA = agenda.map(e => ({
+    id: idDe(e, 'fecha', 'titulo'), iso: e.fecha, hora: e.hora, t: e.titulo, place: e.lugar, city: e.ciudad
+  })).sort((a, b) => a.iso.localeCompare(b.iso));
+  CITIES = ['Todas', ...new Set(AGENDA.map(a => a.city))];
+
+  EFEM = efem.map(e => ({ m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: e.texto }));
+
+  COMS = coms.map(c => ({ id: idDe(c, 'fecha', 'titulo'), iso: c.fecha, t: c.titulo, x: c.texto }))
+    .sort((a, b) => b.iso.localeCompare(a.iso));
+}
 
 /* Utilidades de estado */
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 };
-const S = { cat: 'Todas', q: '', open: null, city: 'Todas', saved: new Set(store.get('pla-saved', [])) };
+const S = {
+  cat: 'Todas', q: '', open: null, city: 'Todas',
+  year: 'Todos', month: 0,
+  saved: new Set(store.get('pla-saved', []))
+};
 
 /* Fecha y año de la cabecera */
 (() => {
@@ -83,12 +83,37 @@ function renderPortada() {
   $('#boxcoms').innerHTML = COMS.slice(0, 3).map(c => `<li><button type="button" data-go="comunicados">${esc(c.t)}<small>${fmt(c.iso)}</small></button></li>`).join('');
 }
 
-/* Render: noticias */
+/* Render: noticias con archivo por año y mes */
 function renderNews() {
+  const years = [...new Set(ARTS.map(a => a.date.slice(0, 4)))].sort().reverse();
+  if (S.year !== 'Todos' && !years.includes(S.year)) { S.year = 'Todos'; S.month = 0; }
+
+  $('#yearChips').innerHTML = ['Todos', ...years].map(y => `
+    <button class="chip" type="button" data-year="${y}" aria-pressed="${S.year === y}">${y === 'Todos' ? 'Todos' : y}</button>`).join('');
+
+  const months = S.year === 'Todos' ? [] :
+    [...new Set(ARTS.filter(a => a.date.startsWith(S.year)).map(a => +a.date.slice(5, 7)))].sort((a, b) => a - b);
+  if (S.month && !months.includes(S.month)) S.month = 0;
+
+  const row = $('#monthRow');
+  row.hidden = months.length < 2;
+  $('#monthChips').innerHTML = months.map(m => `
+    <button class="chip" type="button" data-month="${m}" aria-pressed="${S.month === m}">${MES[m - 1]}</button>`).join('');
+
   $('#catChips').innerHTML = CATS.map(c => `<button class="chip" type="button" data-cat="${c}" aria-pressed="${S.cat === c}">${c}</button>`).join('');
+
   const q = S.q.trim().toLowerCase();
-  const list = ARTS.filter(a => (S.cat === 'Todas' || a.cat === S.cat) && (!q || (a.t + ' ' + a.deck + ' ' + a.body.join(' ')).toLowerCase().includes(q)));
-  $('#newsCount').textContent = `${list.length} ${list.length === 1 ? 'nota' : 'notas'}`;
+  const list = ARTS.filter(a =>
+    (S.cat === 'Todas' || a.cat === S.cat) &&
+    (S.year === 'Todos' || a.date.startsWith(S.year)) &&
+    (!S.month || +a.date.slice(5, 7) === S.month) &&
+    (!q || (a.t + ' ' + a.deck + ' ' + a.body.join(' ')).toLowerCase().includes(q))
+  );
+
+  const periodo = S.year === 'Todos' ? '' : (S.month ? ` · ${MES[S.month - 1]} ${S.year}` : ` · ${S.year}`);
+  $('#newsCount').textContent = `${list.length} ${list.length === 1 ? 'nota' : 'notas'}${periodo}`;
+
+  const filtros = S.year !== 'Todos' || S.month || S.cat !== 'Todas' || q;
   $('#newsGrid').innerHTML = list.length ? list.map(a => `
     <div class="item">
       <span class="kick">${a.cat}</span>
@@ -96,8 +121,10 @@ function renderNews() {
       <p class="meta">${a.place} · ${fmt(a.date)}</p>
       <p class="deck">${esc(a.deck)}</p>
       <button class="linkbtn" data-open="${a.id}" type="button">Leer nota</button>
-    </div>`).join('') : '<p class="empty" style="grid-column:1/-1">Ninguna nota coincide con la búsqueda.</p>';
+    </div>`).join('')
+    : `<p class="empty" style="grid-column:1/-1">${filtros ? 'No hay notas en ese período.' : 'Todavía no hay notas publicadas.'}</p>`;
 }
+
 function renderReader() {
   const a = ARTS.find(x => x.id === S.open);
   const list = $('#newsList'), rd = $('#reader');
@@ -177,6 +204,8 @@ document.addEventListener('click', e => {
   if (t.dataset.open) { S.open = t.dataset.open; return go('noticias'); }
   if ('close' in t.dataset) { S.open = null; renderReader(); return window.scrollTo(0, 0); }
   if (t.dataset.cat) { S.cat = t.dataset.cat; return renderNews(); }
+  if (t.dataset.year) { S.year = t.dataset.year; S.month = 0; return renderNews(); }
+  if (t.dataset.month) { S.month = +t.dataset.month; return renderNews(); }
   if (t.dataset.city) { S.city = t.dataset.city; return renderAgenda(); }
   if (t.dataset.save) {
     S.saved.has(t.dataset.save) ? S.saved.delete(t.dataset.save) : S.saved.add(t.dataset.save);
@@ -216,4 +245,14 @@ tbtn.addEventListener('click', () => { const n = isDark() ? 'light' : 'dark'; ro
 syncTheme();
 
 /* Arranque */
-renderPortada(); renderNews(); renderAgenda(); renderEfem(); renderComs(); route();
+async function arrancar() {
+  try {
+    await cargarDatos();
+    renderPortada(); renderNews(); renderAgenda(); renderEfem(); renderComs(); route();
+  } catch (err) {
+    console.error('No se pudieron cargar los datos:', err);
+    const aviso = '<p class="empty">No se pudieron cargar los datos. Revisa la conexión o los archivos de <code>datos/</code>.</p>';
+    ['#boxcoms', '#newsGrid', '#agList', '#efList', '#comList'].forEach(sel => { const el = $(sel); if (el) el.innerHTML = aviso; });
+  }
+}
+arrancar();

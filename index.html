@@ -80,7 +80,15 @@
         <div class="chips" id="catChips" role="group" aria-label="Filtrar por tema"></div>
         <input class="search" id="q" type="search" placeholder="Buscar en las notas" aria-label="Buscar en las notas">
       </div>
-      <div class="count" id="newsCount" aria-live="polite" style="margin:-12px 0 14px;text-align:right"></div>
+      <div class="archive">
+        <span class="archive-label">Por año</span>
+        <div class="chips" id="yearChips" role="group" aria-label="Filtrar por año"></div>
+      </div>
+      <div class="archive" id="monthRow" hidden>
+        <span class="archive-label">Por mes</span>
+        <div class="chips" id="monthChips" role="group" aria-label="Filtrar por mes"></div>
+      </div>
+      <div class="count" id="newsCount" aria-live="polite" style="margin:0 0 14px;text-align:right"></div>
       <div class="grid" id="newsGrid"></div>
     </div>
     <article class="reader" id="reader" hidden></article>

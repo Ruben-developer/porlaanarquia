@@ -14,6 +14,9 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Portada a dos columnas (bienvenida 2/3, últimos comunicados 1/3) y textos de bienvenida nuevos.
 - [x] Correo de contacto real: `por-la-anarquia@riseup.net`.
 - [x] Formulario de contacto funcional sin backend: arma un `mailto:` con asunto y cuerpo.
+- [x] Contenido sacado de `app.js` a `datos/*.json` y cargado con `fetch`.
+- [x] Archivo de noticias por año y mes (chips «Por año» y «Por mes»).
+- [x] Configuración de Pages CMS (`.pages.yml`) y validación de datos en GitHub Actions.
 
 ## Contenido real (antes de publicar)
 

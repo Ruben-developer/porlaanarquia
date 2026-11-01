@@ -1,0 +1,30 @@
+[
+  {
+    "mes": 11,
+    "dia": 11,
+    "anio": 1887,
+    "titulo": "Ejecución de los mártires de Chicago",
+    "texto": "Cuatro anarquistas fueron ahorcados en Chicago tras el juicio por los hechos de Haymarket. Su memoria está en el origen de la conmemoración del 1.º de Mayo."
+  },
+  {
+    "mes": 11,
+    "dia": 20,
+    "anio": 1936,
+    "titulo": "Muere Buenaventura Durruti en Madrid",
+    "texto": "El militante anarcosindicalista murió durante la defensa de Madrid, en plena Guerra Civil española."
+  },
+  {
+    "mes": 12,
+    "dia": 9,
+    "anio": 1842,
+    "titulo": "Nace Piotr Kropotkin",
+    "texto": "Geógrafo y teórico del comunismo libertario, autor de El apoyo mutuo y La conquista del pan."
+  },
+  {
+    "mes": 12,
+    "dia": 21,
+    "anio": 1907,
+    "titulo": "Masacre de la escuela Santa María de Iquique",
+    "texto": "El ejército disparó contra obreros del salitre y sus familias reunidos en Iquique. Es uno de los episodios más recordados de la historia obrera chilena."
+  }
+]

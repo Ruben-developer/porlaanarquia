@@ -1,0 +1,20 @@
+[
+  {
+    "id": "c1",
+    "fecha": "2026-10-30",
+    "titulo": "Convocatoria a asamblea de coordinación",
+    "texto": "Se invita a los colectivos, bibliotecas y talleres a la asamblea de coordinación de noviembre. Se conversará el calendario de actividades, la distribución de volantes y la próxima feria. Cada colectivo puede llevar un punto para la tabla."
+  },
+  {
+    "id": "c2",
+    "fecha": "2026-10-28",
+    "titulo": "Cambio de local de la biblioteca autónoma",
+    "texto": "La biblioteca autónoma del centro se traslada a un local más amplio a media cuadra del anterior. Se necesitan manos para mover estantes y cajas el sábado en la mañana. Los horarios de préstamo no cambian."
+  },
+  {
+    "id": "c3",
+    "fecha": "2026-10-24",
+    "titulo": "Se reciben textos para el próximo número",
+    "texto": "Estamos reuniendo crónicas breves, entrevistas y reseñas para el próximo número. Los textos deben tener menos de mil palabras y llegar con firma. También recibimos grabados y fotografías en blanco y negro."
+  }
+]
