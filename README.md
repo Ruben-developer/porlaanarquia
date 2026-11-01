@@ -11,7 +11,8 @@ Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
 - `index.html` — portada y secciones (noticias, agenda, efemérides, comunicados, contacto).
 - `styles.css` — estética de prensa libertaria: papel envejecido, tinta negra y acento rojo, con edición diurna y nocturna.
 - `app.js` — lógica: carga los datos, filtros, búsqueda, agenda guardada y navegación por hash.
-- `datos/` — contenido editable: `noticias.json`, `agenda.json`, `efemerides.json`, `comunicados.json`.
+- `datos/` — contenido editable: `noticias.json`, `agenda.json`, `efemerides.json`, `comunicados.json` y `portada.json` (imagen de cabecera).
+- `assets/` — portada de la cabecera, fuentes autoalojadas e imágenes subidas desde el CMS.
 - `.pages.yml` — configuración de Pages CMS para editar los JSON con formularios.
 - `scripts/validar.mjs` — revisa los datos antes de publicar (`node scripts/validar.mjs`).
 - `favicon.svg` — sello de la publicación.
@@ -30,6 +31,18 @@ El contenido vive en `datos/*.json`, no dentro del código. Para publicar:
 
 Las noticias se archivan solas por año y mes a partir de la fecha: no hay
 índice que mantener.
+
+### Imágenes
+
+Se suben desde Pages CMS (sección **Portada** o campo **Imagen** de una nota) y
+quedan en `assets/`:
+
+- `datos/portada.json` — grabado de la cabecera (`imagen` + `alt`).
+- Campo `imagen` de una nota — opcional; se muestra al abrirla, en blanco y
+  negro y con marco, para no romper la estética de imprenta.
+
+Fuera del CMS también se pueden copiar a mano a `assets/` y escribir la ruta
+(`assets/mi-foto.jpg`). El validador avisa si la imagen no existe.
 
 ## Contacto
 
