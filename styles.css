@@ -58,7 +58,7 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .dateline { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap;
   margin-top: 12px; font-size: 14px; line-height: 1.35; text-transform: uppercase; letter-spacing: .04em; }
 .dateline .year { text-transform: none; font-family: var(--f-head); font-weight: 700; letter-spacing: .12em; }
-.dateline b { color: var(--accent); font-weight: 700; text-align: right; }
+.dateline b { color: var(--accent); font-weight: 700; text-align: right; margin-left: auto; }
 
 .nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 26px; padding: 9px 0;
   border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); }
@@ -78,11 +78,9 @@ h1, h2, h3, h4 { text-wrap: balance; }
 
 .banner { margin: 18px 0 8px; border: 1px solid var(--ink); padding: 3px; }
 .banner img { display: block; width: 100%; height: auto; }
-.caption { text-align: center; font-size: 13px; font-style: italic; margin-bottom: 22px; }
-.caption b { font-style: normal; }
 
 /* Portada a tres columnas */
-.cols { display: grid; grid-template-columns: 1fr 1.4fr 1fr; align-items: start; }
+.cols { display: grid; grid-template-columns: 2fr 1fr; align-items: start; }
 .col { padding: 4px 20px; min-width: 0; }
 .col + .col { border-left: 1px dashed var(--ink); }
 .col:first-child { padding-left: 4px; }
@@ -96,7 +94,6 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .kick { font-family: var(--f-head); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: 4px; display: block; }
 .linkbtn { background: none; border: 0; padding: 0; cursor: pointer; font-style: italic; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--accent); color: var(--ink); }
 .linkbtn:hover { color: var(--accent); }
-.seal { display: block; margin: 6px auto 14px; width: 150px; max-width: 70%; height: auto; }
 
 .box { border: 1px dashed var(--ink); padding: 16px 14px; text-align: center; outline: 1px solid var(--ink); outline-offset: 3px; }
 .box h3 { font-family: var(--f-head); font-weight: 900; text-transform: uppercase; font-size: 17px; letter-spacing: .02em; margin-bottom: 10px; }
@@ -208,4 +205,7 @@ textarea.field { min-height: 120px; resize: vertical; }
   .ef-year { border-right: 0; border-bottom: 1px dashed var(--ink); padding: 0 0 8px; text-align: left; }
   .coms summary { flex-direction: column; gap: 2px; }
   .nav { gap: 2px 16px; }
+  .dateline { display: block; text-align: left; }
+  .dateline .year { display: block; text-align: left; }
+  .dateline b { display: block; margin-left: 0; text-align: right; }
 }

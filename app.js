@@ -73,38 +73,13 @@ const S = { cat: 'Todas', q: '', open: null, city: 'Todas', saved: new Set(store
     return out;
   };
   const year = n.getFullYear();
-  $('#year').textContent = `Año ${roman(Math.max(1, year - 2025))}`;
+  $('#year').textContent = `Año ${roman(Math.max(1, year - 2025))} - Región chilena, Santiago`;
   $('#dateline').textContent = `${DIAS[n.getDay()]} ${n.getDate()} de ${MES[n.getMonth()]} de ${year}`;
 })();
 
-/* Sello */
-const SEAL = `<svg class="seal" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <defs><path id="ring" d="M80 80 m-58 0 a58 58 0 1 1 116 0 a58 58 0 1 1 -116 0"/></defs>
-  <circle cx="80" cy="80" r="74" fill="var(--ink)"/>
-  <circle cx="80" cy="80" r="70" fill="none" stroke="var(--paper)" stroke-width="1.2" stroke-dasharray="2 3"/>
-  <circle cx="80" cy="80" r="40" fill="none" stroke="var(--paper)" stroke-width="1.6"/>
-  <text font-family="Playfair Display, Georgia, serif" font-weight="700" font-size="13" letter-spacing="3" fill="var(--paper)"><textPath href="#ring" startOffset="0">DIFUSIÓN LIBRE · SIN AMOS · SIN PATRONES · </textPath></text>
-  <text x="80" y="97" text-anchor="middle" font-family="Limelight, Georgia, serif" font-size="52" fill="var(--paper)">A</text>
-</svg>`;
-
 /* Render: portada */
 function renderPortada() {
-  const [a, b] = ARTS;
-  $('#leads').innerHTML = `
-    <div class="story">
-      <span class="kick">${a.cat} · ${a.place}</span>
-      <h3>${esc(a.t)}</h3>
-      <p class="dropcap">${esc(a.body[0])}</p>
-      <button class="linkbtn" data-open="${a.id}" type="button">Leer la nota completa</button>
-    </div>
-    ${SEAL}
-    <div class="story">
-      <span class="kick">${b.cat} · ${b.place}</span>
-      <h3>${esc(b.t)}</h3>
-      <p>${esc(b.deck)}</p>
-      <button class="linkbtn" data-open="${b.id}" type="button">Leer la nota completa</button>
-    </div>`;
-  $('#boxcoms').innerHTML = COMS.map(c => `<li><button type="button" data-go="comunicados">${esc(c.t)}<small>${fmt(c.iso)}</small></button></li>`).join('');
+  $('#boxcoms').innerHTML = COMS.slice(0, 3).map(c => `<li><button type="button" data-go="comunicados">${esc(c.t)}<small>${fmt(c.iso)}</small></button></li>`).join('');
 }
 
 /* Render: noticias */
