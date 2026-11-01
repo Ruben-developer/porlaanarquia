@@ -23,8 +23,11 @@ El contenido vive en `datos/*.json`, no dentro del código. Para publicar:
 
 1. Edita el JSON en `github.dev` (tecla `.` en el repo) o con **Pages CMS**
    (`app.pagescms.org`, login con GitHub).
-2. Ejecuta `node scripts/validar.mjs` (o confía en el Action del repo).
+2. Ejecuta `node scripts/validar.mjs` antes de publicar.
 3. Commit y push: GitHub Pages publica solo.
+
+Las noticias se archivan solas por año y mes a partir de la fecha: no hay
+índice que mantener.
 
 ## Contacto
 
