@@ -16,7 +16,9 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Formulario de contacto funcional sin backend: arma un `mailto:` con asunto y cuerpo.
 - [x] Contenido sacado de `app.js` a `datos/*.json` y cargado con `fetch`.
 - [x] Archivo de noticias por año y mes (chips «Por año» y «Por mes»).
-- [x] Configuración de Pages CMS (`.pages.yml`) y validación de datos en GitHub Actions.
+- [x] Configuración de Pages CMS (`.pages.yml`) y script de validación (`scripts/validar.mjs`).
+- [ ] Activar el Action de validación: requiere un token con scope `workflow`
+      (`gh auth refresh -s workflow`); el workflow está en `scripts/validar.yml.example`.
 
 ## Contenido real (antes de publicar)
 
