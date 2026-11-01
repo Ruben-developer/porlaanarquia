@@ -10,8 +10,13 @@ Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
 
 - `index.html` — portada y secciones (noticias, agenda, efemérides, comunicados, contacto).
 - `styles.css` — estética de prensa libertaria: papel envejecido, tinta negra y acento rojo, con edición diurna y nocturna.
-- `app.js` — datos de ejemplo, filtros, búsqueda, agenda guardada y navegación por hash.
+- `app.js` — datos de ejemplo, filtros, búsqueda, agenda guardada, formulario de contacto (`mailto:`) y navegación por hash.
 - `favicon.svg` — sello de la publicación.
+- `assets/portada-la-protesta.jpg` — imagen de portada.
+
+## Contacto
+
+`por-la-anarquia@riseup.net` (alias de Riseup que entrega en `antarquia@riseup.net`).
 
 ## Ver en local
 
@@ -25,4 +30,5 @@ Luego abrir `http://localhost:8001`.
 ## Estado
 
 Maqueta funcional con contenido de ejemplo. Antes de publicar hay que reemplazar
-los textos, el correo de contacto y las fechas por información real.
+los textos y las fechas por información real. El correo de contacto ya es el
+definitivo.

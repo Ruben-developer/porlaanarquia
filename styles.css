@@ -176,7 +176,9 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .contact > div + div { border-left: 1px dashed var(--ink); }
 .contact p { margin-bottom: 12px; font-size: 15.5px; }
 .addr { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 6px 0 16px; }
-.addr code { font-family: var(--f-head); font-weight: 700; font-size: 15px; user-select: all; overflow-wrap: anywhere; }
+.addr a { font-family: var(--f-head); font-weight: 700; font-size: 15px; color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--ink); user-select: all; overflow-wrap: anywhere; }
+.addr a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 label { display: block; font-family: var(--f-head); font-weight: 700; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
 .field { width: 100%; background: transparent; border: 1px solid var(--ink); padding: 8px 10px; margin-bottom: 14px; }
 textarea.field { min-height: 120px; resize: vertical; }

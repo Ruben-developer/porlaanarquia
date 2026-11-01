@@ -11,14 +11,15 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Modo diurno / nocturno, buscador y filtros, agenda guardada en `localStorage`.
 - [x] Portada ajustada: nuevo lema, «Año I» dinámico, fecha a la derecha, imagen de *La Protesta* y título sin línea.
 - [x] Eliminado el aviso «Maqueta de rediseño» de la barra superior.
+- [x] Portada a dos columnas (bienvenida 2/3, últimos comunicados 1/3) y textos de bienvenida nuevos.
+- [x] Correo de contacto real: `por-la-anarquia@riseup.net`.
+- [x] Formulario de contacto funcional sin backend: arma un `mailto:` con asunto y cuerpo.
 
 ## Contenido real (antes de publicar)
 
 - [ ] Reemplazar las 6 noticias de ejemplo por notas reales.
 - [ ] Reemplazar agenda, efemérides y comunicados de ejemplo.
-- [ ] Definir el correo de contacto (hoy es `contacto@porlaanarquia.example`).
 - [ ] Quitar la nota del pie sobre textos inventados.
-- [ ] Definir si el formulario de contacto envía a algún servicio (hoy no envía nada).
 
 ## Publicado en GitHub Pages
 

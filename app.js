@@ -7,6 +7,7 @@ const MES3 = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov',
 const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const fmt = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} de ${MES[m - 1]} de ${y}`; };
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const MAIL = 'por-la-anarquia@riseup.net';
 
 const ARTS = [
   { id: 'a1', cat: 'Cultura', t: 'La feria del libro libertario cumple diez años con veinte mesas y tres debates', deck: 'Colectivos, imprentas y bibliotecas autónomas se reunieron durante dos días en el barrio Yungay.', date: '2026-10-31', place: 'Santiago',
@@ -192,9 +193,18 @@ $('#copyBtn').addEventListener('click', async () => {
 });
 $('#form').addEventListener('submit', e => {
   e.preventDefault();
-  $('#status').textContent = !$('#f-msg').value.trim()
-    ? 'Escribe un mensaje antes de enviar.'
-    : 'Esto es una maqueta: el formulario todavía no envía nada.';
+  const name = $('#f-name').value.trim();
+  const sub = $('#f-sub').value.trim();
+  const msg = $('#f-msg').value.trim();
+  if (!msg) { $('#status').textContent = 'Escribe un mensaje antes de enviar.'; return; }
+  const lines = [];
+  if (name) lines.push(`Nombre o colectivo: ${name}`);
+  if (sub) lines.push(`Tipo de envío: ${sub}`);
+  if (lines.length) lines.push('');
+  lines.push(msg);
+  const subject = sub ? `Contacto — ${sub}` : 'Contacto — Por la Anarquía';
+  window.location.href = `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+  $('#status').textContent = 'Se abrirá tu cliente de correo con el mensaje listo para enviar.';
 });
 
 /* Tema */
