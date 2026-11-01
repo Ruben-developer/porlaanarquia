@@ -18,17 +18,17 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [ ] Quitar el aviso "Maqueta de rediseño" de la barra superior y la nota del pie.
 - [ ] Definir si el formulario de contacto envía a algún servicio (hoy no envía nada).
 
-## Publicar en GitHub Pages
+## Publicado en GitHub Pages
 
-1. Crear repo público `porlaanarquia` en github.com (cuenta `Ruben-developer`).
-   - El remote ya está configurado en este repo.
-2. Subir:
-   ```bash
-   cd /home/nbk/Repositorios/porlaanarquia
-   git push -u origin main
-   ```
-3. Activar Pages: Settings → Pages → Deploy from a branch → `main` / `(root)`.
-4. URL provisional: `https://ruben-developer.github.io/porlaanarquia/`
+- [x] Repo público: https://github.com/Ruben-developer/porlaanarquia
+- [x] Pages activo desde `main` / `(root)`.
+- [x] URL: **https://ruben-developer.github.io/porlaanarquia/**
+
+Para actualizar el sitio basta con:
+```bash
+cd /home/nbk/Repositorios/porlaanarquia
+git add -A && git commit -m "..." && git push
+```
 
 ## Después
 

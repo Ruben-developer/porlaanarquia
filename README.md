@@ -4,6 +4,8 @@ Portal de noticias, difusión y articulación anarquista.
 
 Dominio final: `porlaanarquia.antarquia.cl`
 
+Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
+
 ## Estructura
 
 - `index.html` — portada y secciones (noticias, agenda, efemérides, comunicados, contacto).
