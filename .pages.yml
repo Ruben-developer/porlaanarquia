@@ -4,9 +4,28 @@
 
 media:
   input: assets
-  output: /assets
+  output: assets
+  rename: safe
+  categories: [image]
 
 content:
+  - name: portada
+    label: Portada
+    type: file
+    path: datos/portada.json
+    format: json
+    fields:
+      - name: imagen
+        label: Imagen de portada
+        type: image
+        required: true
+        description: "El grabado de la cabecera. Se sube a assets/; conviene que sea ancha (1600×412)."
+      - name: alt
+        label: Descripción de la imagen
+        type: text
+        required: true
+        description: "Qué se ve, para quien usa lector de pantalla."
+
   - name: noticias
     label: Noticias
     type: file
@@ -43,6 +62,10 @@ content:
         type: text
         required: true
         description: Separa los párrafos con una línea en blanco.
+      - name: imagen
+        label: Imagen (opcional)
+        type: image
+        description: "Se sube a assets/ y aparece al abrir la nota. Si falta, la nota va solo con texto."
       - name: id
         label: Identificador (opcional)
         type: string

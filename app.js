@@ -7,7 +7,7 @@ const MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','
 const MES3 = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const fmt = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} de ${MES[m - 1]} de ${y}`; };
-const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const MAIL = 'por-la-anarquia@riseup.net';
 
 /* Los datos se llenan desde los JSON */
@@ -28,16 +28,18 @@ async function getJSON(url) {
 }
 
 async function cargarDatos() {
-  const [noticias, agenda, efem, coms] = await Promise.all([
+  const [noticias, agenda, efem, coms, portada] = await Promise.all([
     getJSON('datos/noticias.json'),
     getJSON('datos/agenda.json'),
     getJSON('datos/efemerides.json'),
-    getJSON('datos/comunicados.json')
+    getJSON('datos/comunicados.json'),
+    getJSON('datos/portada.json').catch(() => null)
   ]);
 
   ARTS = noticias.map(n => ({
     id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: n.bajada,
-    date: n.fecha, place: n.lugar, body: parrafos(n.cuerpo)
+    date: n.fecha, place: n.lugar, body: parrafos(n.cuerpo),
+    img: n.imagen ? String(n.imagen).replace(/^\/+/, '') : null
   })).sort(porFecha);
   CATS = ['Todas', ...new Set(ARTS.map(a => a.cat))];
 
@@ -50,6 +52,13 @@ async function cargarDatos() {
 
   COMS = coms.map(c => ({ id: idDe(c, 'fecha', 'titulo'), iso: c.fecha, t: c.titulo, x: c.texto }))
     .sort((a, b) => b.iso.localeCompare(a.iso));
+
+  // Imagen de portada: si el JSON falla o viene vacío, queda la del HTML.
+  const banner = $('.banner img');
+  if (banner && portada && portada.imagen) {
+    banner.src = String(portada.imagen).replace(/^\/+/, '');
+    if (portada.alt) banner.alt = portada.alt;
+  }
 }
 
 /* Utilidades de estado */
@@ -100,7 +109,7 @@ function renderNews() {
   $('#monthChips').innerHTML = months.map(m => `
     <button class="chip" type="button" data-month="${m}" aria-pressed="${S.month === m}">${MES[m - 1]}</button>`).join('');
 
-  $('#catChips').innerHTML = CATS.map(c => `<button class="chip" type="button" data-cat="${c}" aria-pressed="${S.cat === c}">${c}</button>`).join('');
+  $('#catChips').innerHTML = CATS.map(c => `<button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${S.cat === c}">${esc(c)}</button>`).join('');
 
   const q = S.q.trim().toLowerCase();
   const list = ARTS.filter(a =>
@@ -116,11 +125,11 @@ function renderNews() {
   const filtros = S.year !== 'Todos' || S.month || S.cat !== 'Todas' || q;
   $('#newsGrid').innerHTML = list.length ? list.map(a => `
     <div class="item">
-      <span class="kick">${a.cat}</span>
+      <span class="kick">${esc(a.cat)}</span>
       <h3>${esc(a.t)}</h3>
-      <p class="meta">${a.place} · ${fmt(a.date)}</p>
+      <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
       <p class="deck">${esc(a.deck)}</p>
-      <button class="linkbtn" data-open="${a.id}" type="button">Leer nota</button>
+      <button class="linkbtn" data-open="${esc(a.id)}" type="button">Leer nota</button>
     </div>`).join('')
     : `<p class="empty" style="grid-column:1/-1">${filtros ? 'No hay notas en ese período.' : 'Todavía no hay notas publicadas.'}</p>`;
 }
@@ -132,10 +141,11 @@ function renderReader() {
   list.hidden = true; rd.hidden = false;
   rd.innerHTML = `
     <button class="linkbtn back" data-close type="button">Volver a las notas</button>
-    <span class="kick">${a.cat}</span>
+    <span class="kick">${esc(a.cat)}</span>
     <h2>${esc(a.t)}</h2>
     <p class="deck">${esc(a.deck)}</p>
-    <p class="meta">${a.place} · ${fmt(a.date)}</p>
+    <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
+    ${a.img ? `<figure class="foto"><img src="${esc(a.img)}" alt="" loading="lazy"></figure>` : ''}
     <div class="body">${a.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${esc(p)}</p>`).join('')}</div>
     <hr>
     <p class="note">Texto de ejemplo escrito para la maqueta. Los hechos, lugares y cifras no son reales.</p>`;
@@ -143,7 +153,7 @@ function renderReader() {
 
 /* Render: agenda */
 function renderAgenda() {
-  $('#cityChips').innerHTML = CITIES.map(c => `<button class="chip" type="button" data-city="${c}" aria-pressed="${S.city === c}">${c}</button>`).join('')
+  $('#cityChips').innerHTML = CITIES.map(c => `<button class="chip" type="button" data-city="${esc(c)}" aria-pressed="${S.city === c}">${esc(c)}</button>`).join('')
     + `<button class="chip" type="button" data-city="__saved" aria-pressed="${S.city === '__saved'}">Guardados (${S.saved.size})</button>`;
   const list = AGENDA.filter(e => S.city === 'Todas' || (S.city === '__saved' ? S.saved.has(e.id) : e.city === S.city));
   $('#agCount').textContent = `${list.length} ${list.length === 1 ? 'actividad' : 'actividades'}`;
@@ -151,8 +161,8 @@ function renderAgenda() {
     const [y, m, d] = e.iso.split('-').map(Number), on = S.saved.has(e.id);
     return `<div class="ag">
       <div class="ag-date"><span class="ag-day">${d}</span><span class="ag-mon">${MES3[m - 1]}</span></div>
-      <div><h3>${esc(e.t)}</h3><p class="meta">${e.hora} h · ${esc(e.place)} · ${e.city}</p></div>
-      <button class="btn${on ? '' : ' alt'}" type="button" data-save="${e.id}" aria-pressed="${on}">${on ? 'Guardado' : 'Guardar'}</button>
+      <div><h3>${esc(e.t)}</h3><p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p></div>
+      <button class="btn${on ? '' : ' alt'}" type="button" data-save="${esc(e.id)}" aria-pressed="${on}">${on ? 'Guardado' : 'Guardar'}</button>
     </div>`;
   }).join('') : '<p class="empty">Todavía no has guardado actividades.</p>';
 }
@@ -166,7 +176,7 @@ function renderEfem() {
   }).sort((a, b) => a.left - b.left);
   $('#efList').innerHTML = items.map(e => `
     <div class="ef">
-      <div class="ef-year">${e.y}<small>${e.d} ${MES3[e.m - 1]}</small></div>
+      <div class="ef-year">${esc(e.y)}<small>${esc(e.d)} ${esc(MES3[e.m - 1] || '')}</small></div>
       <div>
         <span class="kick">${e.left === 0 ? 'Hoy' : e.left === 1 ? 'Mañana' : 'Faltan ' + e.left + ' días'}</span>
         <h3>${esc(e.t)}</h3>
