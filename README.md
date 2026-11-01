@@ -16,6 +16,8 @@ Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
 - `scripts/validar.mjs` — revisa los datos antes de publicar (`node scripts/validar.mjs`).
 - `favicon.svg` — sello de la publicación.
 - `assets/portada-la-protesta.jpg` — imagen de portada.
+- `assets/fonts/` + `assets/fonts.css` — tipografías auto-hospedadas (SIL OFL 1.1), sin CDN.
+- `LICENSE`, `SECURITY.md`, `robots.txt` — licencia, política de reporte y rastreo.
 
 ## Contenido
 

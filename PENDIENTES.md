@@ -17,8 +17,11 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Contenido sacado de `app.js` a `datos/*.json` y cargado con `fetch`.
 - [x] Archivo de noticias por año y mes (chips «Por año» y «Por mes»).
 - [x] Configuración de Pages CMS (`.pages.yml`) y script de validación (`scripts/validar.mjs`).
-- [ ] Activar el Action de validación: requiere un token con scope `workflow`
-      (`gh auth refresh -s workflow`); el workflow está en `scripts/validar.yml.example`.
+- [x] Workflow de CI en `.github/workflows/ci.yml`: valida los JSON, el HTML y escanea secretos.
+- [ ] Subir el workflow: el token de `gh` no tiene el scope `workflow`.
+      Ejecutar `gh auth refresh -s workflow` y luego `git push`.
+- [x] Fuentes auto-hospedadas en `assets/fonts/` (se quitó Google Fonts).
+- [x] CSP y `Referrer-Policy` en `index.html`; escapado completo de todo el contenido en `app.js`.
 
 ## Contenido real (antes de publicar)
 
