@@ -28,16 +28,18 @@ async function getJSON(url) {
 }
 
 async function cargarDatos() {
-  const [noticias, agenda, efem, coms] = await Promise.all([
+  const [noticias, agenda, efem, coms, portada] = await Promise.all([
     getJSON('datos/noticias.json'),
     getJSON('datos/agenda.json'),
     getJSON('datos/efemerides.json'),
-    getJSON('datos/comunicados.json')
+    getJSON('datos/comunicados.json'),
+    getJSON('datos/portada.json').catch(() => null)
   ]);
 
   ARTS = noticias.map(n => ({
     id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: n.bajada,
-    date: n.fecha, place: n.lugar, body: parrafos(n.cuerpo)
+    date: n.fecha, place: n.lugar, body: parrafos(n.cuerpo),
+    img: n.imagen ? String(n.imagen).replace(/^\/+/, '') : null
   })).sort(porFecha);
   CATS = ['Todas', ...new Set(ARTS.map(a => a.cat))];
 
@@ -50,6 +52,13 @@ async function cargarDatos() {
 
   COMS = coms.map(c => ({ id: idDe(c, 'fecha', 'titulo'), iso: c.fecha, t: c.titulo, x: c.texto }))
     .sort((a, b) => b.iso.localeCompare(a.iso));
+
+  // Imagen de portada: si el JSON falla o viene vacío, queda la del HTML.
+  const banner = $('.banner img');
+  if (banner && portada && portada.imagen) {
+    banner.src = String(portada.imagen).replace(/^\/+/, '');
+    if (portada.alt) banner.alt = portada.alt;
+  }
 }
 
 /* Utilidades de estado */
@@ -136,6 +145,7 @@ function renderReader() {
     <h2>${esc(a.t)}</h2>
     <p class="deck">${esc(a.deck)}</p>
     <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
+    ${a.img ? `<figure class="foto"><img src="${esc(a.img)}" alt="" loading="lazy"></figure>` : ''}
     <div class="body">${a.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${esc(p)}</p>`).join('')}</div>
     <hr>
     <p class="note">Texto de ejemplo escrito para la maqueta. Los hechos, lugares y cifras no son reales.</p>`;
