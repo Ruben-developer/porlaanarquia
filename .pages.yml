@@ -58,8 +58,11 @@ content:
         description: "Una o dos frases que resumen la nota. Puede quedar vacía."
       - name: cuerpo
         label: Cuerpo (opcional)
-        type: text
-        description: "Separa los párrafos con una línea en blanco. Puede quedar vacío si la nota es solo un afiche con imagen."
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+        description: "Admite negrita, cursiva, listas, citas y enlaces. Puede quedar vacío si la nota es solo un afiche con imagen."
       - name: imagen
         label: Imagen (opcional)
         type: image
@@ -92,13 +95,19 @@ content:
         required: true
       - name: texto
         label: Texto
-        type: text
+        type: rich-text
         required: true
-        description: "La entrada: la frase, el extracto o el primer párrafo de la historia. En la lista se muestra este primer párrafo."
+        options:
+          format: markdown
+          media: false
+        description: "La entrada: la frase, el extracto o el primer párrafo de la historia. Admite negrita, cursiva y enlaces. En la lista se muestra este primer párrafo."
       - name: cuerpo
         label: Resto de la historia (opcional)
-        type: text
-        description: "Continúa el texto. Se lee al abrir «Leer completo», después del primer párrafo. Separa los párrafos con una línea en blanco."
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+        description: "Continúa el texto. Se lee al abrir «Leer completo», después del primer párrafo. Admite negrita, cursiva, listas, citas y enlaces."
       - name: autor
         label: Autoría
         type: string
@@ -144,8 +153,11 @@ content:
         required: true
       - name: descripcion
         label: Descripción (opcional)
-        type: text
-        description: "Se muestra al abrir «Leer más», nunca en la lista. Separa los párrafos con una línea en blanco."
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+        description: "Se muestra al abrir «Leer más», nunca en la lista. Admite negrita, cursiva, listas, citas y enlaces."
       - name: afiche
         label: Afiche (opcional)
         type: image
@@ -180,12 +192,18 @@ content:
         required: true
       - name: texto
         label: Glosa
-        type: text
+        type: rich-text
         required: true
+        options:
+          format: markdown
+          media: false
       - name: detalle
         label: Detalle (opcional)
-        type: text
-        description: "Se muestra al abrir «Leer más». Separa los párrafos con una línea en blanco."
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+        description: "Se muestra al abrir «Leer más». Admite negrita, cursiva, listas, citas y enlaces."
       - name: imagen
         label: Imagen (opcional)
         type: image
@@ -210,8 +228,11 @@ content:
           format: yyyy-MM-dd
       - name: texto
         label: Texto
-        type: text
+        type: rich-text
         required: true
+        options:
+          format: markdown
+          media: false
       - name: id
         label: Identificador (opcional)
         type: string

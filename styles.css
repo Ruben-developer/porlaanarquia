@@ -145,6 +145,26 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .reader .deck { font-style: italic; font-size: 18px; margin-bottom: 8px; }
 .reader .body p { margin-bottom: 14px; text-align: justify; hyphens: auto; font-size: 16.5px; }
 .reader .body a { color: var(--accent); border-bottom: 1px solid var(--accent); overflow-wrap: anywhere; }
+
+/* Formato en los textos largos (Markdown del CMS) */
+.body ul, .body ol, .more ul, .more ol, .coms details ul, .coms details ol { margin: 0 0 14px 1.3em; }
+.body li, .more li, .coms details li { margin-bottom: 6px; }
+.body li { font-size: 16.5px; }
+.more li, .coms details li { font-size: 15.5px; }
+.body blockquote, .more blockquote, .coms details blockquote {
+  border-left: 3px solid var(--accent); padding-left: 14px; margin: 0 0 16px; font-style: italic;
+}
+.body h3, .body h4, .body h5, .more h3, .more h4, .more h5, .coms details h3, .coms details h4, .coms details h5 {
+  font-family: var(--f-head); font-weight: 900; line-height: 1.2; margin: 20px 0 8px;
+}
+.body h3, .more h3, .coms details h3 { font-size: 21px; }
+.body h4, .more h4, .coms details h4 { font-size: 18px; }
+.body h5, .more h5, .coms details h5 { font-size: 16px; }
+.body code, .more code, .coms details code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em;
+  border: 1px solid var(--ink-soft); padding: 0 4px;
+}
+.body hr, .more hr, .coms details hr { border: 0; border-top: 1px dotted var(--ink-soft); margin: 18px 0; }
 .reader .foto { margin: 18px 0 20px; border: 1px solid var(--ink); padding: 3px; }
 .reader .foto img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.03); }
 .reader .back { margin-bottom: 14px; }

@@ -23,13 +23,16 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] CSP y `Referrer-Policy` en `index.html`; escapado completo de todo el contenido en `app.js`.
 - [x] Imágenes en el CMS: portada editable (`datos/portada.json`), imagen opcional por nota, afiche en el detalle de Agenda e imagen en el detalle de Efemérides.
 - [x] Sección **Recortes**: extractos, frases e historias, con filtros por `tipo`.
+- [x] Formato en los textos del CMS: campos largos como `rich-text` (Markdown) y
+      render propio (`markdown.js`) con negrita, cursiva, listas, citas, títulos y
+      enlaces; se escapa el HTML. Sin dependencias.
 - [x] Recortes largos: la tarjeta muestra el primer párrafo y «Leer completo»
       abre la historia en una vista de lectura propia (`#recorte`); el resto va
       en el campo opcional `cuerpo` o en los párrafos siguientes de `texto`.
 - [x] «Leer más» en Agenda y Efemérides, con el detalle desplegable; las listas van sin imágenes.
 - [x] Agenda: próximas primero y pasadas agrupadas al final, apagadas y marcadas «Ya pasó»; año visible en la fecha de cada actividad.
 - [x] Categorías de Noticias dinámicas: los chips salen de las categorías escritas en las notas.
-- [x] Contenido de ejemplo reducido; hoy hay 2 notas, 1 recorte, 3 actividades, 4 efemérides y 2 comunicados.
+- [x] Contenido de ejemplo reducido; hoy hay 2 notas, 2 recortes (uno largo), 5 actividades, 4 efemérides y 2 comunicados.
 
 ## Contenido real (antes de publicar)
 
