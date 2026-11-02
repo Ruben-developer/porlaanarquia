@@ -209,8 +209,8 @@ function renderAgenda() {
         <p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p>
         ${extra ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
-          ${e.desc}
           ${e.afiche ? `<figure class="afiche"><img src="${esc(e.afiche)}" alt="Afiche: ${esc(e.t)}" loading="lazy"></figure>` : ''}
+          ${e.desc}
         </details>` : ''}
       </div>
       ${accion}
@@ -242,8 +242,8 @@ function renderEfem() {
         <p>${e.x}</p>
         ${e.det || e.img ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
-          ${e.det}
           ${e.img ? `<figure class="detail-img"><img src="${esc(e.img)}" alt="Imagen: ${esc(e.t)}" loading="lazy"></figure>` : ''}
+          ${e.det}
         </details>` : ''}
       </div>
     </div>`).join('');
