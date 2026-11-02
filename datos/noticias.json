@@ -1,23 +1,5 @@
 [
   {
-    "titulo": "La feria del libro libertario cumple diez años con veinte mesas y tres debates",
-    "categoria": "Cultura",
-    "fecha": "2026-10-31",
-    "lugar": "Santiago",
-    "bajada": "Colectivos, imprentas y bibliotecas autónomas se reunieron durante dos días en el barrio Yungay.",
-    "cuerpo": "Durante el fin de semana, más de veinte mesas ocuparon el patio de un antiguo conventillo del barrio Yungay. Hubo folletos a precio de costo, afiches serigrafiados en el lugar y una mesa de intercambio donde cada persona podía dejar un libro y llevarse otro.\n\nEl sábado en la tarde se realizaron tres debates abiertos: sobre autogestión de espacios, sobre vivienda y sobre la circulación de la prensa libertaria en tiempos de redes sociales. Cada uno terminó con una ronda de propuestas que quedó anotada en un papelógrafo a la entrada.\n\nLas organizadoras informaron que la próxima feria será en Valparaíso, en diciembre, y que quienes quieran poner mesa deben escribir con una semana de anticipación.",
-    "id": "a1"
-  },
-  {
-    "titulo": "Velada por los mártires de Chicago en la biblioteca del barrio",
-    "categoria": "Memoria",
-    "fecha": "2018-11-11",
-    "lugar": "Valparaíso",
-    "bajada": "Lectura de textos, música y una olla común para cerrar la jornada.",
-    "cuerpo": "La biblioteca abrió sus puertas por la tarde para leer fragmentos sobre los hechos de Haymarket y la represión posterior. Se proyectaron imágenes de archivo y se conversó sobre la vigencia del primero de mayo.\n\nLa jornada terminó con una olla común y una guitarra. Los materiales leídos quedaron disponibles en la mesa de préstamo.",
-    "id": "a8"
-  },
-  {
     "titulo": "Afiche en solidaridad con los anarquistas presos en España",
     "categoria": "Solidaridad",
     "fecha": "2016-01-26",
