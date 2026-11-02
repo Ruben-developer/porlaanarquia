@@ -15,8 +15,6 @@ let ARTS = [], AGENDA = [], EFEM = [], COMS = [], RECORTES = [];
 let CATS = ['Todas'], CITIES = ['Todas'], REC_TIPOS = ['Todos'];
 
 const parrafos = s => String(s || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
-const enlazar = html => html.replace(/https?:\/\/[^\s<]+/g,
-  u => `<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
 // Une autoría y fuente sin repetir el mismo texto («Bandera Social · Bandera Social»).
 const credito = (...partes) => {
   const vistos = new Set();
@@ -48,32 +46,35 @@ async function cargarDatos() {
     getJSON('datos/portada.json').catch(() => null)
   ]);
 
-  ARTS = noticias.map(n => ({
-    id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: String(n.bajada || '').trim(),
-    date: n.fecha, place: n.lugar, body: parrafos(n.cuerpo),
-    img: n.imagen ? String(n.imagen).replace(/^\/+/, '') : null
-  })).sort(porFecha);
+  ARTS = noticias.map(n => {
+    const body = mdBlocks(n.cuerpo);
+    return {
+      id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: String(n.bajada || '').trim(),
+      date: n.fecha, place: n.lugar, body, plain: mdPlano(body),
+      img: n.imagen ? String(n.imagen).replace(/^\/+/, '') : null
+    };
+  }).sort(porFecha);
   CATS = ['Todas', ...new Set(ARTS.map(a => a.cat))];
 
   AGENDA = agenda.map(e => ({
     id: idDe(e, 'fecha', 'titulo'), iso: e.fecha, hora: e.hora, t: e.titulo, place: e.lugar, city: e.ciudad,
-    desc: parrafos(e.descripcion), afiche: e.afiche ? String(e.afiche).replace(/^\/+/, '') : null
+    desc: mdBlocks(e.descripcion), afiche: e.afiche ? String(e.afiche).replace(/^\/+/, '') : null
   })).sort((a, b) => a.iso.localeCompare(b.iso));
   CITIES = ['Todas', ...new Set(AGENDA.map(a => a.city))];
 
   EFEM = efem.map(e => ({
-    m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: e.texto, det: parrafos(e.detalle),
+    m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: mdInline(e.texto), det: mdBlocks(e.detalle),
     img: e.imagen ? String(e.imagen).replace(/^\/+/, '') : null
   }));
 
   // Recortes: el primer párrafo de `texto` es la entrada de la tarjeta; el resto
   // de `texto` y `cuerpo` se leen en la vista completa.
   RECORTES = recortes.map(r => {
-    const lead = parrafos(r.texto);
-    const extra = parrafos(r.cuerpo);
+    const completo = [r.texto, r.cuerpo].filter(Boolean).join('\n\n');
     return {
       id: idDe(r, 'tipo', 'titulo'), tipo: r.tipo, t: r.titulo,
-      lead: lead[0] || '', body: [...lead, ...extra],
+      lead: parrafos(r.texto)[0] || '', body: mdBlocks(completo),
+      more: parrafos(completo).length > 1,
       src: credito(r.autor, r.fuente)
     };
   });
@@ -145,7 +146,7 @@ function renderNews() {
     (S.cat === 'Todas' || a.cat === S.cat) &&
     (S.year === 'Todos' || a.date.startsWith(S.year)) &&
     (!S.month || +a.date.slice(5, 7) === S.month) &&
-    (!q || (a.t + ' ' + a.deck + ' ' + a.body.join(' ')).toLowerCase().includes(q))
+    (!q || (a.t + ' ' + a.deck + ' ' + a.plain).toLowerCase().includes(q))
   );
 
   const periodo = S.year === 'Todos' ? '' : (S.month ? ` · ${MES[S.month - 1]} ${S.year}` : ` · ${S.year}`);
@@ -175,7 +176,7 @@ function renderReader() {
     ${a.deck ? `<p class="deck">${esc(a.deck)}</p>` : ''}
     <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
     ${a.img ? `<figure class="foto"><img src="${esc(a.img)}" alt="" loading="lazy"></figure>` : ''}
-    ${a.body.length ? `<div class="body">${a.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${esc(p)}</p>`).join('')}</div>` : ''}`;
+    ${a.body ? `<div class="body">${a.body.replace(/^<p>/, '<p class="dropcap">')}</div>` : ''}`;
 }
 
 /* Render: agenda */
@@ -195,7 +196,7 @@ function renderAgenda() {
 
   const fila = (e, paso) => {
     const [y, m, d] = e.iso.split('-').map(Number), on = S.saved.has(e.id);
-    const extra = e.desc.length || e.afiche;
+    const extra = e.desc || e.afiche;
     const accion = paso
       ? (on
         ? `<button class="btn alt" type="button" data-save="${esc(e.id)}" aria-pressed="true">Quitar</button>`
@@ -208,7 +209,7 @@ function renderAgenda() {
         <p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p>
         ${extra ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
-          ${e.desc.map(p => `<p>${esc(p)}</p>`).join('')}
+          ${e.desc}
           ${e.afiche ? `<figure class="afiche"><img src="${esc(e.afiche)}" alt="Afiche: ${esc(e.t)}" loading="lazy"></figure>` : ''}
         </details>` : ''}
       </div>
@@ -238,10 +239,10 @@ function renderEfem() {
       <div>
         <span class="kick">${e.left === 0 ? 'Hoy' : e.left === 1 ? 'Mañana' : 'Faltan ' + e.left + ' días'}</span>
         <h3>${esc(e.t)}</h3>
-        <p>${esc(e.x)}</p>
-        ${e.det.length || e.img ? `<details class="more">
+        <p>${e.x}</p>
+        ${e.det || e.img ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
-          ${e.det.map(p => `<p>${esc(p)}</p>`).join('')}
+          ${e.det}
           ${e.img ? `<figure class="detail-img"><img src="${esc(e.img)}" alt="Imagen: ${esc(e.t)}" loading="lazy"></figure>` : ''}
         </details>` : ''}
       </div>
@@ -257,11 +258,11 @@ function renderRecortes() {
   const list = RECORTES.filter(r => S.rec === 'Todos' || r.tipo === S.rec);
   $('#recCount').textContent = `${list.length} ${list.length === 1 ? 'recorte' : 'recortes'}`;
   $('#recList').innerHTML = list.length ? list.map(r => `
-    <article class="rec rec-${slug(r.tipo)}${r.body.length > 1 ? ' rec-long' : ''}">
+    <article class="rec rec-${slug(r.tipo)}${r.more ? ' rec-long' : ''}">
       <span class="kick">${esc(r.tipo)}</span>
       <h3>${esc(r.t)}</h3>
-      <div class="rec-text"><p>${esc(r.lead)}</p></div>
-      ${r.body.length > 1 ? `<button class="linkbtn" type="button" data-openrec="${esc(r.id)}">Leer completo</button>` : ''}
+      <div class="rec-text"><p>${mdInline(r.lead)}</p></div>
+      ${r.more ? `<button class="linkbtn" type="button" data-openrec="${esc(r.id)}">Leer completo</button>` : ''}
       ${r.src ? `<p class="rec-src">${esc(r.src)}</p>` : ''}
     </article>`).join('') : '<p class="empty">Todavía no hay recortes de este tipo.</p>';
 }
@@ -279,7 +280,7 @@ function renderRecorte() {
     <button class="linkbtn back" type="button" data-gorec>Volver a los recortes</button>
     <span class="kick">${esc(r.tipo)}</span>
     <h2>${esc(r.t)}</h2>
-    <div class="body">${r.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${enlazar(esc(p))}</p>`).join('')}</div>
+    <div class="body">${r.body.replace(/^<p>/, '<p class="dropcap">')}</div>
     ${r.src ? `<p class="rec-src">${esc(r.src)}</p>` : ''}`;
 }
 
@@ -288,7 +289,7 @@ function renderComs() {
   $('#comList').innerHTML = COMS.map((c, i) => `
     <details${i === 0 ? ' open' : ''}>
       <summary><h3>${esc(c.t)}</h3><span>${fmt(c.iso)}</span></summary>
-      <p>${esc(c.x)}</p>
+      ${mdBlocks(c.x)}
     </details>`).join('');
 }
 

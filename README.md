@@ -1,4 +1,4 @@
-# Por la Anarquía
+# Por la Anarquía (PLA)
 
 Portal de noticias, difusión y articulación anarquista.
 
@@ -33,6 +33,25 @@ Las noticias se archivan solas por año y mes a partir de la fecha: no hay
 índice que mantener. Las **categorías** también se generan solas: si una nota
 dice `Cultura`, `Solidaridad` o cualquier otra palabra, el filtro aparece sin
 tocar código. Solo hay que guardar la nota; Pages reconstruye el sitio.
+
+## Formato de los textos
+
+Los campos largos del CMS (cuerpo de Noticias, texto y resto de Recortes,
+descripción de Agenda, glosa y detalle de Efemérides, texto de Comunicados) son
+**rich-text** de Pages CMS y guardan **Markdown**. La barra del editor permite
+negrita, cursiva, títulos, listas, citas y enlaces. El sitio lo convierte a HTML
+con `markdown.js`, un render mínimo y sin dependencias que escapa todo el texto:
+no se acepta HTML pegado en el CMS.
+
+Lo que se puede escribir:
+
+- `**negrita**`, `*cursiva*`, `~~tachado~~` y `` `código` ``.
+- Enlaces: `[texto](https://ejemplo.cl)`. Las URL sueltas también quedan como enlace.
+- Listas con `- ` o `1. `, citas con `> `, títulos con `## ` y separadores con `---`.
+- Los párrafos se separan con una línea en blanco.
+
+En Recortes, la tarjeta muestra el primer párrafo de `texto`; el resto se lee con
+**Leer completo**.
 
 **Recortes** es la sección para lo que no es noticia: extractos de libros o
 artículos, frases célebres e historias, incluidas las que alcanzan para un
