@@ -51,7 +51,8 @@ async function cargarDatos() {
   CITIES = ['Todas', ...new Set(AGENDA.map(a => a.city))];
 
   EFEM = efem.map(e => ({
-    m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: e.texto, det: parrafos(e.detalle)
+    m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: e.texto, det: parrafos(e.detalle),
+    img: e.imagen ? String(e.imagen).replace(/^\/+/, '') : null
   }));
 
   RECORTES = recortes.map(r => ({
@@ -166,12 +167,26 @@ function renderAgenda() {
   $('#cityChips').innerHTML = CITIES.map(c => `<button class="chip" type="button" data-city="${esc(c)}" aria-pressed="${S.city === c}">${esc(c)}</button>`).join('')
     + `<button class="chip" type="button" data-city="__saved" aria-pressed="${S.city === '__saved'}">Guardados (${S.saved.size})</button>`;
   const list = AGENDA.filter(e => S.city === 'Todas' || (S.city === '__saved' ? S.saved.has(e.id) : e.city === S.city));
-  $('#agCount').textContent = `${list.length} ${list.length === 1 ? 'actividad' : 'actividades'}`;
-  $('#agList').innerHTML = list.length ? list.map(e => {
+
+  // Hoy en ISO local, para separar lo que viene de lo que ya pasó.
+  const ahora = new Date();
+  const hoy = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, '0')}-${String(ahora.getDate()).padStart(2, '0')}`;
+  const proximas = list.filter(e => e.iso >= hoy);
+  const pasadas = list.filter(e => e.iso < hoy).reverse(); // AGENDA viene ascendente
+
+  $('#agCount').textContent = `${list.length} ${list.length === 1 ? 'actividad' : 'actividades'}`
+    + (pasadas.length ? ` · ${pasadas.length} ${pasadas.length === 1 ? 'pasada' : 'pasadas'}` : '');
+
+  const fila = (e, paso) => {
     const [y, m, d] = e.iso.split('-').map(Number), on = S.saved.has(e.id);
     const extra = e.desc.length || e.afiche;
-    return `<div class="ag">
-      <div class="ag-date"><span class="ag-day">${d}</span><span class="ag-mon">${MES3[m - 1]}</span></div>
+    const accion = paso
+      ? (on
+        ? `<button class="btn alt" type="button" data-save="${esc(e.id)}" aria-pressed="true">Quitar</button>`
+        : '<span class="ag-flag">Ya pasó</span>')
+      : `<button class="btn${on ? '' : ' alt'}" type="button" data-save="${esc(e.id)}" aria-pressed="${on}">${on ? 'Guardado' : 'Guardar'}</button>`;
+    return `<div class="ag${paso ? ' pasada' : ''}">
+      <div class="ag-date"><span class="ag-day">${d}</span><span class="ag-mon">${MES3[m - 1]}</span><span class="ag-year">${y}</span></div>
       <div class="ag-body">
         <h3>${esc(e.t)}</h3>
         <p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p>
@@ -181,9 +196,17 @@ function renderAgenda() {
           ${e.afiche ? `<figure class="afiche"><img src="${esc(e.afiche)}" alt="Afiche: ${esc(e.t)}" loading="lazy"></figure>` : ''}
         </details>` : ''}
       </div>
-      <button class="btn${on ? '' : ' alt'}" type="button" data-save="${esc(e.id)}" aria-pressed="${on}">${on ? 'Guardado' : 'Guardar'}</button>
+      ${accion}
     </div>`;
-  }).join('') : '<p class="empty">Todavía no has guardado actividades.</p>';
+  };
+
+  const bloques = [];
+  if (proximas.length) bloques.push(proximas.map(e => fila(e, false)).join(''));
+  if (pasadas.length) {
+    bloques.push(`<h3 class="ag-sep"><span>Ya pasaron (${pasadas.length})</span></h3>`);
+    bloques.push(pasadas.map(e => fila(e, true)).join(''));
+  }
+  $('#agList').innerHTML = list.length ? bloques.join('') : '<p class="empty">Todavía no has guardado actividades.</p>';
 }
 
 /* Render: efemérides */
@@ -200,9 +223,10 @@ function renderEfem() {
         <span class="kick">${e.left === 0 ? 'Hoy' : e.left === 1 ? 'Mañana' : 'Faltan ' + e.left + ' días'}</span>
         <h3>${esc(e.t)}</h3>
         <p>${esc(e.x)}</p>
-        ${e.det.length ? `<details class="more">
+        ${e.det.length || e.img ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
           ${e.det.map(p => `<p>${esc(p)}</p>`).join('')}
+          ${e.img ? `<figure class="detail-img"><img src="${esc(e.img)}" alt="Imagen: ${esc(e.t)}" loading="lazy"></figure>` : ''}
         </details>` : ''}
       </div>
     </div>`).join('');

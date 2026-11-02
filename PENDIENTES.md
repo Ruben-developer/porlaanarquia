@@ -21,9 +21,10 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Workflow subido: el token de `gh` ya tiene el scope `workflow`.
 - [x] Fuentes auto-hospedadas en `assets/fonts/` (se quitó Google Fonts).
 - [x] CSP y `Referrer-Policy` en `index.html`; escapado completo de todo el contenido en `app.js`.
-- [x] Imágenes en el CMS: portada editable (`datos/portada.json`), imagen opcional por nota y afiche dentro del detalle de Agenda.
+- [x] Imágenes en el CMS: portada editable (`datos/portada.json`), imagen opcional por nota, afiche en el detalle de Agenda e imagen en el detalle de Efemérides.
 - [x] Sección **Recortes**: extractos, frases e historias breves, con filtros por `tipo`.
-- [x] «Leer más» en Agenda y Efemérides, con el detalle desplegable; las listas van sin imágenes y Efemérides no admite imágenes.
+- [x] «Leer más» en Agenda y Efemérides, con el detalle desplegable; las listas van sin imágenes.
+- [x] Agenda: próximas primero y pasadas agrupadas al final, apagadas y marcadas «Ya pasó»; año visible en la fecha de cada actividad.
 - [x] Categorías de Noticias dinámicas: los chips salen de las categorías escritas en las notas.
 - [x] Contenido de ejemplo reducido: 2 notas, 3 recortes, 2 actividades, 2 efemérides y 2 comunicados.
 

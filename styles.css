@@ -167,18 +167,28 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .more[open] .more-open { display: none; }
 .more[open] .more-close { display: inline; }
 .more p { margin-top: 10px; font-size: 15.5px; text-align: justify; hyphens: auto; max-width: 62ch; }
-.afiche { margin-top: 14px; max-width: 420px; border: 1px solid var(--ink); padding: 3px; }
-.afiche img { display: block; width: 100%; height: auto; }
+.afiche, .detail-img { margin: 14px 0 0; max-width: 420px; border: 1px solid var(--ink); padding: 3px; }
+.afiche img, .detail-img img { display: block; width: 100%; height: auto; }
 
 /* Agenda */
 .ag { display: grid; grid-template-columns: 78px 1fr auto; gap: 18px; align-items: start; padding: 16px 0; border-bottom: 1px dotted var(--ink-soft); }
 .ag-date { text-align: center; border-right: 1px dashed var(--ink); padding-right: 14px; }
 .ag-day { font-family: var(--f-display); font-size: 38px; line-height: 1; display: block; }
 .ag-mon { font-family: var(--f-head); font-weight: 700; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.ag-year { display: block; margin-top: 2px; font-family: var(--f-head); font-size: 10.5px; letter-spacing: .08em; color: var(--ink-soft); }
 .ag h3 { font-family: var(--f-head); font-weight: 900; font-size: 19px; line-height: 1.25; margin-bottom: 4px; }
 .ag .meta { margin: 0; }
 .ag > div { min-width: 0; }
 .ag .btn[aria-pressed="true"] { background: var(--accent); }
+
+/* Actividades pasadas: mismo orden, pero apagadas y separadas */
+.ag-sep { display: flex; align-items: center; gap: 10px; margin: 32px 0 4px; font-family: var(--f-head); font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+.ag-sep span { white-space: nowrap; }
+.ag-sep::after { content: ""; flex: 1; border-top: 1px dotted var(--ink-soft); }
+.ag.pasada { border-bottom-color: rgba(82, 72, 58, .35); }
+.ag.pasada h3, .ag.pasada .ag-day, .ag.pasada .ag-mon, .ag.pasada .meta { color: var(--ink-soft); }
+.ag.pasada .ag-date { border-right-color: rgba(82, 72, 58, .45); }
+.ag-flag { align-self: start; margin-top: 2px; font-family: var(--f-head); font-weight: 700; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); border: 1px solid var(--ink-soft); padding: 4px 8px; white-space: nowrap; }
 
 /* Efemérides */
 .ef { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px dotted var(--ink-soft); }

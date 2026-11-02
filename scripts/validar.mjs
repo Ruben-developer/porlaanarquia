@@ -108,6 +108,7 @@ efemerides.forEach((e, i) => {
   if (e.detalle != null && typeof e.detalle !== 'string') {
     errores.push(`${donde}: «detalle» debe ser texto`);
   }
+  imagen(e.imagen, donde, 'imagen');
 });
 
 // Comunicados
