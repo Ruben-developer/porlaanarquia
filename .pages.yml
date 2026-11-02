@@ -53,15 +53,13 @@ content:
         type: string
         required: true
       - name: bajada
-        label: Bajada
+        label: Bajada (opcional)
         type: text
-        required: true
-        description: Una o dos frases que resumen la nota.
+        description: "Una o dos frases que resumen la nota. Puede quedar vacía."
       - name: cuerpo
-        label: Cuerpo
+        label: Cuerpo (opcional)
         type: text
-        required: true
-        description: Separa los párrafos con una línea en blanco.
+        description: "Separa los párrafos con una línea en blanco. Puede quedar vacío si la nota es solo un afiche con imagen."
       - name: imagen
         label: Imagen (opcional)
         type: image

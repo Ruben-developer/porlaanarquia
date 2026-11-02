@@ -71,9 +71,17 @@ const unicos = (lista, campo, archivo) => {
 const noticias = leer('noticias.json');
 noticias.forEach((n, i) => {
   const donde = `noticias.json[${i}]`;
-  ['categoria', 'titulo', 'fecha', 'lugar', 'bajada', 'cuerpo'].forEach(c => {
+  ['categoria', 'titulo', 'fecha', 'lugar'].forEach(c => {
     if (!texto(n[c])) errores.push(`${donde}: falta «${c}»`);
   });
+  ['bajada', 'cuerpo'].forEach(c => {
+    if (n[c] != null && typeof n[c] !== 'string') errores.push(`${donde}: «${c}» debe ser texto`);
+  });
+  // Una nota puede ser solo imagen (un afiche) o solo texto; lo que no puede
+  // quedar es una ficha sin cuerpo y sin imagen.
+  if (!texto(n.cuerpo) && !texto(n.imagen)) {
+    errores.push(`${donde}: falta «cuerpo» o «imagen» (la nota quedaría vacía)`);
+  }
   if (texto(n.fecha) && !fecha(n.fecha)) errores.push(`${donde}: fecha inválida («${n.fecha}»)`);
   imagen(n.imagen, donde);
 });
