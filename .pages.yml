@@ -94,7 +94,11 @@ content:
         label: Texto
         type: text
         required: true
-        description: "El extracto, la frase o la historia. Separa los párrafos con una línea en blanco."
+        description: "La entrada: la frase, el extracto o el primer párrafo de la historia. En la lista se muestra este primer párrafo."
+      - name: cuerpo
+        label: Resto de la historia (opcional)
+        type: text
+        description: "Continúa el texto. Se lee al abrir «Leer completo», después del primer párrafo. Separa los párrafos con una línea en blanco."
       - name: autor
         label: Autoría
         type: string

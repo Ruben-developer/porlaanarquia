@@ -15,6 +15,8 @@ let ARTS = [], AGENDA = [], EFEM = [], COMS = [], RECORTES = [];
 let CATS = ['Todas'], CITIES = ['Todas'], REC_TIPOS = ['Todos'];
 
 const parrafos = s => String(s || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+const enlazar = html => html.replace(/https?:\/\/[^\s<]+/g,
+  u => `<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
 const porFecha = (a, b) => b.date.localeCompare(a.date);
 const slug = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -55,10 +57,17 @@ async function cargarDatos() {
     img: e.imagen ? String(e.imagen).replace(/^\/+/, '') : null
   }));
 
-  RECORTES = recortes.map(r => ({
-    id: idDe(r, 'tipo', 'titulo'), tipo: r.tipo, t: r.titulo, body: parrafos(r.texto),
-    autor: r.autor || '', fuente: r.fuente || ''
-  }));
+  // Recortes: el primer párrafo de `texto` es la entrada de la tarjeta; el resto
+  // de `texto` y `cuerpo` se leen en la vista completa.
+  RECORTES = recortes.map(r => {
+    const lead = parrafos(r.texto);
+    const extra = parrafos(r.cuerpo);
+    return {
+      id: idDe(r, 'tipo', 'titulo'), tipo: r.tipo, t: r.titulo,
+      lead: lead[0] || '', body: [...lead, ...extra],
+      autor: r.autor || '', fuente: r.fuente || ''
+    };
+  });
   REC_TIPOS = ['Todos', ...new Set(RECORTES.map(r => r.tipo))];
 
   COMS = coms.map(c => ({ id: idDe(c, 'fecha', 'titulo'), iso: c.fecha, t: c.titulo, x: c.texto }))
@@ -78,7 +87,7 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 };
 const S = {
-  cat: 'Todas', q: '', open: null, city: 'Todas', rec: 'Todos',
+  cat: 'Todas', q: '', open: null, openRec: null, city: 'Todas', rec: 'Todos',
   year: 'Todos', month: 0,
   saved: new Set(store.get('pla-saved', []))
 };
@@ -239,12 +248,30 @@ function renderRecortes() {
   const list = RECORTES.filter(r => S.rec === 'Todos' || r.tipo === S.rec);
   $('#recCount').textContent = `${list.length} ${list.length === 1 ? 'recorte' : 'recortes'}`;
   $('#recList').innerHTML = list.length ? list.map(r => `
-    <article class="rec rec-${slug(r.tipo)}">
+    <article class="rec rec-${slug(r.tipo)}${r.body.length > 1 ? ' rec-long' : ''}">
       <span class="kick">${esc(r.tipo)}</span>
       <h3>${esc(r.t)}</h3>
-      <div class="rec-text">${r.body.map(p => `<p>${esc(p)}</p>`).join('')}</div>
+      <div class="rec-text"><p>${esc(r.lead)}</p></div>
+      ${r.body.length > 1 ? `<button class="linkbtn" type="button" data-openrec="${esc(r.id)}">Leer completo</button>` : ''}
       ${r.autor || r.fuente ? `<p class="rec-src">${[r.autor, r.fuente].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
     </article>`).join('') : '<p class="empty">Todavía no hay recortes de este tipo.</p>';
+}
+
+/* Render: un recorte completo, en su propia vista de lectura */
+function renderRecorte() {
+  const r = RECORTES.find(x => x.id === S.openRec);
+  const box = $('#recView');
+  if (!r) {
+    box.innerHTML = `<p class="empty">Ese recorte ya no está disponible.</p>
+      <p style="text-align:center"><button class="linkbtn" type="button" data-gorec>Volver a Recortes</button></p>`;
+    return;
+  }
+  box.innerHTML = `
+    <button class="linkbtn back" type="button" data-gorec>Volver a los recortes</button>
+    <span class="kick">${esc(r.tipo)}</span>
+    <h2>${esc(r.t)}</h2>
+    <div class="body">${r.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${enlazar(esc(p))}</p>`).join('')}</div>
+    ${r.autor || r.fuente ? `<p class="rec-src">${[r.autor, r.fuente].filter(Boolean).map(esc).join(' · ')}</p>` : ''}`;
 }
 
 /* Render: comunicados */
@@ -257,13 +284,15 @@ function renderComs() {
 }
 
 /* Rutas por hash */
-const VIEWS = ['portada', 'noticias', 'recortes', 'agenda', 'efemerides', 'comunicados', 'contacto'];
+const VIEWS = ['portada', 'noticias', 'recortes', 'recorte', 'agenda', 'efemerides', 'comunicados', 'contacto'];
 function route() {
   let v = location.hash.replace('#', ''); if (!VIEWS.includes(v)) v = 'portada';
+  if (v === 'recorte' && !S.openRec) { location.replace('#recortes'); return; }
   VIEWS.forEach(x => { $('#v-' + x).hidden = x !== v; });
   $$('.nav a').forEach(a => a.removeAttribute('aria-current'));
-  $(`.nav a[href="#${v}"]`).setAttribute('aria-current', 'page');
+  $(`.nav a[href="#${v === 'recorte' ? 'recortes' : v}"]`).setAttribute('aria-current', 'page');
   if (v === 'noticias') renderReader();
+  if (v === 'recorte') renderRecorte();
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
@@ -274,6 +303,8 @@ document.addEventListener('click', e => {
   const t = e.target.closest('button'); if (!t) return;
   if (t.dataset.go) return go(t.dataset.go);
   if (t.dataset.open) { S.open = t.dataset.open; return go('noticias'); }
+  if (t.dataset.openrec) { S.openRec = t.dataset.openrec; return go('recorte'); }
+  if ('gorec' in t.dataset) { S.openRec = null; return go('recortes'); }
   if ('close' in t.dataset) { S.open = null; renderReader(); return window.scrollTo(0, 0); }
   if (t.dataset.cat) { S.cat = t.dataset.cat; return renderNews(); }
   if (t.dataset.rec) { S.rec = t.dataset.rec; return renderRecortes(); }

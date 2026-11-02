@@ -22,16 +22,19 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Fuentes auto-hospedadas en `assets/fonts/` (se quitó Google Fonts).
 - [x] CSP y `Referrer-Policy` en `index.html`; escapado completo de todo el contenido en `app.js`.
 - [x] Imágenes en el CMS: portada editable (`datos/portada.json`), imagen opcional por nota, afiche en el detalle de Agenda e imagen en el detalle de Efemérides.
-- [x] Sección **Recortes**: extractos, frases e historias breves, con filtros por `tipo`.
+- [x] Sección **Recortes**: extractos, frases e historias, con filtros por `tipo`.
+- [x] Recortes largos: la tarjeta muestra el primer párrafo y «Leer completo»
+      abre la historia en una vista de lectura propia (`#recorte`); el resto va
+      en el campo opcional `cuerpo` o en los párrafos siguientes de `texto`.
 - [x] «Leer más» en Agenda y Efemérides, con el detalle desplegable; las listas van sin imágenes.
 - [x] Agenda: próximas primero y pasadas agrupadas al final, apagadas y marcadas «Ya pasó»; año visible en la fecha de cada actividad.
 - [x] Categorías de Noticias dinámicas: los chips salen de las categorías escritas en las notas.
-- [x] Contenido de ejemplo reducido: 2 notas, 3 recortes, 2 actividades, 2 efemérides y 2 comunicados.
+- [x] Contenido de ejemplo reducido; hoy hay 2 notas, 1 recorte, 3 actividades, 4 efemérides y 2 comunicados.
 
 ## Contenido real (antes de publicar)
 
-- [ ] Reemplazar las 2 notas de ejemplo y los 3 recortes por material propio.
-- [ ] Reemplazar las 2 actividades, 2 efemérides y 2 comunicados de ejemplo.
+- [ ] Terminar de cargar las notas rescatadas del blog viejo (ya hay 2 desde el CMS).
+- [ ] Reemplazar el recorte, las 3 actividades y los 2 comunicados de ejemplo.
 - [x] Quitar la nota al pie del lector: ya no queda ningún aviso de maqueta en el código. Todo el texto de ejemplo vive en `datos/*.json` y se puede borrar desde Pages CMS.
 - [x] Probar Pages CMS de punta a punta: se subió `assets/1.png`, se editó una
       efeméride y se agregó la actividad «Comedor Vegano»; los commits del CMS

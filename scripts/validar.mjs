@@ -137,6 +137,9 @@ recortes.forEach((r, i) => {
   ['tipo', 'titulo', 'texto'].forEach(c => {
     if (!texto(r[c])) errores.push(`${donde}: falta «${c}»`);
   });
+  ['autor', 'fuente', 'cuerpo'].forEach(c => {
+    if (r[c] != null && typeof r[c] !== 'string') errores.push(`${donde}: «${c}» debe ser texto`);
+  });
 });
 unicos(recortes, 'id', 'recortes.json');
 

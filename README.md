@@ -35,9 +35,16 @@ dice `Cultura`, `Solidaridad` o cualquier otra palabra, el filtro aparece sin
 tocar código. Solo hay que guardar la nota; Pages reconstruye el sitio.
 
 **Recortes** es la sección para lo que no es noticia: extractos de libros o
-artículos, frases célebres e historias anarquistas breves. Cada entrada lleva un
-`tipo` (`Extracto`, `Frase` o `Historia`), un `titulo`, el `texto` y, si
-corresponde, `autor` y `fuente`. Los filtros por tipo se generan desde los datos.
+artículos, frases célebres e historias, incluidas las que alcanzan para un
+cuadernillo. Cada entrada lleva un `tipo` (`Extracto`, `Frase` o `Historia`), un
+`titulo`, el `texto` y, si corresponde, `autor` y `fuente`. Los filtros por tipo
+se generan desde los datos.
+
+La tarjeta muestra solo el primer párrafo de `texto`. Si hay más (más párrafos
+en `texto` o el campo opcional `cuerpo`), aparece **Leer completo**, que abre el
+recorte en su propia vista de lectura (`#recorte`). `cuerpo` es la continuación
+del texto: se lee después del primer párrafo y sus párrafos se separan con una
+línea en blanco. Las frases de un solo párrafo no muestran el botón.
 
 En **Agenda** las actividades se ordenan por cercanía: primero las que vienen y,
 al final, las que ya pasaron. Cada fila muestra día, mes y año. Las pasadas van
@@ -80,6 +87,7 @@ Luego abrir `http://localhost:8001`.
 
 ## Estado
 
-Maqueta funcional con contenido de ejemplo: 2 notas, 3 recortes, 2 actividades,
-2 efemérides y 2 comunicados. Antes de publicar hay que reemplazar los textos y
-las fechas por información real. El correo de contacto ya es el definitivo.
+El contenido se carga desde Pages CMS: hoy hay 2 notas, 1 recorte, 3
+actividades, 4 efemérides y 2 comunicados, aún con material de ejemplo. Antes de
+publicar hay que reemplazar los textos y las fechas por información real. El
+correo de contacto ya es el definitivo.
