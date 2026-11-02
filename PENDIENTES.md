@@ -29,7 +29,7 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] «Leer más» en Agenda y Efemérides, con el detalle desplegable; las listas van sin imágenes.
 - [x] Agenda: próximas primero y pasadas agrupadas al final, apagadas y marcadas «Ya pasó»; año visible en la fecha de cada actividad.
 - [x] Categorías de Noticias dinámicas: los chips salen de las categorías escritas en las notas.
-- [x] Contenido de ejemplo reducido; hoy hay 2 notas, 1 recorte, 3 actividades, 4 efemérides y 2 comunicados.
+- [x] Contenido de ejemplo reducido; hoy hay 2 notas, 2 recortes (uno largo), 5 actividades, 4 efemérides y 2 comunicados.
 
 ## Contenido real (antes de publicar)
 

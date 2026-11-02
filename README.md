@@ -87,7 +87,7 @@ Luego abrir `http://localhost:8001`.
 
 ## Estado
 
-El contenido se carga desde Pages CMS: hoy hay 2 notas, 1 recorte, 3
+El contenido se carga desde Pages CMS: hoy hay 2 notas, 2 recortes, 5
 actividades, 4 efemérides y 2 comunicados, aún con material de ejemplo. Antes de
 publicar hay que reemplazar los textos y las fechas por información real. El
 correo de contacto ya es el definitivo.
