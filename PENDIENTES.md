@@ -12,7 +12,7 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Portada ajustada: nuevo lema, «Año I» dinámico, fecha a la derecha, imagen de *La Protesta* y título sin línea.
 - [x] Eliminado el aviso «Maqueta de rediseño» de la barra superior.
 - [x] Portada a dos columnas (bienvenida 2/3, últimos comunicados 1/3) y textos de bienvenida nuevos.
-- [x] Correo de contacto real: `por-la-anarquia@riseup.net`.
+- [x] Correo de contacto real: `contacto-porlaanarquia@riseup.net`.
 - [x] Formulario de contacto funcional sin backend: arma un `mailto:` con asunto y cuerpo.
 - [x] Contenido sacado de `app.js` a `datos/*.json` y cargado con `fetch`.
 - [x] Archivo de noticias por año y mes (chips «Por año» y «Por mes»).
@@ -33,6 +33,11 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Agenda: próximas primero y pasadas agrupadas al final, apagadas y marcadas «Ya pasó»; año visible en la fecha de cada actividad.
 - [x] Categorías de Noticias dinámicas: los chips salen de las categorías escritas en las notas.
 - [x] Contenido de ejemplo reducido; hoy hay 2 notas, 2 recortes (uno largo), 5 actividades, 4 efemérides y 2 comunicados.
+
+## Correos
+
+- [ ] Crear en Riseup el alias `contacto-porlaanarquia@riseup.net` (entrega en
+      `antarquia@riseup.net`) y probar un envío real.
 
 ## Contenido real (antes de publicar)
 

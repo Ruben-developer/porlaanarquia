@@ -93,7 +93,8 @@ Fuera del CMS también se pueden copiar a mano a `assets/` y escribir la ruta
 
 ## Contacto
 
-`por-la-anarquia@riseup.net` (alias de Riseup que entrega en `antarquia@riseup.net`).
+`contacto-porlaanarquia@riseup.net` (alias de Riseup que entrega en
+`antarquia@riseup.net`; hay que crearlo en Riseup antes de usarlo).
 
 ## Ver en local
 

@@ -5,7 +5,7 @@ edita por JSON con Pages CMS.
 
 ## Cómo reportar
 
-Escribe a **por-la-anarquia@riseup.net** indicando:
+Escribe a **contacto-porlaanarquia@riseup.net** indicando:
 
 - la URL afectada;
 - qué ocurre y cómo reproducirlo;

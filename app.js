@@ -8,7 +8,7 @@ const MES3 = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov',
 const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const fmt = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} de ${MES[m - 1]} de ${y}`; };
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const MAIL = 'por-la-anarquia@riseup.net';
+const MAIL = 'contacto-porlaanarquia@riseup.net';
 
 /* Los datos se llenan desde los JSON */
 let ARTS = [], AGENDA = [], EFEM = [], COMS = [], RECORTES = [];
