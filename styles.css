@@ -189,7 +189,7 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .more[open] .more-open { display: none; }
 .more[open] .more-close { display: inline; }
 .more p { margin-top: 10px; font-size: 15.5px; text-align: justify; hyphens: auto; max-width: 62ch; }
-.afiche, .detail-img { margin: 14px 0 0; max-width: 420px; border: 1px solid var(--ink); padding: 3px; }
+.afiche, .detail-img { margin: 12px 0 16px; max-width: 420px; border: 1px solid var(--ink); padding: 3px; }
 .afiche img, .detail-img img { display: block; width: 100%; height: auto; }
 
 /* Agenda */
