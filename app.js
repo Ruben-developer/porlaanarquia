@@ -11,8 +11,8 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&a
 const MAIL = 'por-la-anarquia@riseup.net';
 
 /* Los datos se llenan desde los JSON */
-let ARTS = [], AGENDA = [], EFEM = [], COMS = [];
-let CATS = ['Todas'], CITIES = ['Todas'];
+let ARTS = [], AGENDA = [], EFEM = [], COMS = [], RECORTES = [];
+let CATS = ['Todas'], CITIES = ['Todas'], REC_TIPOS = ['Todos'];
 
 const parrafos = s => String(s || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
 const porFecha = (a, b) => b.date.localeCompare(a.date);
@@ -28,11 +28,12 @@ async function getJSON(url) {
 }
 
 async function cargarDatos() {
-  const [noticias, agenda, efem, coms, portada] = await Promise.all([
+  const [noticias, agenda, efem, coms, recortes, portada] = await Promise.all([
     getJSON('datos/noticias.json'),
     getJSON('datos/agenda.json'),
     getJSON('datos/efemerides.json'),
     getJSON('datos/comunicados.json'),
+    getJSON('datos/recortes.json'),
     getJSON('datos/portada.json').catch(() => null)
   ]);
 
@@ -44,11 +45,20 @@ async function cargarDatos() {
   CATS = ['Todas', ...new Set(ARTS.map(a => a.cat))];
 
   AGENDA = agenda.map(e => ({
-    id: idDe(e, 'fecha', 'titulo'), iso: e.fecha, hora: e.hora, t: e.titulo, place: e.lugar, city: e.ciudad
+    id: idDe(e, 'fecha', 'titulo'), iso: e.fecha, hora: e.hora, t: e.titulo, place: e.lugar, city: e.ciudad,
+    desc: parrafos(e.descripcion), afiche: e.afiche ? String(e.afiche).replace(/^\/+/, '') : null
   })).sort((a, b) => a.iso.localeCompare(b.iso));
   CITIES = ['Todas', ...new Set(AGENDA.map(a => a.city))];
 
-  EFEM = efem.map(e => ({ m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: e.texto }));
+  EFEM = efem.map(e => ({
+    m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: e.texto, det: parrafos(e.detalle)
+  }));
+
+  RECORTES = recortes.map(r => ({
+    id: idDe(r, 'tipo', 'titulo'), tipo: r.tipo, t: r.titulo, body: parrafos(r.texto),
+    autor: r.autor || '', fuente: r.fuente || ''
+  }));
+  REC_TIPOS = ['Todos', ...new Set(RECORTES.map(r => r.tipo))];
 
   COMS = coms.map(c => ({ id: idDe(c, 'fecha', 'titulo'), iso: c.fecha, t: c.titulo, x: c.texto }))
     .sort((a, b) => b.iso.localeCompare(a.iso));
@@ -67,7 +77,7 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 };
 const S = {
-  cat: 'Todas', q: '', open: null, city: 'Todas',
+  cat: 'Todas', q: '', open: null, city: 'Todas', rec: 'Todos',
   year: 'Todos', month: 0,
   saved: new Set(store.get('pla-saved', []))
 };
@@ -159,9 +169,18 @@ function renderAgenda() {
   $('#agCount').textContent = `${list.length} ${list.length === 1 ? 'actividad' : 'actividades'}`;
   $('#agList').innerHTML = list.length ? list.map(e => {
     const [y, m, d] = e.iso.split('-').map(Number), on = S.saved.has(e.id);
+    const extra = e.desc.length || e.afiche;
     return `<div class="ag">
       <div class="ag-date"><span class="ag-day">${d}</span><span class="ag-mon">${MES3[m - 1]}</span></div>
-      <div><h3>${esc(e.t)}</h3><p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p></div>
+      <div class="ag-body">
+        <h3>${esc(e.t)}</h3>
+        <p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+        ${extra ? `<details class="more">
+          <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
+          ${e.desc.map(p => `<p>${esc(p)}</p>`).join('')}
+          ${e.afiche ? `<figure class="afiche"><img src="${esc(e.afiche)}" alt="Afiche: ${esc(e.t)}" loading="lazy"></figure>` : ''}
+        </details>` : ''}
+      </div>
       <button class="btn${on ? '' : ' alt'}" type="button" data-save="${esc(e.id)}" aria-pressed="${on}">${on ? 'Guardado' : 'Guardar'}</button>
     </div>`;
   }).join('') : '<p class="empty">Todavía no has guardado actividades.</p>';
@@ -181,8 +200,29 @@ function renderEfem() {
         <span class="kick">${e.left === 0 ? 'Hoy' : e.left === 1 ? 'Mañana' : 'Faltan ' + e.left + ' días'}</span>
         <h3>${esc(e.t)}</h3>
         <p>${esc(e.x)}</p>
+        ${e.det.length ? `<details class="more">
+          <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
+          ${e.det.map(p => `<p>${esc(p)}</p>`).join('')}
+        </details>` : ''}
       </div>
     </div>`).join('');
+}
+
+/* Render: recortes (extractos, frases e historias) */
+function renderRecortes() {
+  if (!REC_TIPOS.includes(S.rec)) S.rec = 'Todos';
+  $('#recChips').innerHTML = REC_TIPOS.map(t => `
+    <button class="chip" type="button" data-rec="${esc(t)}" aria-pressed="${S.rec === t}">${esc(t)}</button>`).join('');
+
+  const list = RECORTES.filter(r => S.rec === 'Todos' || r.tipo === S.rec);
+  $('#recCount').textContent = `${list.length} ${list.length === 1 ? 'recorte' : 'recortes'}`;
+  $('#recList').innerHTML = list.length ? list.map(r => `
+    <article class="rec rec-${slug(r.tipo)}">
+      <span class="kick">${esc(r.tipo)}</span>
+      <h3>${esc(r.t)}</h3>
+      <div class="rec-text">${r.body.map(p => `<p>${esc(p)}</p>`).join('')}</div>
+      ${r.autor || r.fuente ? `<p class="rec-src">${[r.autor, r.fuente].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
+    </article>`).join('') : '<p class="empty">Todavía no hay recortes de este tipo.</p>';
 }
 
 /* Render: comunicados */
@@ -195,7 +235,7 @@ function renderComs() {
 }
 
 /* Rutas por hash */
-const VIEWS = ['portada', 'noticias', 'agenda', 'efemerides', 'comunicados', 'contacto'];
+const VIEWS = ['portada', 'noticias', 'recortes', 'agenda', 'efemerides', 'comunicados', 'contacto'];
 function route() {
   let v = location.hash.replace('#', ''); if (!VIEWS.includes(v)) v = 'portada';
   VIEWS.forEach(x => { $('#v-' + x).hidden = x !== v; });
@@ -214,6 +254,7 @@ document.addEventListener('click', e => {
   if (t.dataset.open) { S.open = t.dataset.open; return go('noticias'); }
   if ('close' in t.dataset) { S.open = null; renderReader(); return window.scrollTo(0, 0); }
   if (t.dataset.cat) { S.cat = t.dataset.cat; return renderNews(); }
+  if (t.dataset.rec) { S.rec = t.dataset.rec; return renderRecortes(); }
   if (t.dataset.year) { S.year = t.dataset.year; S.month = 0; return renderNews(); }
   if (t.dataset.month) { S.month = +t.dataset.month; return renderNews(); }
   if (t.dataset.city) { S.city = t.dataset.city; return renderAgenda(); }
@@ -258,11 +299,11 @@ syncTheme();
 async function arrancar() {
   try {
     await cargarDatos();
-    renderPortada(); renderNews(); renderAgenda(); renderEfem(); renderComs(); route();
+    renderPortada(); renderNews(); renderRecortes(); renderAgenda(); renderEfem(); renderComs(); route();
   } catch (err) {
     console.error('No se pudieron cargar los datos:', err);
     const aviso = '<p class="empty">No se pudieron cargar los datos. Revisa la conexión o los archivos de <code>datos/</code>.</p>';
-    ['#boxcoms', '#newsGrid', '#agList', '#efList', '#comList'].forEach(sel => { const el = $(sel); if (el) el.innerHTML = aviso; });
+    ['#boxcoms', '#newsGrid', '#recList', '#agList', '#efList', '#comList'].forEach(sel => { const el = $(sel); if (el) el.innerHTML = aviso; });
   }
 }
 arrancar();

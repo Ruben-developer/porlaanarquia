@@ -7,7 +7,7 @@ Dominio final: `porlaanarquia.antarquia.cl`
 
 - [x] Base del repositorio (git, README, `.gitignore`).
 - [x] Maqueta de portada tipo prensa libertaria integrada: `index.html`, `styles.css`, `app.js`, `favicon.svg`.
-- [x] Secciones navegables: Portada, Noticias, Agenda, Efemérides, Comunicados, Contacto.
+- [x] Secciones navegables: Portada, Noticias, Recortes, Agenda, Efemérides, Comunicados, Contacto.
 - [x] Modo diurno / nocturno, buscador y filtros, agenda guardada en `localStorage`.
 - [x] Portada ajustada: nuevo lema, «Año I» dinámico, fecha a la derecha, imagen de *La Protesta* y título sin línea.
 - [x] Eliminado el aviso «Maqueta de rediseño» de la barra superior.
@@ -18,16 +18,19 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Archivo de noticias por año y mes (chips «Por año» y «Por mes»).
 - [x] Configuración de Pages CMS (`.pages.yml`) y script de validación (`scripts/validar.mjs`).
 - [x] Workflow de CI en `.github/workflows/ci.yml`: valida los JSON, el HTML y escanea secretos.
-- [ ] Subir el workflow: el token de `gh` no tiene el scope `workflow`.
-      Ejecutar `gh auth refresh -s workflow` y luego `git push`.
+- [x] Workflow subido: el token de `gh` ya tiene el scope `workflow`.
 - [x] Fuentes auto-hospedadas en `assets/fonts/` (se quitó Google Fonts).
 - [x] CSP y `Referrer-Policy` en `index.html`; escapado completo de todo el contenido en `app.js`.
-- [x] Imágenes en el CMS: portada editable (`datos/portada.json`) e imagen opcional por nota.
+- [x] Imágenes en el CMS: portada editable (`datos/portada.json`), imagen opcional por nota y afiche dentro del detalle de Agenda.
+- [x] Sección **Recortes**: extractos, frases e historias breves, con filtros por `tipo`.
+- [x] «Leer más» en Agenda y Efemérides, con el detalle desplegable; las listas van sin imágenes y Efemérides no admite imágenes.
+- [x] Categorías de Noticias dinámicas: los chips salen de las categorías escritas en las notas.
+- [x] Contenido de ejemplo reducido: 2 notas, 3 recortes, 2 actividades, 2 efemérides y 2 comunicados.
 
 ## Contenido real (antes de publicar)
 
-- [ ] Reemplazar las 9 notas de ejemplo por notas reales (6 de 2026 y 3 de archivo).
-- [ ] Reemplazar agenda, efemérides y comunicados de ejemplo.
+- [ ] Reemplazar las 2 notas de ejemplo y los 3 recortes por material propio.
+- [ ] Reemplazar las 2 actividades, 2 efemérides y 2 comunicados de ejemplo.
 - [ ] Quitar la nota al pie del lector («Texto de ejemplo escrito para la maqueta…»).
 - [ ] Probar Pages CMS de punta a punta: subir una imagen, editar una nota y
       confirmar commit + deploy.

@@ -9,69 +9,6 @@
     "cuerpo": "Durante el fin de semana, más de veinte mesas ocuparon el patio de un antiguo conventillo del barrio Yungay. Hubo folletos a precio de costo, afiches serigrafiados en el lugar y una mesa de intercambio donde cada persona podía dejar un libro y llevarse otro.\n\nEl sábado en la tarde se realizaron tres debates abiertos: sobre autogestión de espacios, sobre vivienda y sobre la circulación de la prensa libertaria en tiempos de redes sociales. Cada uno terminó con una ronda de propuestas que quedó anotada en un papelógrafo a la entrada.\n\nLas organizadoras informaron que la próxima feria será en Valparaíso, en diciembre, y que quienes quieran poner mesa deben escribir con una semana de anticipación."
   },
   {
-    "id": "a2",
-    "categoria": "Solidaridad",
-    "titulo": "Vecinas del barrio Matta reactivan la olla común de los domingos",
-    "bajada": "La cocina colectiva vuelve a funcionar con verduras donadas por una feria cercana.",
-    "fecha": "2026-10-29",
-    "lugar": "Santiago",
-    "cuerpo": "Cada domingo a las doce, en la esquina de una plaza del barrio Matta, se arma una cocina al aire libre. Esta semana se repartieron ciento ochenta platos de legumbres con verduras de estación.\n\nLas vecinas que sostienen la olla piden ollas grandes, leña seca y manos para pelar. También reciben utensilios y frascos limpios para llevar la comida a quienes no pueden acercarse.\n\nLa próxima jornada comienza a las nueve de la mañana, con la compra colectiva en la feria."
-  },
-  {
-    "id": "a3",
-    "categoria": "Trabajo",
-    "titulo": "Sindicato de oficios varios discute la jornada de 40 horas en asamblea abierta",
-    "bajada": "La reunión terminó con un acuerdo para repartir un volante en los lugares de trabajo.",
-    "fecha": "2026-10-27",
-    "lugar": "Santiago",
-    "cuerpo": "Más de cuarenta personas llegaron a la asamblea del sindicato, entre trabajadoras de casa particular, gásfiteres, cocineros y repartidores. La conversación giró en torno a cómo se aplicará la reducción de jornada en los oficios sin contrato fijo.\n\nSe acordó imprimir un volante con preguntas y respuestas, y repartirlo en terminales, ferias y puntos de reparto. El borrador queda abierto para que lo corrija quien quiera."
-  },
-  {
-    "id": "a4",
-    "categoria": "Ecología",
-    "titulo": "Taller de huerta urbana busca un sitio baldío para sembrar en primavera",
-    "bajada": "El grupo ya tiene semillas, compost y herramientas. Falta el terreno.",
-    "fecha": "2026-10-25",
-    "lugar": "Concepción",
-    "cuerpo": "Un grupo de vecinas y estudiantes de Concepción prepara una huerta comunitaria y busca un sitio baldío con acceso a agua. Piden que quien conozca un terreno disponible deje el dato en la mesa del taller.\n\nLas sesiones son los sábados por la mañana y cada persona lleva lo que pueda: semillas, palas, cajones o simplemente ganas de aprender."
-  },
-  {
-    "id": "a5",
-    "categoria": "Memoria",
-    "titulo": "Ciclo de cine documental recorre las luchas obreras del norte salitrero",
-    "bajada": "Cuatro funciones gratuitas, con conversatorio después de cada proyección.",
-    "fecha": "2026-10-22",
-    "lugar": "Valparaíso",
-    "cuerpo": "El ciclo reúne documentales y archivos sobre las oficinas salitreras, las mancomunales y las huelgas de comienzos del siglo XX. Cada función incluye una breve presentación histórica.\n\nTras la película se abre una conversación con el público. Hay mate, sopaipillas y una mesa con folletos para llevar."
-  },
-  {
-    "id": "a6",
-    "categoria": "Cultura",
-    "titulo": "Una imprenta autogestionada prepara un pliego de poemas y grabados",
-    "bajada": "La tirada será pequeña, impresa a mano y vendida a precio de costo.",
-    "fecha": "2026-10-20",
-    "lugar": "Santiago",
-    "cuerpo": "En un taller del centro, tres personas componen a mano un pliego de poemas ilustrado con grabados en linóleo. La tirada será de trescientos ejemplares numerados.\n\nQuienes quieran aportar textos o ayudar a doblar y coser pueden pasar los jueves en la tarde."
-  },
-  {
-    "id": "a7",
-    "categoria": "Cultura",
-    "titulo": "Feria del libro libertario reúne veinte mesas en el centro",
-    "bajada": "Tres días de venta de libros, serigrafía en vivo y conversatorios sobre autogestión.",
-    "fecha": "2019-09-14",
-    "lugar": "Santiago",
-    "cuerpo": "Durante tres días, imprentas, bibliotecas y colectivos ocuparon el patio de un centro social con mesas de libros, fanzines y afiches. La serigrafía se hizo en el lugar y cada persona podía llevarse su hoja recién impresa.\n\nLos conversatorios giraron en torno a la autogestión de espacios y a la circulación de materiales fuera de las librerías comerciales. La organización anunció una nueva feria para diciembre."
-  },
-  {
-    "id": "a9",
-    "categoria": "Cultura",
-    "titulo": "Bibliotecas autónomas coordinan préstamos y ferias para el verano",
-    "bajada": "Seis bibliotecas de barrio acordaron un catálogo común y un calendario de actividades.",
-    "fecha": "2019-10-05",
-    "lugar": "Valparaíso",
-    "cuerpo": "Representantes de seis bibliotecas autónomas se reunieron para compartir cómo catalogan, prestan y recuperan sus materiales. La mayoría trabaja sin computador y con fichas de cartón.\n\nSe acordó armar un catálogo común en papel, rotar las ferias entre los barrios y escribir una guía breve para quien quiera abrir una biblioteca en su casa."
-  },
-  {
     "id": "a8",
     "categoria": "Memoria",
     "titulo": "Velada por los mártires de Chicago en la biblioteca del barrio",
