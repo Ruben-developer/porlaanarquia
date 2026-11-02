@@ -80,6 +80,7 @@ Luego abrir `http://localhost:8001`.
 
 ## Estado
 
-Maqueta funcional con contenido de ejemplo: 2 notas, 3 recortes, 2 actividades,
-2 efemérides y 2 comunicados. Antes de publicar hay que reemplazar los textos y
-las fechas por información real. El correo de contacto ya es el definitivo.
+El contenido se carga desde Pages CMS: hoy hay 2 notas, 1 recorte, 3
+actividades, 4 efemérides y 2 comunicados, aún con material de ejemplo. Antes de
+publicar hay que reemplazar los textos y las fechas por información real. El
+correo de contacto ya es el definitivo.
