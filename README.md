@@ -39,22 +39,28 @@ artículos, frases célebres e historias anarquistas breves. Cada entrada lleva 
 `tipo` (`Extracto`, `Frase` o `Historia`), un `titulo`, el `texto` y, si
 corresponde, `autor` y `fuente`. Los filtros por tipo se generan desde los datos.
 
+En **Agenda** las actividades se ordenan por cercanía: primero las que vienen y,
+al final, las que ya pasaron. Cada fila muestra día, mes y año. Las pasadas van
+apagadas, con la marca **«Ya pasó»** y bajo el separador **«Ya pasaron»**; las
+que vienen llevan el botón **Guardar**.
+
 En **Agenda** y **Efemérides** la lista va sin imágenes. El campo
 `descripcion` (Agenda) y `detalle` (Efemérides) se muestran al abrir
-**«Leer más»**. En Agenda se puede sumar un `afiche` opcional, que aparece solo
-dentro del detalle; **Efemérides no admite imágenes en ningún caso**.
+**«Leer más»**. En Agenda se puede sumar un `afiche` opcional y en Efemérides una
+`imagen` opcional: ambas aparecen solo dentro del detalle.
 
 ### Imágenes
 
-Se suben desde Pages CMS (sección **Portada**, campo **Imagen** de una nota o
-**Afiche** de una actividad) y quedan en `assets/`:
+Se suben desde Pages CMS (sección **Portada**, campo **Imagen** de una nota o de
+una efeméride, o **Afiche** de una actividad) y quedan en `assets/`:
 
 - `datos/portada.json` — grabado de la cabecera (`imagen` + `alt`).
 - Campo `imagen` de una nota — opcional; se muestra al abrirla, en blanco y
   negro y con marco, para no romper la estética de imprenta.
 - Campo `afiche` de una actividad — opcional; se muestra solo dentro de
   **«Leer más»**, nunca en la lista de Agenda.
-- **Efemérides** no tiene campo de imagen: su detalle es solo texto.
+- Campo `imagen` de una efeméride — opcional; se muestra solo dentro de
+  **«Leer más»**, nunca en la lista.
 
 Fuera del CMS también se pueden copiar a mano a `assets/` y escribir la ruta
 (`assets/mi-foto.jpg`). El validador avisa si la imagen no existe.

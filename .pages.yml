@@ -183,7 +183,11 @@ content:
       - name: detalle
         label: Detalle (opcional)
         type: text
-        description: "Se muestra al abrir «Leer más». Separa los párrafos con una línea en blanco. Las efemérides no llevan imágenes."
+        description: "Se muestra al abrir «Leer más». Separa los párrafos con una línea en blanco."
+      - name: imagen
+        label: Imagen (opcional)
+        type: image
+        description: "Se muestra solo dentro de «Leer más», nunca en la lista. Se sube a assets/."
 
   - name: comunicados
     label: Comunicados
