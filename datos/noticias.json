@@ -1,20 +1,19 @@
 [
   {
-    "id": "a1",
-    "categoria": "Cultura",
-    "titulo": "La feria del libro libertario cumple diez años con veinte mesas y tres debates",
-    "bajada": "Colectivos, imprentas y bibliotecas autónomas se reunieron durante dos días en el barrio Yungay.",
-    "fecha": "2026-10-31",
-    "lugar": "Santiago",
-    "cuerpo": "Durante el fin de semana, más de veinte mesas ocuparon el patio de un antiguo conventillo del barrio Yungay. Hubo folletos a precio de costo, afiches serigrafiados en el lugar y una mesa de intercambio donde cada persona podía dejar un libro y llevarse otro.\n\nEl sábado en la tarde se realizaron tres debates abiertos: sobre autogestión de espacios, sobre vivienda y sobre la circulación de la prensa libertaria en tiempos de redes sociales. Cada uno terminó con una ronda de propuestas que quedó anotada en un papelógrafo a la entrada.\n\nLas organizadoras informaron que la próxima feria será en Valparaíso, en diciembre, y que quienes quieran poner mesa deben escribir con una semana de anticipación."
+    "titulo": "Afiche en solidaridad con los anarquistas presos en España",
+    "categoria": "Solidaridad",
+    "fecha": "2016-01-26",
+    "lugar": "España",
+    "bajada": "Afiche en solidaridad con Nahuel, Mónica y Francisco",
+    "cuerpo": "  ",
+    "imagen": "assets/2.png"
   },
   {
-    "id": "a8",
-    "categoria": "Memoria",
-    "titulo": "Velada por los mártires de Chicago en la biblioteca del barrio",
-    "bajada": "Lectura de textos, música y una olla común para cerrar la jornada.",
-    "fecha": "2018-11-11",
-    "lugar": "Valparaíso",
-    "cuerpo": "La biblioteca abrió sus puertas por la tarde para leer fragmentos sobre los hechos de Haymarket y la represión posterior. Se proyectaron imágenes de archivo y se conversó sobre la vigencia del primero de mayo.\n\nLa jornada terminó con una olla común y una guitarra. Los materiales leídos quedaron disponibles en la mesa de préstamo."
+    "titulo": "Convocatoria Revista La Brecha N° 2",
+    "categoria": "Convocatoria",
+    "fecha": "2016-02-26",
+    "lugar": "Internacional",
+    "bajada": "  ",
+    "cuerpo": "LA BRECHA\n\nLa Brecha. Revista anarquista de Historia y Geografía, inicia el llamado para todxs quienes deseen colaborar con sus investigaciones y contribuir de esta manera, con el análisis y reflexión sobre las múltiples formas de lucha antiautoritaria…\n\nFecha de recepción de los artículos: 26 de febrero del 2016\n\n¡Salud y libertad!\n\nVer la entrada original: https://revistalabrecha.wordpress.com/2016/01/05/convocatoria-revista-la-brecha-n-2/"
   }
 ]

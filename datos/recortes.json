@@ -1,26 +1,9 @@
 [
   {
-    "id": "r1",
-    "tipo": "Extracto",
-    "titulo": "La libertad de los demás",
-    "texto": "No soy verdaderamente libre más que cuando todos los seres humanos que me rodean, hombres y mujeres, son igualmente libres. La libertad de otro, lejos de ser un límite o la negación de mi libertad, es al contrario su condición necesaria y su confirmación.",
-    "autor": "Mijaíl Bakunin",
-    "fuente": "Dios y el Estado, 1882"
-  },
-  {
-    "id": "r2",
-    "tipo": "Frase",
-    "titulo": "Sobre la propiedad",
-    "texto": "La propiedad es un robo.",
-    "autor": "Pierre-Joseph Proudhon",
-    "fuente": "¿Qué es la propiedad?, 1840"
-  },
-  {
-    "id": "r3",
     "tipo": "Historia",
-    "titulo": "La Escuela Moderna",
-    "texto": "En 1901, el pedagogo Francesc Ferrer i Guàrdia abrió en Barcelona la Escuela Moderna, un proyecto de educación racionalista, mixta y ajena a la doctrina religiosa. En sus aulas se enseñaba ciencia, higiene y derechos sociales, y se editaban libros de texto baratos para que las familias obreras pudieran comprarlos.\n\nLa escuela creció y abrió sucursales, pero su vinculación con el movimiento obrero y con la Semana Trágica de 1909 le costó el cierre. Ferrer i Guàrdia fue fusilado ese mismo año. Su experiencia inspiró escuelas racionalistas en Europa y América Latina.",
-    "autor": "",
-    "fuente": "Barcelona, 1901-1909"
+    "titulo": "Sobre la muerte de Kôtoku Shûsui y sus 11 compañeros (1911)",
+    "texto": "El 24 de Enero de 1911, doce anarquistas japoneses murieron en la horca bajo presuntos cargos de haber sido parte de una conspiración para asesinar al Emperador Meiji. Otros 12 anarquistas, entre cientos de sospechosos que fueron arrestados, recibieron cadena perpetua. En realidad, jamás se pudo comprobar que tal conspiración haya existido ni mucho menos que estos doce anarquistas hayan tomado parte alguna en ella.\n\nhttps://jjmlsm.wordpress.com/2016/01/24/sobre-la-muerte-de-kotoku-shusui-y-sus-11-companeros-1911/",
+    "autor": "Joselito",
+    "fuente": "24 enero 2016"
   }
 ]
