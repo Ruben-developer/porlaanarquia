@@ -33,8 +33,9 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [ ] Reemplazar las 2 notas de ejemplo y los 3 recortes por material propio.
 - [ ] Reemplazar las 2 actividades, 2 efemérides y 2 comunicados de ejemplo.
 - [ ] Quitar la nota al pie del lector («Texto de ejemplo escrito para la maqueta…»).
-- [ ] Probar Pages CMS de punta a punta: subir una imagen, editar una nota y
-      confirmar commit + deploy.
+- [x] Probar Pages CMS de punta a punta: se subió `assets/1.png`, se editó una
+      efeméride y se agregó la actividad «Comedor Vegano»; los commits del CMS
+      (`b121380`, `b3d6779`, `ed4bd33`, `7125ba6`) y el deploy salieron bien.
 
 ## Publicado en GitHub Pages
 
