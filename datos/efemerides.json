@@ -1,18 +1,25 @@
 [
   {
-    "mes": 11,
-    "dia": 11,
-    "anio": 1887,
     "titulo": "Ejecución de los mártires de Chicago",
+    "dia": 11,
+    "mes": 11,
+    "anio": 1887,
     "texto": "Cuatro anarquistas fueron ahorcados en Chicago tras el juicio por los hechos de Haymarket. Su memoria está en el origen de la conmemoración del 1.º de Mayo.",
     "detalle": "El 4 de mayo de 1886, una bomba estalló en la plaza Haymarket durante un mitin obrero por la jornada de ocho horas. La policía respondió con disparos y detuvo a varios militantes anarquistas.\n\nOcho fueron condenados en un juicio muy cuestionado y cuatro fueron ahorcados el 11 de noviembre de 1887. La fecha dio origen a la conmemoración internacional del 1.º de Mayo."
   },
   {
-    "mes": 11,
-    "dia": 20,
-    "anio": 1936,
     "titulo": "Muere Buenaventura Durruti en Madrid",
+    "dia": 20,
+    "mes": 11,
+    "anio": 1936,
     "texto": "El militante anarcosindicalista murió durante la defensa de Madrid, en plena Guerra Civil española.",
     "detalle": "Buenaventura Durruti (1896-1936) fue uno de los fundadores de la CNT y de la Federación Anarquista Ibérica. En julio de 1936, al estallar la Guerra Civil, participó en la defensa de Barcelona y luego en el frente de Aragón.\n\nMurió el 20 de noviembre de 1936 en Madrid, en circunstancias que nunca quedaron del todo claras. Su entierro reunió a una multitud."
+  },
+  {
+    "titulo": "La huelga por la jornada laboral por las 8 horas y la ejecución de los lideres sindicales.",
+    "dia": 1,
+    "mes": 5,
+    "anio": 1886,
+    "texto": "Día Internacional de los Trabajadores en memoria de los Mártires de Chicago"
   }
 ]
