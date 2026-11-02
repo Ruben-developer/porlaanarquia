@@ -1,20 +1,29 @@
 [
   {
-    "id": "e1",
+    "titulo": "Presentación del pliego «Memoria del salitre»",
     "fecha": "2026-11-07",
     "hora": "17:00",
-    "titulo": "Presentación del pliego «Memoria del salitre»",
     "lugar": "Ateneo de barrio, calle ficticia 123",
     "ciudad": "Santiago",
-    "descripcion": "La presentación abre con una lectura de fragmentos y sigue con una conversación sobre las oficinas salitreras, los archivos obreros y las formas de contar esa memoria hoy. Habrá una mesa con folletos y ejemplares a precio de costo.\n\nSe puede llegar sin inscripción. El espacio tiene capacidad limitada y se entra por el portón lateral."
+    "descripcion": "La presentación abre con una lectura de fragmentos y sigue con una conversación sobre las oficinas salitreras, los archivos obreros y las formas de contar esa memoria hoy. Habrá una mesa con folletos y ejemplares a precio de costo.\n\nSe puede llegar sin inscripción. El espacio tiene capacidad limitada y se entra por el portón lateral.",
+    "id": "e1"
   },
   {
-    "id": "e3",
+    "titulo": "Almuerzo solidario y feria de ropa",
     "fecha": "2026-11-14",
     "hora": "12:30",
-    "titulo": "Almuerzo solidario y feria de ropa",
     "lugar": "Plazuela del cerro",
     "ciudad": "Valparaíso",
-    "descripcion": "La jornada comienza con el almuerzo y sigue con la feria de ropa. Lo que sobre se dona a la ropera del cerro. Quien pueda, lleva un plato para compartir o ayuda a servir.\n\nLa actividad es abierta y no se suspende por lluvia: hay toldo en la plazuela."
+    "descripcion": "La jornada comienza con el almuerzo y sigue con la feria de ropa. Lo que sobre se dona a la ropera del cerro. Quien pueda, lleva un plato para compartir o ayuda a servir.\n\nLa actividad es abierta y no se suspende por lluvia: hay toldo en la plazuela.",
+    "id": "e3"
+  },
+  {
+    "titulo": "Comedor Vegano",
+    "fecha": "2016-01-24",
+    "hora": "12:00",
+    "lugar": "Antártica #3212, San Joaquín",
+    "ciudad": "Santiago",
+    "descripcion": "Plato único a $2000\n\n*Pastel de Choclo Vegan, Jugo Natural y Ensalada\n\nAdemas habrá música en vivo con:\n\n-Lybélula Perdida.\n\n-Myrni Perika Palotes.\n\n-Tolo Ruz.\n\nAdemás una barra de postres a $500 y cafetería vegan y conserven su ticket de entrada para la rifa!\n\nComo llegar a Antartica #3212: Desde la alamdeda con Santa Rosa tomar la 204 (bajarse en Las Industrias con Carlos Valdovinos), e04 desde La Florida o Franklin, cualquiera por Santa Rosa bajarse en el 3 y caminar por Carlos Valdovinos.",
+    "afiche": "assets/1.png"
   }
 ]
