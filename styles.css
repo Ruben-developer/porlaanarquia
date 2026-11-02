@@ -144,6 +144,7 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .reader h2 { font-family: var(--f-head); font-weight: 900; font-size: clamp(26px, 4.4vw, 38px); line-height: 1.15; margin: 8px 0 8px; }
 .reader .deck { font-style: italic; font-size: 18px; margin-bottom: 8px; }
 .reader .body p { margin-bottom: 14px; text-align: justify; hyphens: auto; font-size: 16.5px; }
+.reader .body a { color: var(--accent); border-bottom: 1px solid var(--accent); overflow-wrap: anywhere; }
 .reader .foto { margin: 18px 0 20px; border: 1px solid var(--ink); padding: 3px; }
 .reader .foto img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.03); }
 .reader .back { margin-bottom: 14px; }
@@ -153,9 +154,12 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .rec { min-width: 0; border-top: 3px double var(--ink); padding-top: 12px; }
 .rec h3 { font-family: var(--f-head); font-weight: 900; font-size: 21px; line-height: 1.2; margin-bottom: 8px; }
 .rec p { font-size: 15.5px; margin-bottom: 10px; }
+.rec-long .rec-text p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
+.rec .linkbtn { margin: 2px 0 10px; }
 .rec-frase .rec-text { border-left: 3px solid var(--accent); padding-left: 14px; }
 .rec-frase .rec-text p { font-family: var(--f-head); font-style: italic; font-size: clamp(19px, 2.6vw, 23px); line-height: 1.3; }
 .rec-src { font-size: 12.5px; font-style: italic; color: var(--ink-soft); text-align: right; }
+.reader .rec-src { margin-top: 20px; padding-top: 10px; border-top: 1px dotted var(--ink-soft); }
 
 /* Detalle desplegable: Agenda y Efemérides */
 .more { margin-top: 8px; }
