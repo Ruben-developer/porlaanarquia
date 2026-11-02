@@ -1,6 +1,6 @@
 # Configuración de Pages CMS (https://pagescms.org)
 # Se lee desde la raíz del repo. Cada entrada edita un archivo de datos.
-# Los PDFs no se suben acá: van a Cloudflare R2 (ver MAREA).
+# Las imágenes se suben a assets/; los PDFs de MAREA van aparte, a R2.
 
 media:
   input: assets
@@ -41,7 +41,7 @@ content:
         label: Categoría
         type: string
         required: true
-        description: "Cultura, Solidaridad, Trabajo, Ecología, Memoria…"
+        description: "Escríbela libremente (Cultura, Solidaridad, Trabajo…). Los filtros se generan solos con las categorías que existan en las notas: no hay lista que mantener ni código que tocar."
       - name: fecha
         label: Fecha
         type: date
@@ -70,6 +70,45 @@ content:
         label: Identificador (opcional)
         type: string
         description: "Déjalo vacío: se genera solo con la fecha y el título."
+
+  - name: recortes
+    label: Recortes
+    type: file
+    path: datos/recortes.json
+    format: json
+    list: true
+    fields:
+      - name: tipo
+        label: Tipo
+        type: select
+        required: true
+        options:
+          values:
+            - Extracto
+            - Frase
+            - Historia
+        description: "Extracto de un libro o artículo, una frase célebre o una historia anarquista breve."
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+      - name: texto
+        label: Texto
+        type: text
+        required: true
+        description: "El extracto, la frase o la historia. Separa los párrafos con una línea en blanco."
+      - name: autor
+        label: Autoría
+        type: string
+        description: "Quién lo escribió o de quién se trata. Opcional."
+      - name: fuente
+        label: Fuente
+        type: string
+        description: "Libro, año o lugar. Opcional."
+      - name: id
+        label: Identificador (opcional)
+        type: string
+        description: "Déjalo vacío: se genera solo con el tipo y el título."
 
   - name: agenda
     label: Agenda
@@ -101,6 +140,14 @@ content:
         label: Ciudad
         type: string
         required: true
+      - name: descripcion
+        label: Descripción (opcional)
+        type: text
+        description: "Se muestra al abrir «Leer más», nunca en la lista. Separa los párrafos con una línea en blanco."
+      - name: afiche
+        label: Afiche (opcional)
+        type: image
+        description: "Se muestra solo dentro de «Leer más», nunca en la lista. Se sube a assets/."
       - name: id
         label: Identificador (opcional)
         type: string
@@ -133,6 +180,10 @@ content:
         label: Glosa
         type: text
         required: true
+      - name: detalle
+        label: Detalle (opcional)
+        type: text
+        description: "Se muestra al abrir «Leer más». Separa los párrafos con una línea en blanco. Las efemérides no llevan imágenes."
 
   - name: comunicados
     label: Comunicados

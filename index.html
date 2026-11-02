@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Por la anarquía — Difusión de noticias libertarias</title>
-<meta name="description" content="Noticias, agenda, efemérides y comunicados de los colectivos, bibliotecas y sindicatos libertarios de Chile.">
+<meta name="description" content="Noticias, recortes, agenda, efemérides y comunicados de los colectivos, bibliotecas y sindicatos libertarios de Chile.">
 <meta name="theme-color" content="#ebe1c5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1b1712" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -35,6 +35,7 @@
   <nav class="nav" aria-label="Secciones">
     <a href="#portada">Portada</a>
     <a href="#noticias">Noticias</a>
+    <a href="#recortes">Recortes</a>
     <a href="#agenda">Agenda</a>
     <a href="#efemerides">Efemérides</a>
     <a href="#comunicados">Comunicados</a>
@@ -97,9 +98,19 @@
     <article class="reader" id="reader" hidden></article>
   </section>
 
+  <!-- RECORTES -->
+  <section class="view" id="v-recortes" hidden>
+    <div class="sect-head"><h2>Recortes</h2><p>Extractos, frases e historias breves de la tradición libertaria.</p></div>
+    <div class="toolbar">
+      <div class="chips" id="recChips" role="group" aria-label="Filtrar por tipo"></div>
+      <span class="count" id="recCount" aria-live="polite"></span>
+    </div>
+    <div class="recs" id="recList"></div>
+  </section>
+
   <!-- AGENDA -->
   <section class="view" id="v-agenda" hidden>
-    <div class="sect-head"><h2>Agenda</h2><p>Encuentros, ferias, talleres y veladas. Guarda los que quieras recordar.</p></div>
+    <div class="sect-head"><h2>Agenda</h2><p>Encuentros, ferias, talleres y veladas. Guarda los que quieras recordar y abre «Leer más» para ver el detalle.</p></div>
     <div class="toolbar">
       <div class="chips" id="cityChips" role="group" aria-label="Filtrar por ciudad"></div>
       <span class="count" id="agCount" aria-live="polite"></span>
@@ -109,7 +120,7 @@
 
   <!-- EFEMERIDES -->
   <section class="view" id="v-efemerides" hidden>
-    <div class="sect-head"><h2>Efemérides</h2><p>Fechas de la memoria libertaria, ordenadas desde hoy.</p></div>
+    <div class="sect-head"><h2>Efemérides</h2><p>Fechas de la memoria libertaria, ordenadas desde hoy. Abre «Leer más» para conocer la historia.</p></div>
     <div id="efList"></div>
   </section>
 

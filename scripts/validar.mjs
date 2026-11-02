@@ -42,11 +42,16 @@ const hora = (v) => /^([01]\d|2[0-3]):[0-5]\d$/.test(v || '');
 const entero = (v, min, max) => Number.isInteger(v) && v >= min && v <= max;
 
 // Una imagen local debe existir en el repo; una URL absoluta se acepta tal cual.
-const imagen = (v, donde) => {
+const imagen = (v, donde, campo = 'imagen') => {
   if (v === undefined || v === null || v === '') return;
-  if (typeof v !== 'string') { errores.push(`${donde}: «imagen» debe ser texto`); return; }
+  if (typeof v !== 'string') { errores.push(`${donde}: «${campo}» debe ser texto`); return; }
   const ruta = v.replace(/^\/+/, '');
   if (/^https?:\/\//i.test(ruta)) return;
+  if (!ruta) { errores.push(`${donde}: «${campo}» está vacío`); return; }
+  if (ruta.split('/').includes('..')) {
+    errores.push(`${donde}: «${campo}» debe ser una ruta dentro del repo («${v}»)`);
+    return;
+  }
   if (!existsSync(fileURLToPath(new URL(ruta, raiz)))) {
     errores.push(`${donde}: la imagen «${v}» no existe en el repo`);
   }
@@ -83,6 +88,10 @@ agenda.forEach((e, i) => {
   });
   if (texto(e.fecha) && !fecha(e.fecha)) errores.push(`${donde}: fecha inválida («${e.fecha}»)`);
   if (texto(e.hora) && !hora(e.hora)) errores.push(`${donde}: hora inválida («${e.hora}»), usa HH:MM`);
+  if (e.descripcion != null && typeof e.descripcion !== 'string') {
+    errores.push(`${donde}: «descripcion» debe ser texto`);
+  }
+  imagen(e.afiche, donde, 'afiche');
 });
 unicos(agenda, 'id', 'agenda.json');
 
@@ -96,6 +105,9 @@ efemerides.forEach((e, i) => {
   if (!entero(e.dia, 1, 31)) errores.push(`${donde}: día inválido («${e.dia}»)`);
   if (!entero(e.mes, 1, 12)) errores.push(`${donde}: mes inválido («${e.mes}»)`);
   if (!entero(e.anio, 1000, 2200)) errores.push(`${donde}: año inválido («${e.anio}»)`);
+  if (e.detalle != null && typeof e.detalle !== 'string') {
+    errores.push(`${donde}: «detalle» debe ser texto`);
+  }
 });
 
 // Comunicados
@@ -109,6 +121,16 @@ comunicados.forEach((c, i) => {
 });
 unicos(comunicados, 'id', 'comunicados.json');
 
+// Recortes
+const recortes = leer('recortes.json');
+recortes.forEach((r, i) => {
+  const donde = `recortes.json[${i}]`;
+  ['tipo', 'titulo', 'texto'].forEach(c => {
+    if (!texto(r[c])) errores.push(`${donde}: falta «${c}»`);
+  });
+});
+unicos(recortes, 'id', 'recortes.json');
+
 // Portada
 const portada = leerObjeto('portada.json');
 if (!texto(portada.imagen)) errores.push('portada.json: falta «imagen»');
@@ -121,4 +143,4 @@ if (errores.length) {
   process.exit(1);
 }
 
-console.log(`✓ Datos válidos: ${noticias.length} notas, ${agenda.length} actividades, ${efemerides.length} efemérides, ${comunicados.length} comunicados.`);
+console.log(`✓ Datos válidos: ${noticias.length} notas, ${recortes.length} recortes, ${agenda.length} actividades, ${efemerides.length} efemérides, ${comunicados.length} comunicados.`);
