@@ -38,7 +38,7 @@ async function cargarDatos() {
   ]);
 
   ARTS = noticias.map(n => ({
-    id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: n.bajada,
+    id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: String(n.bajada || '').trim(),
     date: n.fecha, place: n.lugar, body: parrafos(n.cuerpo),
     img: n.imagen ? String(n.imagen).replace(/^\/+/, '') : null
   })).sort(porFecha);
@@ -139,7 +139,7 @@ function renderNews() {
       <span class="kick">${esc(a.cat)}</span>
       <h3>${esc(a.t)}</h3>
       <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
-      <p class="deck">${esc(a.deck)}</p>
+      ${a.deck ? `<p class="deck">${esc(a.deck)}</p>` : ''}
       <button class="linkbtn" data-open="${esc(a.id)}" type="button">Leer nota</button>
     </div>`).join('')
     : `<p class="empty" style="grid-column:1/-1">${filtros ? 'No hay notas en ese período.' : 'Todavía no hay notas publicadas.'}</p>`;
@@ -154,10 +154,10 @@ function renderReader() {
     <button class="linkbtn back" data-close type="button">Volver a las notas</button>
     <span class="kick">${esc(a.cat)}</span>
     <h2>${esc(a.t)}</h2>
-    <p class="deck">${esc(a.deck)}</p>
+    ${a.deck ? `<p class="deck">${esc(a.deck)}</p>` : ''}
     <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
     ${a.img ? `<figure class="foto"><img src="${esc(a.img)}" alt="" loading="lazy"></figure>` : ''}
-    <div class="body">${a.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${esc(p)}</p>`).join('')}</div>`;
+    ${a.body.length ? `<div class="body">${a.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${esc(p)}</p>`).join('')}</div>` : ''}`;
 }
 
 /* Render: agenda */
