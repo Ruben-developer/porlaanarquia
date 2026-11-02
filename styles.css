@@ -147,8 +147,6 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .reader .foto { margin: 18px 0 20px; border: 1px solid var(--ink); padding: 3px; }
 .reader .foto img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.03); }
 .reader .back { margin-bottom: 14px; }
-.reader hr { border: 0; border-top: 3px double var(--ink); margin: 20px 0 10px; }
-.reader .note { font-size: 13px; font-style: italic; color: var(--ink-soft); }
 
 /* Recortes */
 .recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px 36px; align-items: start; }
@@ -191,9 +189,11 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .ag-flag { align-self: start; margin-top: 2px; font-family: var(--f-head); font-weight: 700; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); border: 1px solid var(--ink-soft); padding: 4px 8px; white-space: nowrap; }
 
 /* Efemérides */
-.ef { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px dotted var(--ink-soft); }
-.ef-year { font-family: var(--f-display); font-size: clamp(30px, 5vw, 40px); line-height: 1; text-align: center; border-right: 1px dashed var(--ink); padding-right: 16px; }
-.ef-year small { display: block; font-family: var(--f-head); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-top: 6px; }
+.ef { display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: start; padding: 18px 0; border-bottom: 1px dotted var(--ink-soft); }
+.ef-date { text-align: center; border-right: 1px dashed var(--ink); padding-right: 14px; }
+.ef-day { font-family: var(--f-display); font-size: 38px; line-height: 1; display: block; }
+.ef-mon { font-family: var(--f-head); font-weight: 700; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.ef-year { display: block; margin-top: 2px; font-family: var(--f-head); font-size: 10.5px; letter-spacing: .08em; color: var(--ink-soft); }
 .ef h3 { font-family: var(--f-head); font-weight: 900; font-size: 20px; line-height: 1.25; margin-bottom: 4px; }
 .ef p { font-size: 15.5px; max-width: 62ch; }
 .ef > div { min-width: 0; }
@@ -240,10 +240,8 @@ textarea.field { min-height: 120px; resize: vertical; }
   .item { padding-inline: 4px; }
 }
 @media (max-width: 520px) {
-  .ag { grid-template-columns: 62px 1fr; gap: 12px; }
+  .ag, .ef { grid-template-columns: 62px 1fr; gap: 12px; }
   .ag .btn { grid-column: 2; justify-self: start; }
-  .ef { grid-template-columns: 1fr; gap: 8px; }
-  .ef-year { border-right: 0; border-bottom: 1px dashed var(--ink); padding: 0 0 8px; text-align: left; }
   .coms summary { flex-direction: column; gap: 2px; }
   .nav { gap: 2px 16px; }
   .dateline { display: block; text-align: left; }

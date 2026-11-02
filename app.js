@@ -157,9 +157,7 @@ function renderReader() {
     <p class="deck">${esc(a.deck)}</p>
     <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
     ${a.img ? `<figure class="foto"><img src="${esc(a.img)}" alt="" loading="lazy"></figure>` : ''}
-    <div class="body">${a.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${esc(p)}</p>`).join('')}</div>
-    <hr>
-    <p class="note">Texto de ejemplo escrito para la maqueta. Los hechos, lugares y cifras no son reales.</p>`;
+    <div class="body">${a.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${esc(p)}</p>`).join('')}</div>`;
 }
 
 /* Render: agenda */
@@ -218,7 +216,7 @@ function renderEfem() {
   }).sort((a, b) => a.left - b.left);
   $('#efList').innerHTML = items.map(e => `
     <div class="ef">
-      <div class="ef-year">${esc(e.y)}<small>${esc(e.d)} ${esc(MES3[e.m - 1] || '')}</small></div>
+      <div class="ef-date"><span class="ef-day">${esc(e.d)}</span><span class="ef-mon">${esc(MES3[e.m - 1] || '')}</span><span class="ef-year">${esc(e.y)}</span></div>
       <div>
         <span class="kick">${e.left === 0 ? 'Hoy' : e.left === 1 ? 'Mañana' : 'Faltan ' + e.left + ' días'}</span>
         <h3>${esc(e.t)}</h3>
