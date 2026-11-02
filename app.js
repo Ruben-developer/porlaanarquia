@@ -17,6 +17,15 @@ let CATS = ['Todas'], CITIES = ['Todas'], REC_TIPOS = ['Todos'];
 const parrafos = s => String(s || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
 const enlazar = html => html.replace(/https?:\/\/[^\s<]+/g,
   u => `<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
+// Une autoría y fuente sin repetir el mismo texto («Bandera Social · Bandera Social»).
+const credito = (...partes) => {
+  const vistos = new Set();
+  return partes.map(p => String(p || '').trim()).filter(p => {
+    const k = p.toLowerCase();
+    if (!p || vistos.has(k)) return false;
+    vistos.add(k); return true;
+  }).join(' · ');
+};
 const porFecha = (a, b) => b.date.localeCompare(a.date);
 const slug = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -65,7 +74,7 @@ async function cargarDatos() {
     return {
       id: idDe(r, 'tipo', 'titulo'), tipo: r.tipo, t: r.titulo,
       lead: lead[0] || '', body: [...lead, ...extra],
-      autor: r.autor || '', fuente: r.fuente || ''
+      src: credito(r.autor, r.fuente)
     };
   });
   REC_TIPOS = ['Todos', ...new Set(RECORTES.map(r => r.tipo))];
@@ -253,7 +262,7 @@ function renderRecortes() {
       <h3>${esc(r.t)}</h3>
       <div class="rec-text"><p>${esc(r.lead)}</p></div>
       ${r.body.length > 1 ? `<button class="linkbtn" type="button" data-openrec="${esc(r.id)}">Leer completo</button>` : ''}
-      ${r.autor || r.fuente ? `<p class="rec-src">${[r.autor, r.fuente].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
+      ${r.src ? `<p class="rec-src">${esc(r.src)}</p>` : ''}
     </article>`).join('') : '<p class="empty">Todavía no hay recortes de este tipo.</p>';
 }
 
@@ -271,7 +280,7 @@ function renderRecorte() {
     <span class="kick">${esc(r.tipo)}</span>
     <h2>${esc(r.t)}</h2>
     <div class="body">${r.body.map((p, i) => `<p${i === 0 ? ' class="dropcap"' : ''}>${enlazar(esc(p))}</p>`).join('')}</div>
-    ${r.autor || r.fuente ? `<p class="rec-src">${[r.autor, r.fuente].filter(Boolean).map(esc).join(' · ')}</p>` : ''}`;
+    ${r.src ? `<p class="rec-src">${esc(r.src)}</p>` : ''}`;
 }
 
 /* Render: comunicados */
