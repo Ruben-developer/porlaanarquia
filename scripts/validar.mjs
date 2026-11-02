@@ -152,4 +152,5 @@ if (errores.length) {
   process.exit(1);
 }
 
-console.log(`✓ Datos válidos: ${noticias.length} notas, ${recortes.length} recortes, ${agenda.length} actividades, ${efemerides.length} efemérides, ${comunicados.length} comunicados.`);
+const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+console.log(`✓ Datos válidos: ${plural(noticias.length, 'nota', 'notas')}, ${plural(recortes.length, 'recorte', 'recortes')}, ${plural(agenda.length, 'actividad', 'actividades')}, ${plural(efemerides.length, 'efeméride', 'efemérides')}, ${plural(comunicados.length, 'comunicado', 'comunicados')}.`);
