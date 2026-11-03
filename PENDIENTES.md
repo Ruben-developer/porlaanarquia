@@ -39,6 +39,13 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [ ] Crear en Riseup el alias `contacto-porlaanarquia@riseup.net` (entrega en
       `antarquia@riseup.net`) y probar un envío real.
 
+## Nombres
+
+- [ ] Decidir si **Recortes** se renombra (alternativas: Archivo, Textos,
+      Lecturas). La portada ya usa «Del archivo» como teaser.
+- [x] **Agenda → Eventos** en la navegación y la sección; «agenda» queda como
+      alias en los textos y la ruta `#agenda` no cambia.
+
 ## Contenido real (antes de publicar)
 
 - [ ] Terminar de cargar las notas rescatadas del blog viejo (ya hay 2 desde el CMS).
