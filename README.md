@@ -8,7 +8,7 @@ Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
 
 ## Estructura
 
-- `index.html` — portada y secciones (noticias, recortes, agenda, efemérides, comunicados, contacto).
+- `index.html` — portada y secciones (noticias, recortes, eventos, efemérides, comunicados, contacto).
 - `styles.css` — estética de prensa libertaria: papel envejecido, tinta negra y acento rojo, con edición diurna y nocturna.
 - `app.js` — lógica: carga los datos, filtros, búsqueda, agenda guardada y navegación por hash.
 - `datos/` — contenido editable: `noticias.json`, `recortes.json`, `agenda.json`, `efemerides.json`, `comunicados.json` y `portada.json` (imagen de cabecera).
@@ -34,10 +34,24 @@ Las noticias se archivan solas por año y mes a partir de la fecha: no hay
 dice `Cultura`, `Solidaridad` o cualquier otra palabra, el filtro aparece sin
 tocar código. Solo hay que guardar la nota; Pages reconstruye el sitio.
 
+### Portada
+
+La portada se arma sola con los datos, sin tocar HTML:
+
+- **Del archivo**: el título de un recorte, rotando uno por día.
+- **Bienvenida** (2/3) y **Últimos comunicados** (1/3, máximo 3).
+- **Últimas noticias**: las 3 más recientes.
+- **Eventos del mes**: los próximos eventos (hasta 3) y **Efeméride**: la fecha
+  siguiente con cuenta regresiva.
+
+La sección que internamente sigue siendo `agenda.json` se muestra como
+**Eventos**, con «agenda» como alias en el texto. La ruta `#agenda` se conserva
+para no romper enlaces.
+
 ## Formato de los textos
 
 Los campos largos del CMS (cuerpo de Noticias, texto y resto de Recortes,
-descripción de Agenda, glosa y detalle de Efemérides, texto de Comunicados) son
+descripción de Eventos, glosa y detalle de Efemérides, texto de Comunicados) son
 **rich-text** de Pages CMS y guardan **Markdown**. La barra del editor permite
 negrita, cursiva, títulos, listas, citas y enlaces. El sitio lo convierte a HTML
 con `markdown.js`, un render mínimo y sin dependencias que escapa todo el texto:
@@ -65,15 +79,15 @@ recorte en su propia vista de lectura (`#recorte`). `cuerpo` es la continuación
 del texto: se lee después del primer párrafo y sus párrafos se separan con una
 línea en blanco. Las frases de un solo párrafo no muestran el botón.
 
-En **Agenda** las actividades se ordenan por cercanía: primero las que vienen y,
-al final, las que ya pasaron. Cada fila muestra día, mes y año. Las pasadas van
-apagadas, con la marca **«Ya pasó»** y bajo el separador **«Ya pasaron»**; las
-que vienen llevan el botón **Guardar**.
+En **Eventos** (la agenda) las actividades se ordenan por cercanía: primero las
+que vienen y, al final, las que ya pasaron. Cada fila muestra día, mes y año. Las
+pasadas van apagadas, con la marca **«Ya pasó»** y bajo el separador
+**«Ya pasaron»**; las que vienen llevan el botón **Guardar**.
 
-En **Agenda** y **Efemérides** la lista va sin imágenes. El campo
-`descripcion` (Agenda) y `detalle` (Efemérides) se muestran al abrir
-**«Leer más»**. En Agenda se puede sumar un `afiche` opcional y en Efemérides una
-`imagen` opcional: ambas aparecen solo dentro del detalle.
+En **Eventos** y **Efemérides** la lista va sin imágenes. El campo
+`descripcion` (Eventos) y `detalle` (Efemérides) se muestran al abrir
+**«Leer más»**. En Eventos se puede sumar un `afiche` opcional y en Efemérides
+una `imagen` opcional: ambas aparecen solo dentro del detalle.
 
 ### Imágenes
 
@@ -84,7 +98,7 @@ una efeméride, o **Afiche** de una actividad) y quedan en `assets/`:
 - Campo `imagen` de una nota — opcional; se muestra al abrirla, en blanco y
   negro y con marco, para no romper la estética de imprenta.
 - Campo `afiche` de una actividad — opcional; se muestra solo dentro de
-  **«Leer más»**, nunca en la lista de Agenda.
+  **«Leer más»**, nunca en la lista de Eventos.
 - Campo `imagen` de una efeméride — opcional; se muestra solo dentro de
   **«Leer más»**, nunca en la lista.
 
