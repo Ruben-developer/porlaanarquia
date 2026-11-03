@@ -109,6 +109,43 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .btn.alt { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
 .btn.alt:hover { background: var(--ink); color: var(--paper); }
 
+/* Portada: archivo, últimas noticias, eventos y efeméride */
+.quote-band { margin: 16px 0 10px; padding: 14px 18px 16px; border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); text-align: center; }
+.quote-band .kick { margin-bottom: 6px; }
+.quote-title { font-family: var(--f-display); font-size: clamp(24px, 3.2vw, 32px); line-height: 1.1; text-transform: uppercase; }
+.quote-src { font-style: italic; font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+.quote-band .linkbtn { margin-top: 8px; }
+.home-sec { margin-top: 24px; }
+.home-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  border-bottom: 1px solid var(--ink); padding-bottom: 6px; margin-bottom: 12px; }
+.home-head h3 { font-family: var(--f-head); font-weight: 900; text-transform: uppercase; font-size: 18px; letter-spacing: .02em; }
+.home-news { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.home-new { padding: 0 18px 6px; min-width: 0; border-left: 1px dotted var(--ink-soft); }
+.home-new:first-child { border-left: 0; padding-left: 4px; }
+.home-new:last-child { padding-right: 4px; }
+.home-new h4 { font-family: var(--f-head); font-weight: 900; font-size: 19px; line-height: 1.22; margin-bottom: 6px; }
+.home-new h4 button, .mini-ag h4 button { background: none; border: 0; padding: 0; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+.home-new h4 button:hover, .mini-ag h4 button:hover { color: var(--accent); }
+.home-row { display: grid; grid-template-columns: 2fr 1fr; align-items: start; margin-top: 24px; column-gap: 28px; }
+.home-row > * { padding: 0 20px; min-width: 0; }
+.home-row > *:first-child { padding-left: 4px; }
+.home-row > * + * { border-left: 1px dashed var(--ink); padding-right: 4px; }
+.home-events { list-style: none; margin: 0; padding: 0; }
+.mini-ag { display: grid; grid-template-columns: 62px 1fr; gap: 14px; padding: 12px 0; border-bottom: 1px dotted var(--ink-soft); }
+.mini-ag:last-child { border-bottom: 0; }
+.mini-date { text-align: center; line-height: 1; }
+.mini-day { display: block; font-family: var(--f-display); font-size: 31px; }
+.mini-mon { display: block; font-family: var(--f-head); font-weight: 700; text-transform: uppercase; font-size: 10.5px; letter-spacing: .14em; color: var(--accent); margin-top: 3px; }
+.mini-year { display: block; font-size: 10.5px; color: var(--ink-soft); margin-top: 2px; }
+.mini-ag h4 { font-family: var(--f-head); font-weight: 900; font-size: 17px; line-height: 1.25; margin-bottom: 3px; }
+.mini-ag .meta { margin-bottom: 0; }
+.efem-mini-date { font-family: var(--f-display); line-height: 1; }
+.efem-mini-date span { display: block; font-size: 38px; }
+.efem-mini-date small { font-family: var(--f-head); font-weight: 700; font-size: 10.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent); margin: 0 4px; }
+.efem-left { font-style: italic; font-size: 12.5px; color: var(--ink-soft); margin: 8px 0 6px; }
+.home-efem h4 { font-family: var(--f-head); font-weight: 900; font-size: 16px; line-height: 1.25; margin-bottom: 10px; }
+
 /* Cabeceras de sección */
 .sect-head { text-align: center; margin-bottom: 18px; }
 .sect-head h2 { font-family: var(--f-display); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 5vw, 46px); line-height: 1.05; }
@@ -258,6 +295,12 @@ textarea.field { min-height: 120px; resize: vertical; }
   .cols { grid-template-columns: 1fr; }
   .col { padding: 14px 4px; }
   .col + .col { border-left: 0; border-top: 1px dashed var(--ink); }
+  .home-news { grid-template-columns: 1fr; }
+  .home-new { border-left: 0; border-top: 1px dotted var(--ink-soft); padding: 12px 4px; }
+  .home-new:first-child { border-top: 0; }
+  .home-row { grid-template-columns: 1fr; }
+  .home-row > * { padding: 0 4px; }
+  .home-row > * + * { border-left: 0; margin-top: 22px; }
   .contact { grid-template-columns: 1fr; }
   .contact > div { padding: 4px 4px 14px; }
   .contact > div + div { border-left: 0; border-top: 1px dashed var(--ink); padding-top: 18px; }

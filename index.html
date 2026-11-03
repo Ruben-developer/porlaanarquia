@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Por la anarquía — Difusión de noticias libertarias</title>
-<meta name="description" content="Noticias, recortes, agenda, efemérides y comunicados de los colectivos, bibliotecas y sindicatos libertarios de Chile.">
+<meta name="description" content="Noticias, recortes, eventos, efemérides y comunicados de los colectivos, bibliotecas y sindicatos libertarios de Chile.">
 <meta name="theme-color" content="#ebe1c5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1b1712" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -36,7 +36,7 @@
     <a href="#portada">Portada</a>
     <a href="#noticias">Noticias</a>
     <a href="#recortes">Recortes</a>
-    <a href="#agenda">Agenda</a>
+    <a href="#agenda">Eventos</a>
     <a href="#efemerides">Efemérides</a>
     <a href="#comunicados">Comunicados</a>
     <a href="#contacto">Contacto</a>
@@ -52,12 +52,14 @@
       <img src="assets/portada-la-protesta.jpg" alt="Grabado de vendedores de prensa libertaria repartiendo La Protesta bajo los carteles «Prensa Libre» y «Solidaridad Obrera»." width="1600" height="412">
     </div>
 
+    <div class="quote-band" id="homeRecorte"></div>
+
     <div class="cols">
       <div class="col">
         <h3 class="col-title">Bienvenidos</h3>
         <p class="dropcap">Por la anarquía es un nuevo espacio para la difusión de noticias, convocatorias y comunicados anarquistas que publican colectivos, bibliotecas, sindicatos y vecinas que trabajan sin jefes ni intermediarios.</p>
         <h4 class="sub">Qué encontrarás aquí</h4>
-        <p>Una sección de noticias con filtros por tema, recortes de libros y frases, una agenda por ciudad que puedes guardar, efemérides con cuenta regresiva y los comunicados más recientes.</p>
+        <p>Una sección de noticias con filtros por tema, un archivo de textos y frases, un calendario de eventos por ciudad, efemérides con cuenta regresiva y los comunicados más recientes.</p>
         <h4 class="sub">Cómo participar</h4>
         <p>Escríbenos con tu noticia, convocatoria o texto. Todo se publica con firma colectiva, personal o anónima, según prefieras.</p>
         <button class="linkbtn" data-go="contacto" type="button">Ir a contacto</button>
@@ -69,10 +71,33 @@
           <ul id="boxcoms"></ul>
           <div class="btns">
             <button class="btn" data-go="comunicados" type="button">Ver todos</button>
-            <button class="btn alt" data-go="agenda" type="button">Agenda</button>
+            <button class="btn alt" data-go="agenda" type="button">Eventos</button>
           </div>
         </div>
       </div>
+    </div>
+
+    <section class="home-sec">
+      <div class="home-head">
+        <h3>Últimas noticias</h3>
+        <button class="linkbtn" data-go="noticias" type="button">Ver todas</button>
+      </div>
+      <div class="home-news" id="homeNews"></div>
+    </section>
+
+    <div class="home-row">
+      <section class="home-sec home-events">
+        <div class="home-head">
+          <h3 id="homeEventsTitle">Eventos del mes</h3>
+          <button class="linkbtn" data-go="agenda" type="button">Ver agenda</button>
+        </div>
+        <ul class="home-events" id="homeEvents"></ul>
+      </section>
+
+      <aside class="box home-efem">
+        <h3>Efeméride</h3>
+        <div id="homeEfem"></div>
+      </aside>
     </div>
   </section>
 
@@ -113,9 +138,9 @@
     <article class="reader" id="recView"></article>
   </section>
 
-  <!-- AGENDA -->
+  <!-- EVENTOS (agenda) -->
   <section class="view" id="v-agenda" hidden>
-    <div class="sect-head"><h2>Agenda</h2><p>Encuentros, ferias, talleres y veladas. Guarda las que quieras recordar y abre «Leer más» para el detalle. Las que ya pasaron quedan al final.</p></div>
+    <div class="sect-head"><h2>Eventos</h2><p>La agenda de encuentros, ferias, talleres y veladas. Guarda los que quieras recordar y abre «Leer más» para el detalle. Los que ya pasaron quedan al final.</p></div>
     <div class="toolbar">
       <div class="chips" id="cityChips" role="group" aria-label="Filtrar por ciudad"></div>
       <span class="count" id="agCount" aria-live="polite"></span>

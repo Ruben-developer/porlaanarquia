@@ -120,6 +120,59 @@ const S = {
 /* Render: portada */
 function renderPortada() {
   $('#boxcoms').innerHTML = COMS.slice(0, 3).map(c => `<li><button type="button" data-go="comunicados">${esc(c.t)}<small>${fmt(c.iso)}</small></button></li>`).join('');
+
+  // Recorte del día: rota el archivo para que la portada no muestre siempre el mismo.
+  const hoy = new Date();
+  const dia = Math.floor((hoy - new Date(hoy.getFullYear(), 0, 0)) / 864e5);
+  const rec = RECORTES.length ? RECORTES[dia % RECORTES.length] : null;
+  const banda = $('#homeRecorte');
+  banda.innerHTML = rec ? `
+    <span class="kick">Del archivo</span>
+    <p class="quote-title">${esc(rec.t)}</p>
+    ${rec.src ? `<p class="quote-src">${esc(rec.src)}</p>` : ''}
+    <button class="linkbtn" type="button" data-openrec="${esc(rec.id)}">Leer completo</button>` : '';
+  banda.hidden = !rec;
+
+  // Últimas tres noticias (ARTS viene de la más nueva a la más vieja).
+  $('#homeNews').innerHTML = ARTS.slice(0, 3).map(a => `
+    <article class="home-new">
+      <span class="kick">${esc(a.cat)}</span>
+      <h4><button type="button" data-open="${esc(a.id)}">${esc(a.t)}</button></h4>
+      <p class="meta">${fmt(a.date)}</p>
+    </article>`).join('') || '<p class="empty">Todavía no hay notas.</p>';
+
+  // Eventos próximos, hasta tres; el título se ajusta si el primero ya no es de este mes.
+  const iso = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+  const proximos = AGENDA.filter(e => e.iso >= iso).slice(0, 3);
+  $('#homeEventsTitle').textContent = proximos.length && proximos[0].iso.slice(0, 7) === iso.slice(0, 7)
+    ? 'Eventos del mes' : 'Próximos eventos';
+  $('#homeEvents').innerHTML = proximos.map(e => {
+    const [y, m, d] = e.iso.split('-').map(Number);
+    return `<li class="mini-ag">
+      <div class="mini-date"><span class="mini-day">${d}</span><span class="mini-mon">${MES3[m - 1]}</span><span class="mini-year">${y}</span></div>
+      <div>
+        <h4><button type="button" data-go="agenda">${esc(e.t)}</button></h4>
+        <p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+      </div>
+    </li>`;
+  }).join('') || '<li class="empty">No hay eventos próximos.</li>';
+
+  // Efeméride siguiente, con cuenta regresiva.
+  const t0 = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+  const efem = EFEM.map(e => {
+    let n = new Date(t0.getFullYear(), e.m - 1, e.d);
+    if (n < t0) n = new Date(t0.getFullYear() + 1, e.m - 1, e.d);
+    return { ...e, left: Math.round((n - t0) / 864e5) };
+  }).sort((a, b) => a.left - b.left)[0];
+  const caja = $('#homeEfem');
+  caja.innerHTML = efem ? `
+    <div class="efem-mini">
+      <div class="efem-mini-date"><span>${efem.d}</span><small>${MES3[efem.m - 1]}</small><small>${efem.y}</small></div>
+      <p class="efem-left">${efem.left === 0 ? 'Hoy' : efem.left === 1 ? 'Mañana' : `Faltan ${efem.left} días`}</p>
+      <h4>${esc(efem.t)}</h4>
+      <button class="linkbtn" type="button" data-go="efemerides">Ver efemérides</button>
+    </div>` : '';
+  caja.closest('.home-efem').hidden = !efem;
 }
 
 /* Render: noticias con archivo por año y mes */
