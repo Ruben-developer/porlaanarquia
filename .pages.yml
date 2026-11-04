@@ -73,7 +73,7 @@ content:
         description: "Déjalo vacío: se genera solo con la fecha y el título."
 
   - name: recortes
-    label: Recortes
+    label: Lecturas
     type: file
     path: datos/recortes.json
     format: json

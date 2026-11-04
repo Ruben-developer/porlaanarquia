@@ -8,7 +8,7 @@ Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
 
 ## Estructura
 
-- `index.html` — portada y secciones (noticias, recortes, eventos, efemérides, comunicados, contacto).
+- `index.html` — portada y secciones (noticias, lecturas, eventos, efemérides, comunicados, contacto).
 - `styles.css` — estética de prensa libertaria: papel envejecido, tinta negra y acento rojo, con edición diurna y nocturna.
 - `app.js` — lógica: carga los datos, filtros, búsqueda, agenda guardada y navegación por hash.
 - `datos/` — contenido editable: `noticias.json`, `recortes.json`, `agenda.json`, `efemerides.json`, `comunicados.json` y `portada.json` (imagen de cabecera).
@@ -39,18 +39,19 @@ tocar código. Solo hay que guardar la nota; Pages reconstruye el sitio.
 La portada se arma sola con los datos, sin tocar HTML:
 
 - **Últimas noticias**: las 3 más recientes, justo bajo el grabado.
-- **Del archivo**: el título de un recorte, rotando uno por día.
+- **Del archivo**: el título de una lectura, rotando uno por día.
 - **Bienvenida** (2/3) y **Últimos comunicados** (1/3, máximo 3).
 - **Eventos del mes**: los próximos eventos (hasta 3) y **Efeméride**: la fecha
   siguiente con cuenta regresiva.
 
-La sección que internamente sigue siendo `agenda.json` se muestra como
-**Eventos**, con «agenda» como alias en el texto. La ruta `#agenda` se conserva
-para no romper enlaces.
+Dos nombres visibles no coinciden con los archivos internos, que se conservan
+para no romper enlaces ni el CMS: `agenda.json` se muestra como **Eventos** (con
+«agenda» como alias en el texto y la ruta `#agenda`) y `recortes.json` se
+muestra como **Lecturas** (con la ruta `#recortes`).
 
 ## Formato de los textos
 
-Los campos largos del CMS (cuerpo de Noticias, texto y resto de Recortes,
+Los campos largos del CMS (cuerpo de Noticias, texto y resto de Lecturas,
 descripción de Eventos, glosa y detalle de Efemérides, texto de Comunicados) son
 **rich-text** de Pages CMS y guardan **Markdown**. La barra del editor permite
 negrita, cursiva, títulos, listas, citas y enlaces. El sitio lo convierte a HTML
@@ -64,10 +65,10 @@ Lo que se puede escribir:
 - Listas con `- ` o `1. `, citas con `> `, títulos con `## ` y separadores con `---`.
 - Los párrafos se separan con una línea en blanco.
 
-En Recortes, la tarjeta muestra el primer párrafo de `texto`; el resto se lee con
-**Leer completo**.
+En **Lecturas**, la tarjeta muestra el primer párrafo de `texto`; el resto se lee
+con **Leer completo**.
 
-**Recortes** es la sección para lo que no es noticia: extractos de libros o
+**Lecturas** es la sección para lo que no es noticia: extractos de libros o
 artículos, frases célebres e historias, incluidas las que alcanzan para un
 cuadernillo. Cada entrada lleva un `tipo` (`Extracto`, `Frase` o `Historia`), un
 `titulo`, el `texto` y, si corresponde, `autor` y `fuente`. Los filtros por tipo
@@ -121,7 +122,7 @@ Luego abrir `http://localhost:8001`.
 
 ## Estado
 
-El contenido se carga desde Pages CMS: hoy hay 2 notas, 2 recortes, 5
+El contenido se carga desde Pages CMS: hoy hay 2 notas, 2 lecturas, 5
 actividades, 4 efemérides y 2 comunicados, aún con material de ejemplo. Antes de
 publicar hay que reemplazar los textos y las fechas por información real. El
 correo de contacto ya es el definitivo.
