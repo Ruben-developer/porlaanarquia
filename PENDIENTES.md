@@ -41,15 +41,15 @@ Dominio final: `porlaanarquia.antarquia.cl`
 
 ## Nombres
 
-- [ ] Decidir si **Recortes** se renombra (alternativas: Archivo, Textos,
-      Lecturas). La portada ya usa «Del archivo» como teaser.
+- [x] **Recortes → Lecturas** en la navegación, la sección y el CMS; la ruta
+      `#recortes` y `datos/recortes.json` no cambian.
 - [x] **Agenda → Eventos** en la navegación y la sección; «agenda» queda como
       alias en los textos y la ruta `#agenda` no cambia.
 
 ## Contenido real (antes de publicar)
 
 - [ ] Terminar de cargar las notas rescatadas del blog viejo (ya hay 2 desde el CMS).
-- [ ] Reemplazar el recorte, las 3 actividades y los 2 comunicados de ejemplo.
+- [ ] Reemplazar la lectura, las 3 actividades y los 2 comunicados de ejemplo.
 - [x] Quitar la nota al pie del lector: ya no queda ningún aviso de maqueta en el código. Todo el texto de ejemplo vive en `datos/*.json` y se puede borrar desde Pages CMS.
 - [x] Probar Pages CMS de punta a punta: se subió `assets/1.png`, se editó una
       efeméride y se agregó la actividad «Comedor Vegano»; los commits del CMS

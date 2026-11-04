@@ -302,14 +302,14 @@ function renderEfem() {
     </div>`).join('');
 }
 
-/* Render: recortes (extractos, frases e historias) */
+/* Render: lecturas (internamente recortes: extractos, frases e historias) */
 function renderRecortes() {
   if (!REC_TIPOS.includes(S.rec)) S.rec = 'Todos';
   $('#recChips').innerHTML = REC_TIPOS.map(t => `
     <button class="chip" type="button" data-rec="${esc(t)}" aria-pressed="${S.rec === t}">${esc(t)}</button>`).join('');
 
   const list = RECORTES.filter(r => S.rec === 'Todos' || r.tipo === S.rec);
-  $('#recCount').textContent = `${list.length} ${list.length === 1 ? 'recorte' : 'recortes'}`;
+  $('#recCount').textContent = `${list.length} ${list.length === 1 ? 'lectura' : 'lecturas'}`;
   $('#recList').innerHTML = list.length ? list.map(r => `
     <article class="rec rec-${slug(r.tipo)}${r.more ? ' rec-long' : ''}">
       <span class="kick">${esc(r.tipo)}</span>
@@ -317,20 +317,20 @@ function renderRecortes() {
       <div class="rec-text"><p>${mdInline(r.lead)}</p></div>
       ${r.more ? `<button class="linkbtn" type="button" data-openrec="${esc(r.id)}">Leer completo</button>` : ''}
       ${r.src ? `<p class="rec-src">${esc(r.src)}</p>` : ''}
-    </article>`).join('') : '<p class="empty">Todavía no hay recortes de este tipo.</p>';
+    </article>`).join('') : '<p class="empty">Todavía no hay lecturas de este tipo.</p>';
 }
 
-/* Render: un recorte completo, en su propia vista de lectura */
+/* Render: una lectura completa, en su propia vista */
 function renderRecorte() {
   const r = RECORTES.find(x => x.id === S.openRec);
   const box = $('#recView');
   if (!r) {
-    box.innerHTML = `<p class="empty">Ese recorte ya no está disponible.</p>
-      <p style="text-align:center"><button class="linkbtn" type="button" data-gorec>Volver a Recortes</button></p>`;
+    box.innerHTML = `<p class="empty">Esa lectura ya no está disponible.</p>
+      <p style="text-align:center"><button class="linkbtn" type="button" data-gorec>Volver a Lecturas</button></p>`;
     return;
   }
   box.innerHTML = `
-    <button class="linkbtn back" type="button" data-gorec>Volver a los recortes</button>
+    <button class="linkbtn back" type="button" data-gorec>Volver a las lecturas</button>
     <span class="kick">${esc(r.tipo)}</span>
     <h2>${esc(r.t)}</h2>
     <div class="body">${r.body.replace(/^<p>/, '<p class="dropcap">')}</div>
