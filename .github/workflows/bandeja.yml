@@ -1,0 +1,53 @@
+name: Bandeja de prensa
+
+# Revisa los feeds de datos/fuentes.json y deja los titulares del día en un
+# issue con casillas para marcar lo que sirva. No publica nada en el portal.
+#
+# OJO: este repositorio es público, así que los issues también lo son. La
+# bandeja solo lleva titulares y enlaces de medios públicos; si prefieres algo
+# privado, usa scripts/bandeja-diaria.sh en tu equipo (ver README).
+
+on:
+  schedule:
+    # 11:00 UTC = 08:00 en Chile (horario de verano; 07:00 en invierno).
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  bandeja:
+    name: Armar y publicar la bandeja
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/Santiago
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Armar la bandeja
+        run: python3 scripts/bandeja.py --salida "$RUNNER_TEMP/bandeja.md"
+
+      - name: Dejarla en un issue del día
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          fecha="$(date +%F)"
+          titulo="Bandeja de prensa — $fecha"
+          gh label create bandeja \
+            --color "C1121F" \
+            --description "Titulares de prensa para revisar" >/dev/null 2>&1 || true
+          numero="$(gh issue list --label bandeja --state open --limit 50 \
+            --json number,title -q "[.[] | select(.title == \"$titulo\")][0].number")"
+          if [[ -n "$numero" && "$numero" != "null" ]]; then
+            gh issue comment "$numero" --body-file "$RUNNER_TEMP/bandeja.md"
+            echo "Bandeja actualizada en el issue #$numero"
+          else
+            gh issue create --title "$titulo" \
+              --body-file "$RUNNER_TEMP/bandeja.md" --label bandeja
+          fi

@@ -33,6 +33,11 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Agenda: próximas primero y pasadas agrupadas al final, apagadas y marcadas «Ya pasó»; año visible en la fecha de cada actividad.
 - [x] Categorías de Noticias dinámicas: los chips salen de las categorías escritas en las notas.
 - [x] Contenido de ejemplo reducido; hoy hay 2 notas, 2 recortes (uno largo), 5 actividades, 4 efemérides y 2 comunicados.
+- [x] Portada con «Últimas noticias» bajo el grabado, «Del archivo», eventos del mes y efeméride.
+- [x] **Recortes → Lecturas** y **Agenda → Eventos** en la interfaz, conservando rutas y archivos.
+- [x] **Publicación en un paso**: `scripts/publicar.sh` valida, abre el PR, espera el CI, mergea y verifica Pages.
+- [x] **Sincronización automática** `main → develop` y CI también en `main` (commits de Pages CMS).
+- [x] **Bandeja de prensa** sin IA: `scripts/bandeja.py` lee RSS/Atom de `datos/fuentes.json`; versión local y Action diario.
 
 ## Correos
 
@@ -48,8 +53,8 @@ Dominio final: `porlaanarquia.antarquia.cl`
 
 ## Contenido real (antes de publicar)
 
-- [ ] Terminar de cargar las notas rescatadas del blog viejo (ya hay 2 desde el CMS).
-- [ ] Reemplazar la lectura, las 3 actividades y los 2 comunicados de ejemplo.
+- [ ] Terminar de cargar las notas rescatadas del blog viejo.
+- [ ] Reemplazar las lecturas, actividades y comunicados que sigan siendo de ejemplo.
 - [x] Quitar la nota al pie del lector: ya no queda ningún aviso de maqueta en el código. Todo el texto de ejemplo vive en `datos/*.json` y se puede borrar desde Pages CMS.
 - [x] Probar Pages CMS de punta a punta: se subió `assets/1.png`, se editó una
       efeméride y se agregó la actividad «Comedor Vegano»; los commits del CMS
@@ -61,11 +66,22 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Pages activo desde `main` / `(root)`.
 - [x] URL: **https://ruben-developer.github.io/porlaanarquia/**
 
-Para actualizar el sitio basta con:
+Para publicar:
 ```bash
 cd /home/nbk/Repositorios/porlaanarquia
-git add -A && git commit -m "..." && git push
+scripts/publicar.sh "feat: qué cambia"
 ```
+
+## Bandeja de prensa
+
+- [ ] Revisar la lista inicial de `datos/fuentes.json` (9 medios) y sacar o sumar
+      fuentes. Anarkismo quedó fuera porque su feed devolvía 503 y el certificado
+      no coincide con el dominio.
+- [ ] Decidir el destino diario: bóveda local (`scripts/bandeja-diaria.sh`) o
+      issue del repositorio (público). Instalar el cron o dejar el Action.
+- [ ] Ajustar `palabras` después de una semana, viendo qué titulares sobran.
+- [ ] (Opcional) Resumen de una línea por titular con un modelo local pequeño;
+      hoy el filtro es por fuente y palabras, sin IA, para que sea predecible.
 
 ## Después
 

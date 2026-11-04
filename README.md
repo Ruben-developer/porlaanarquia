@@ -11,10 +11,14 @@ Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
 - `index.html` — portada y secciones (noticias, lecturas, eventos, efemérides, comunicados, contacto).
 - `styles.css` — estética de prensa libertaria: papel envejecido, tinta negra y acento rojo, con edición diurna y nocturna.
 - `app.js` — lógica: carga los datos, filtros, búsqueda, agenda guardada y navegación por hash.
-- `datos/` — contenido editable: `noticias.json`, `recortes.json`, `agenda.json`, `efemerides.json`, `comunicados.json` y `portada.json` (imagen de cabecera).
+- `datos/` — contenido editable: `noticias.json`, `recortes.json`, `agenda.json`, `efemerides.json`, `comunicados.json`, `portada.json` (imagen de cabecera) y `fuentes.json` (medios de la bandeja).
 - `assets/` — portada de la cabecera, fuentes autoalojadas e imágenes subidas desde el CMS.
 - `.pages.yml` — configuración de Pages CMS para editar los JSON con formularios.
 - `scripts/validar.mjs` — revisa los datos antes de publicar (`node scripts/validar.mjs`).
+- `scripts/publicar.sh` — valida, abre el PR, espera el CI y publica en un paso.
+- `scripts/bandeja.py` — arma la bandeja de prensa del día desde `datos/fuentes.json` (sin dependencias ni IA).
+- `scripts/bandeja-diaria.sh` — guarda esa bandeja en la bóveda local.
+- `datos/fuentes.json` — lista de medios y palabras clave de la bandeja.
 - `favicon.svg` — sello de la publicación.
 - `assets/portada-la-protesta.jpg` — imagen de portada.
 - `assets/fonts/` + `assets/fonts.css` — tipografías auto-hospedadas (SIL OFL 1.1), sin CDN.
@@ -111,6 +115,63 @@ Fuera del CMS también se pueden copiar a mano a `assets/` y escribir la ruta
 `contacto-porlaanarquia@riseup.net` (alias de Riseup que entrega en
 `antarquia@riseup.net`; hay que crearlo en Riseup antes de usarlo).
 
+## Publicar
+
+Un solo comando hace todo:
+
+```bash
+scripts/publicar.sh "feat: título corto
+
+Detalle opcional del cambio."
+```
+
+El script valida los datos, el JavaScript y el HTML; commitea en `develop`;
+sube; abre el PR a `main` (o reutiliza el que esté abierto); espera el CI;
+mergea; espera el deploy de Pages y comprueba que `develop` vuelva a contener
+`main`. Si algo falla, se detiene sin mergear.
+
+Con `--solo-pr` deja el PR abierto y validado, sin mergear.
+
+Dos Actions completan el circuito:
+
+- **Sincronizar main en develop** devuelve a `develop` lo que Pages CMS escribe
+  directo en `main`, sin PRs manuales.
+- **CI** corre también en `main`, para que un cambio del CMS quede validado
+  aunque haya entrado sin pasar por un PR.
+
+## Bandeja de prensa
+
+`scripts/bandeja.py` lee los RSS/Atom de `datos/fuentes.json`, se queda con lo
+publicado en las últimas 36 horas y arma un Markdown con titulares, fecha,
+resumen corto y enlace. No usa IA: filtra por fuente y por palabras clave
+(`palabras`), descarta duplicados y **no publica nada** en el portal.
+
+```bash
+python3 scripts/bandeja.py                    # ver en pantalla
+python3 scripts/bandeja.py --horas 72         # ventana más amplia
+python3 scripts/bandeja.py --pais CL          # solo fuentes chilenas
+python3 scripts/bandeja.py --salida bandeja.md
+```
+
+**En local (privado).** `scripts/bandeja-diaria.sh` guarda el resumen en
+`~/Documentos/Antarquia/PorLaAnarquia/Bandeja/AAAA-MM-DD.md` y actualiza
+«Última bandeja.md». Para que corra solo cada mañana:
+
+```cron
+17 8 * * * cd ~/Repositorios/porlaanarquia && scripts/bandeja-diaria.sh
+```
+
+**En GitHub (cómodo, pero público).** El Action **Bandeja de prensa** corre a
+las 08:00 de Chile y deja el resumen en un issue con casillas para marcar. Como
+el repositorio es público, esos issues también lo son: solo llevan titulares y
+enlaces de medios públicos. También se puede lanzar a mano desde la pestaña
+Actions.
+
+Para sumar un medio, agrega su feed a `datos/fuentes.json` con `nombre`, `url`,
+`sitio`, `pais`, `tipo`, `filtrar` y `activa`, y corre el validador. Para un
+medio generalista conviene `filtrar: true`, así solo aparecen titulares que
+tocan los temas de `palabras`.
+
 ## Ver en local
 
 ```bash
@@ -122,7 +183,7 @@ Luego abrir `http://localhost:8001`.
 
 ## Estado
 
-El contenido se carga desde Pages CMS: hoy hay 2 notas, 2 lecturas, 5
-actividades, 4 efemérides y 2 comunicados, aún con material de ejemplo. Antes de
-publicar hay que reemplazar los textos y las fechas por información real. El
+El contenido se carga desde Pages CMS: hoy hay 9 notas, 8 lecturas, 7 eventos,
+4 efemérides y 5 comunicados, todavía con parte del material de ejemplo. Antes
+de publicar hay que reemplazar los textos y las fechas por información real. El
 correo de contacto ya es el definitivo.

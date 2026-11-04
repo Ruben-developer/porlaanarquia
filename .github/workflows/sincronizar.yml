@@ -1,0 +1,41 @@
+name: Sincronizar main en develop
+
+# Pages CMS escribe directo en main. Este trabajo devuelve esos cambios a
+# develop para que la rama de trabajo no se quede atrás ni pierda contenido.
+# El push usa GITHUB_TOKEN, así que no vuelve a disparar CI; el contenido ya
+# se validó en el CI de main y en el PR que lo publicó.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sincronizar-main-develop
+  cancel-in-progress: false
+
+jobs:
+  sincronizar:
+    name: Fusionar main en develop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Fusionar y subir
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main develop
+          if git merge-base --is-ancestor origin/main origin/develop; then
+            echo "develop ya contiene main; no hay nada que hacer."
+            exit 0
+          fi
+          git checkout -B develop origin/develop
+          git merge --no-ff origin/main -m "sync: main en develop"
+          git push origin develop

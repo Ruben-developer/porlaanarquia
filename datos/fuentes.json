@@ -1,0 +1,124 @@
+{
+  "palabras": [
+    "anarqu",
+    "autogest",
+    "asamble",
+    "okupa",
+    "centro social",
+    "ateneo",
+    "repres",
+    "detenid",
+    "preso",
+    "presos",
+    "carcel",
+    "cárcel",
+    "polic",
+    "mapuche",
+    "territorio",
+    "desalo",
+    "huelga",
+    "sindic",
+    "trabajador",
+    "precar",
+    "femicid",
+    "memoria",
+    "dictadura",
+    "migra",
+    "vivienda",
+    "agua",
+    "extractiv",
+    "comunidad",
+    "pueblo",
+    "protesta",
+    "marcha",
+    "campesin",
+    "ecolog",
+    "feminis",
+    "libertad",
+    "antifasc",
+    "solidarid"
+  ],
+  "fuentes": [
+    {
+      "nombre": "A las Barricadas",
+      "url": "https://alasbarricadas.org/noticias/rss.xml",
+      "pais": "ES",
+      "tipo": "anarquista",
+      "filtrar": false,
+      "activa": true,
+      "sitio": "https://alasbarricadas.org/noticias/"
+    },
+    {
+      "nombre": "CNT",
+      "url": "https://www.cnt.es/feed/",
+      "pais": "ES",
+      "tipo": "anarcosindicalista",
+      "filtrar": false,
+      "activa": true,
+      "sitio": "https://www.cnt.es/"
+    },
+    {
+      "nombre": "Regeneración Libertaria",
+      "url": "https://regeneracionlibertaria.org/feed/",
+      "pais": "ES",
+      "tipo": "anarquista",
+      "filtrar": false,
+      "activa": true,
+      "sitio": "https://regeneracionlibertaria.org/"
+    },
+    {
+      "nombre": "CrimethInc.",
+      "url": "https://crimethinc.com/feed",
+      "pais": "US",
+      "tipo": "anarquista",
+      "filtrar": false,
+      "activa": true,
+      "sitio": "https://crimethinc.com/"
+    },
+    {
+      "nombre": "It's Going Down",
+      "url": "https://itsgoingdown.org/feed/",
+      "pais": "US",
+      "tipo": "anarquista",
+      "filtrar": false,
+      "activa": true,
+      "sitio": "https://itsgoingdown.org/"
+    },
+    {
+      "nombre": "Radio Kurruf",
+      "url": "https://radiokurruf.org/feed/",
+      "pais": "CL",
+      "tipo": "pueblo mapuche",
+      "filtrar": false,
+      "activa": true,
+      "sitio": "https://radiokurruf.org/"
+    },
+    {
+      "nombre": "El Ciudadano",
+      "url": "https://www.elciudadano.com/feed/",
+      "pais": "CL",
+      "tipo": "contrainformación",
+      "filtrar": true,
+      "activa": true,
+      "sitio": "https://www.elciudadano.com/"
+    },
+    {
+      "nombre": "Interferencia",
+      "url": "https://interferencia.cl/rss.xml",
+      "pais": "CL",
+      "tipo": "investigación",
+      "filtrar": true,
+      "activa": true,
+      "sitio": "https://interferencia.cl/"
+    },
+    {
+      "nombre": "CIPER Chile",
+      "url": "https://www.ciperchile.cl/feed/",
+      "pais": "CL",
+      "tipo": "investigación",
+      "filtrar": true,
+      "activa": true,
+      "sitio": "https://www.ciperchile.cl/"
+    }
+  ]
+}
