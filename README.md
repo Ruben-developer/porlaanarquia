@@ -38,9 +38,9 @@ tocar código. Solo hay que guardar la nota; Pages reconstruye el sitio.
 
 La portada se arma sola con los datos, sin tocar HTML:
 
+- **Últimas noticias**: las 3 más recientes, justo bajo el grabado.
 - **Del archivo**: el título de un recorte, rotando uno por día.
 - **Bienvenida** (2/3) y **Últimos comunicados** (1/3, máximo 3).
-- **Últimas noticias**: las 3 más recientes.
 - **Eventos del mes**: los próximos eventos (hasta 3) y **Efeméride**: la fecha
   siguiente con cuenta regresiva.
 
