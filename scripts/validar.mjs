@@ -143,6 +143,26 @@ recortes.forEach((r, i) => {
 });
 unicos(recortes, 'id', 'recortes.json');
 
+// Fuentes de la bandeja de prensa
+const fuentes = leerObjeto('fuentes.json');
+if (!Array.isArray(fuentes.fuentes) || !fuentes.fuentes.length) {
+  errores.push('fuentes.json: falta la lista «fuentes»');
+} else {
+  fuentes.fuentes.forEach((f, i) => {
+    const donde = `fuentes.json[${i}]`;
+    if (!texto(f.nombre)) errores.push(`${donde}: falta «nombre»`);
+    if (!texto(f.url) || !/^https:\/\//.test(f.url)) errores.push(`${donde}: «url» debe empezar con https://`);
+    if (f.sitio != null && !/^https:\/\//.test(f.sitio)) errores.push(`${donde}: «sitio» debe empezar con https://`);
+    ['activa', 'filtrar'].forEach(c => {
+      if (f[c] != null && typeof f[c] !== 'boolean') errores.push(`${donde}: «${c}» debe ser true o false`);
+    });
+  });
+  unicos(fuentes.fuentes, 'nombre', 'fuentes.json');
+}
+if (fuentes.palabras != null && (!Array.isArray(fuentes.palabras) || fuentes.palabras.some(p => !texto(p)))) {
+  errores.push('fuentes.json: «palabras» debe ser una lista de textos');
+}
+
 // Portada
 const portada = leerObjeto('portada.json');
 if (!texto(portada.imagen)) errores.push('portada.json: falta «imagen»');
@@ -156,4 +176,4 @@ if (errores.length) {
 }
 
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
-console.log(`✓ Datos válidos: ${plural(noticias.length, 'nota', 'notas')}, ${plural(recortes.length, 'recorte', 'recortes')}, ${plural(agenda.length, 'actividad', 'actividades')}, ${plural(efemerides.length, 'efeméride', 'efemérides')}, ${plural(comunicados.length, 'comunicado', 'comunicados')}.`);
+console.log(`✓ Datos válidos: ${plural(noticias.length, 'nota', 'notas')}, ${plural(recortes.length, 'recorte', 'recortes')}, ${plural(agenda.length, 'actividad', 'actividades')}, ${plural(efemerides.length, 'efeméride', 'efemérides')}, ${plural(comunicados.length, 'comunicado', 'comunicados')} y ${plural(fuentes.fuentes.length, 'fuente', 'fuentes')}.`);
