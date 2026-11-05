@@ -4,13 +4,13 @@ Portal de noticias, difusión y articulación anarquista.
 
 Dominio final: `porlaanarquia.antarquia.cl`
 
-Sitio publicado: **https://ruben-developer.github.io/porlaanarquia/**
+Sitio publicado: **https://porlaanarquia.antarquia.cl/**
 
 ## Estructura
 
 - `index.html` — portada y secciones (noticias, lecturas, eventos, efemérides, comunicados, contacto).
 - `styles.css` — estética de prensa libertaria: papel envejecido, tinta negra y acento rojo, con edición diurna y nocturna.
-- `app.js` — lógica: carga los datos, filtros, búsqueda, agenda guardada y navegación por hash.
+- `app.js` — lógica: carga los datos, filtros, búsqueda, agenda guardada y navegación por rutas reales.
 - `datos/` — contenido editable: `noticias.json`, `recortes.json`, `agenda.json`, `efemerides.json`, `comunicados.json`, `portada.json` (imagen de cabecera) y `fuentes.json` (medios de la bandeja).
 - `assets/` — portada de la cabecera, fuentes autoalojadas e imágenes subidas desde el CMS.
 - `.pages.yml` — configuración de Pages CMS para editar los JSON con formularios.
@@ -31,7 +31,7 @@ El contenido vive en `datos/*.json`, no dentro del código. Para publicar:
 1. Edita el JSON en `github.dev` (tecla `.` en el repo) o con **Pages CMS**
    (`app.pagescms.org`, login con GitHub).
 2. Ejecuta `node scripts/validar.mjs` antes de publicar.
-3. Commit y push: GitHub Pages publica solo.
+3. Commit y push: el workflow publica en Cloudflare Workers.
 
 Las noticias se archivan solas por año y mes a partir de la fecha: no hay
 índice que mantener. Las **categorías** también se generan solas: si una nota
@@ -127,7 +127,7 @@ Detalle opcional del cambio."
 
 El script valida los datos, el JavaScript y el HTML; commitea en `develop`;
 sube; abre el PR a `main` (o reutiliza el que esté abierto); espera el CI;
-mergea; espera el deploy de Pages y comprueba que `develop` vuelva a contener
+mergea; espera el deploy de Cloudflare Workers y comprueba que `develop` vuelva a contener
 `main`. Si algo falla, se detiene sin mergear.
 
 Con `--solo-pr` deja el PR abierto y validado, sin mergear.

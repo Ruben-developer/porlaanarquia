@@ -60,11 +60,13 @@ Dominio final: `porlaanarquia.antarquia.cl`
       efeméride y se agregó la actividad «Comedor Vegano»; los commits del CMS
       (`b121380`, `b3d6779`, `ed4bd33`, `7125ba6`) y el deploy salieron bien.
 
-## Publicado en GitHub Pages
+## Publicado en Cloudflare Workers
 
 - [x] Repo público: https://github.com/Ruben-developer/porlaanarquia
-- [x] Pages activo desde `main` / `(root)`.
-- [x] URL: **https://ruben-developer.github.io/porlaanarquia/**
+- [x] Producción: `main` → **https://porlaanarquia.antarquia.cl/**
+- [x] Beta: `develop` → **https://porlaanarquia-beta.antarquia.cl/**
+- [x] Rutas reales (`/noticias`, `/agenda`...) con fallback SPA.
+- [x] GitHub Pages retirado.
 
 Para publicar:
 ```bash

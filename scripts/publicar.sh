@@ -5,9 +5,9 @@
 #   scripts/publicar.sh --solo-pr "mensaje"     # abre el PR y se detiene
 #
 # Qué hace: valida los datos y el código, commitea en develop, sube, abre el
-# PR a main, espera el CI, mergea, espera el deploy de Pages y comprueba que
-# develop vuelva a contener main (lo sincroniza el Action "Sincronizar main
-# en develop"). Si algo falla, se detiene sin mergear.
+# PR a main, espera el CI, mergea, espera el deploy de Cloudflare Workers y
+# comprueba que develop vuelva a contener main (lo sincroniza el Action
+# "Sincronizar main en develop"). Si algo falla, se detiene sin mergear.
 
 set -euo pipefail
 
@@ -102,17 +102,19 @@ gh pr merge "$pr" --merge --delete-branch=false >/dev/null
 merge_sha="$(gh pr view "$pr" --json mergeCommit -q .mergeCommit.oid)"
 aviso "merge $merge_sha"
 
-# Pages reconstruye solo; se espera a que el build sea el de este merge.
-build=""
-for _ in $(seq 1 40); do
-  build="$(gh api "repos/$repo/pages/builds/latest" -q '"\(.status) \(.commit)"' 2>/dev/null || true)"
-  [[ "$build" == built*"$merge_sha" ]] && break
+# El workflow "Deploy prod (Cloudflare Workers)" despliega al mergear en main.
+deploy=""
+for _ in $(seq 1 60); do
+  deploy="$(gh run list -R "$repo" --workflow deploy-workers.yml --branch main --limit 1 \
+    --json headSha,status,conclusion \
+    -q '.[0] | "\(.status) \(.conclusion // "-") \(.headSha)"' 2>/dev/null || true)"
+  [[ "$deploy" == "completed success $merge_sha" ]] && break
   sleep 8
 done
-if [[ "$build" == built*"$merge_sha" ]]; then
-  aviso "Pages compilado"
+if [[ "$deploy" == "completed success $merge_sha" ]]; then
+  aviso "Workers desplegado"
 else
-  aviso "aviso: Pages aún no reporta el build de $merge_sha (revisa en un minuto)"
+  aviso "aviso: el deploy de Workers aún no reporta $merge_sha (revisa en un minuto)"
 fi
 
 # El Action de sincronización devuelve main a develop; se espera un momento.
@@ -125,5 +127,5 @@ for _ in $(seq 1 60); do
   sleep 5
 done
 
-url="$(gh api "repos/$repo/pages" -q .html_url)"
+url="https://porlaanarquia.antarquia.cl/"
 printf '\n\033[32m✓ Publicado\033[0m  %s\n' "$url"
