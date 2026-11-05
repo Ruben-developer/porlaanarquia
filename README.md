@@ -36,7 +36,7 @@ El contenido vive en `datos/*.json`, no dentro del código. Para publicar:
 Las noticias se archivan solas por año y mes a partir de la fecha: no hay
 índice que mantener. Las **categorías** también se generan solas: si una nota
 dice `Cultura`, `Solidaridad` o cualquier otra palabra, el filtro aparece sin
-tocar código. Solo hay que guardar la nota; Pages reconstruye el sitio.
+tocar código. Solo hay que guardar la nota; Workers reconstruye el sitio.
 
 ### Portada
 

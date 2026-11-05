@@ -35,7 +35,7 @@ Dominio final: `porlaanarquia.antarquia.cl`
 - [x] Contenido de ejemplo reducido; hoy hay 2 notas, 2 recortes (uno largo), 5 actividades, 4 efemérides y 2 comunicados.
 - [x] Portada con «Últimas noticias» bajo el grabado, «Del archivo», eventos del mes y efeméride.
 - [x] **Recortes → Lecturas** y **Agenda → Eventos** en la interfaz, conservando rutas y archivos.
-- [x] **Publicación en un paso**: `scripts/publicar.sh` valida, abre el PR, espera el CI, mergea y verifica Pages.
+- [x] **Publicación en un paso**: `scripts/publicar.sh` valida, abre el PR, espera el CI, mergea y verifica el deploy de Workers.
 - [x] **Sincronización automática** `main → develop` y CI también en `main` (commits de Pages CMS).
 - [x] **Bandeja de prensa** sin IA: `scripts/bandeja.py` lee RSS/Atom de `datos/fuentes.json`; versión local y Action diario.
 
@@ -87,5 +87,6 @@ scripts/publicar.sh "feat: qué cambia"
 
 ## Después
 
-- [ ] Conectar Cloudflare Pages y dominio `porlaanarquia.antarquia.cl`.
+- [ ] Desactivar Web Analytics en Cloudflare: el CSP bloquea su script y deja
+      un error en la consola. El sitio no usa analítica a propósito.
 - [ ] (Opcional) Dejar aviso en el WordPress viejo apuntando al nuevo sitio.
