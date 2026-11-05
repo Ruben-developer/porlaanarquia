@@ -1,8 +1,8 @@
 name: Deploy beta (Cloudflare Workers)
 
 on:
-  # Se activará también en cada push a develop cuando existan los secretos
-  # CLOUDFLARE_API_TOKEN y CLOUDFLARE_ACCOUNT_ID.
+  push:
+    branches: [develop]
   workflow_dispatch:
 
 permissions:
