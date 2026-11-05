@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://porlaanarquia.antarquia.cl/</loc></url>
+  <url><loc>https://porlaanarquia.antarquia.cl/noticias</loc></url>
+  <url><loc>https://porlaanarquia.antarquia.cl/recortes</loc></url>
+  <url><loc>https://porlaanarquia.antarquia.cl/agenda</loc></url>
+  <url><loc>https://porlaanarquia.antarquia.cl/efemerides</loc></url>
+  <url><loc>https://porlaanarquia.antarquia.cl/comunicados</loc></url>
+  <url><loc>https://porlaanarquia.antarquia.cl/contacto</loc></url>
 </urlset>

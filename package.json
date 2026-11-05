@@ -1,0 +1,15 @@
+{
+  "name": "porlaanarquia",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && wrangler dev --config wrangler.jsonc",
+    "deploy": "npm run build && wrangler deploy --config wrangler.jsonc",
+    "deploy:beta": "npm run build && wrangler deploy --config wrangler.beta.jsonc"
+  },
+  "devDependencies": {
+    "wrangler": "^4.158.0"
+  }
+}

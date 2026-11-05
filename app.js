@@ -346,20 +346,70 @@ function renderComs() {
     </details>`).join('');
 }
 
-/* Rutas por hash */
+/* Rutas reales (/noticias, /agenda...). En el respaldo de GitHub Pages se usa
+   hash (#noticias): allí no hay rewrites y las rutas reales darían 404. */
 const VIEWS = ['portada', 'noticias', 'recortes', 'recorte', 'agenda', 'efemerides', 'comunicados', 'contacto'];
+const ES_PAGES = /\.github\.io$/i.test(location.hostname);
+const BASE = ES_PAGES ? '/porlaanarquia/' : '/';
+const hrefDe = v => ES_PAGES ? '#' + v : BASE + v;
+
+function rutaActual() {
+  if (ES_PAGES) return location.hash.replace(/^#\/?/, '');
+  let p = location.pathname;
+  if (BASE !== '/' && p.indexOf(BASE) === 0) p = p.slice(BASE.length);
+  return p.replace(/^\/+/, '');
+}
+
 function route() {
-  let v = location.hash.replace('#', ''); if (!VIEWS.includes(v)) v = 'portada';
-  if (v === 'recorte' && !S.openRec) { location.replace('#recortes'); return; }
+  const ruta = rutaActual();
+  let v = ruta;
+  if (!VIEWS.includes(v)) {
+    v = 'portada';
+    if (!ES_PAGES && ruta) history.replaceState(null, '', hrefDe('portada'));
+  }
+  if (v === 'recorte' && !S.openRec) { go('recortes', true); return; }
   VIEWS.forEach(x => { $('#v-' + x).hidden = x !== v; });
   $$('.nav a').forEach(a => a.removeAttribute('aria-current'));
-  $(`.nav a[href="#${v === 'recorte' ? 'recortes' : v}"]`).setAttribute('aria-current', 'page');
+  const activo = $(`.nav a[href="${hrefDe(v === 'recorte' ? 'recortes' : v)}"]`);
+  if (activo) activo.setAttribute('aria-current', 'page');
   if (v === 'noticias') renderReader();
   if (v === 'recorte') renderRecorte();
   window.scrollTo(0, 0);
 }
+
+function go(v, reemplazar) {
+  const href = hrefDe(v);
+  if (ES_PAGES) {
+    if (location.hash === href) route(); else location.hash = href;
+    return;
+  }
+  if (location.pathname === href) { route(); return; }
+  history[reemplazar ? 'replaceState' : 'pushState'](null, '', href);
+  route();
+}
+
+window.addEventListener('popstate', route);
 window.addEventListener('hashchange', route);
-const go = v => { if (location.hash === '#' + v) route(); else location.hash = v; };
+
+// Enlaces internos: navegación sin recargar.
+document.addEventListener('click', e => {
+  const a = e.target.closest && e.target.closest('a[href]');
+  if (!a || (a.target && a.target !== '_self')) return;
+  const href = a.getAttribute('href') || '';
+  if (/^(mailto:|tel:|https?:|\/\/)/i.test(href)) return;
+  let ruta = null;
+  if (href.indexOf('#/') === 0) ruta = href.slice(2);
+  else if (href.charAt(0) === '/' && href.indexOf('//') !== 0) ruta = href.slice(1);
+  if (!ruta) return;
+  e.preventDefault();
+  go(ruta);
+});
+
+// Enlaces antiguos con hash en el dominio propio: se canonizan a ruta real.
+if (!ES_PAGES && /^#/.test(location.hash)) {
+  const legado = location.hash.replace(/^#\/?/, '');
+  if (VIEWS.includes(legado)) history.replaceState(null, '', hrefDe(legado));
+}
 
 /* Eventos */
 document.addEventListener('click', e => {

@@ -4,3 +4,5 @@ node_modules
 
 # Bandeja de prensa generada localmente
 /bandeja/
+dist/
+.wrangler/
