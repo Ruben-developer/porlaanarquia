@@ -57,6 +57,34 @@ const imagen = (v, donde, campo = 'imagen') => {
   }
 };
 
+/* Una galería es una lista de rutas o de objetos { imagen, alt }. */
+const galeria = (v, donde) => {
+  if (v == null) return;
+  if (!Array.isArray(v)) { errores.push(`${donde}: «galeria» debe ser una lista`); return; }
+  v.forEach((g, j) => {
+    const src = typeof g === 'string' ? g : g && (g.imagen || g.src || g.archivo);
+    if (!texto(src)) { errores.push(`${donde}: galeria[${j}] no tiene imagen`); return; }
+    imagen(src, `${donde} galeria[${j}]`, 'imagen');
+    if (g && typeof g === 'object' && g.alt != null && typeof g.alt !== 'string') {
+      errores.push(`${donde}: galeria[${j}] «alt» debe ser texto`);
+    }
+  });
+};
+
+/* Lista de fechas sueltas o de excepciones: acepta strings u objetos { fecha }. */
+const listaFechas = (v, donde, campo) => {
+  if (v == null) return [];
+  if (!Array.isArray(v)) { errores.push(`${donde}: «${campo}» debe ser una lista de fechas`); return []; }
+  return v.map((f, j) => {
+    const valor = typeof f === 'string' ? f : f && (f.fecha || f.inicio);
+    if (!fecha(valor)) errores.push(`${donde}: ${campo}[${j}] no es una fecha válida («${valor}»)`);
+    return valor;
+  });
+};
+
+const DIAS = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
+const FRECUENCIAS = ['semanal', 'quincenal', 'mensual'];
+
 const unicos = (lista, campo, archivo) => {
   const vistos = new Set();
   lista.forEach((item, i) => {
@@ -78,12 +106,14 @@ noticias.forEach((n, i) => {
     if (n[c] != null && typeof n[c] !== 'string') errores.push(`${donde}: «${c}» debe ser texto`);
   });
   // Una nota puede ser solo imagen (un afiche) o solo texto; lo que no puede
-  // quedar es una ficha sin cuerpo y sin imagen.
-  if (!texto(n.cuerpo) && !texto(n.imagen)) {
-    errores.push(`${donde}: falta «cuerpo» o «imagen» (la nota quedaría vacía)`);
+  // quedar es una ficha sin cuerpo y sin ninguna imagen.
+  const tieneGaleria = Array.isArray(n.galeria) && n.galeria.length > 0;
+  if (!texto(n.cuerpo) && !texto(n.imagen) && !tieneGaleria) {
+    errores.push(`${donde}: falta «cuerpo», «imagen» o «galeria» (la nota quedaría vacía)`);
   }
   if (texto(n.fecha) && !fecha(n.fecha)) errores.push(`${donde}: fecha inválida («${n.fecha}»)`);
   imagen(n.imagen, donde);
+  galeria(n.galeria, donde);
 });
 unicos(noticias, 'id', 'noticias.json');
 
@@ -91,15 +121,56 @@ unicos(noticias, 'id', 'noticias.json');
 const agenda = leer('agenda.json');
 agenda.forEach((e, i) => {
   const donde = `agenda.json[${i}]`;
-  ['titulo', 'fecha', 'hora', 'lugar', 'ciudad'].forEach(c => {
+  ['titulo', 'hora', 'lugar', 'ciudad'].forEach(c => {
     if (!texto(e[c])) errores.push(`${donde}: falta «${c}»`);
   });
-  if (texto(e.fecha) && !fecha(e.fecha)) errores.push(`${donde}: fecha inválida («${e.fecha}»)`);
+
+  const inicio = e.inicio || e.fecha;
+  if (!texto(inicio)) errores.push(`${donde}: falta «inicio» (o «fecha»)`)
+  else if (!fecha(inicio)) errores.push(`${donde}: fecha de inicio inválida («${inicio}»)`);
+  if (e.inicio && e.fecha) errores.push(`${donde}: usa «inicio», no las dos («inicio» y «fecha»)`);
+
   if (texto(e.hora) && !hora(e.hora)) errores.push(`${donde}: hora inválida («${e.hora}»), usa HH:MM`);
+  if (texto(e.hora_fin) && !hora(e.hora_fin)) errores.push(`${donde}: hora de término inválida («${e.hora_fin}»), usa HH:MM`);
+
+  if (e.fin != null) {
+    if (!fecha(e.fin)) errores.push(`${donde}: fecha de fin inválida («${e.fin}»)`);
+    else if (texto(inicio) && e.fin < inicio) errores.push(`${donde}: «fin» no puede ser anterior a «inicio»`);
+  }
+
+  const sueltas = listaFechas(e.fechas, donde, 'fechas');
+  const excepciones = listaFechas(e.excepciones, donde, 'excepciones');
+
+  // La repetición puede venir vacía ({}); solo se valida si tiene frecuencia.
+  if (e.repeticion != null) {
+    if (typeof e.repeticion !== 'object' || Array.isArray(e.repeticion)) {
+      errores.push(`${donde}: «repeticion» debe ser un objeto`);
+    } else {
+      const r = e.repeticion;
+      if (r.cada != null && r.cada !== '') {
+        if (!FRECUENCIAS.includes(r.cada)) {
+          errores.push(`${donde}: frecuencia inválida («${r.cada}»); usa semanal, quincenal o mensual`);
+        }
+        if (!texto(r.hasta)) {
+          errores.push(`${donde}: «repeticion.hasta» es obligatoria cuando hay repetición`);
+        }
+        if (r.dia != null && r.dia !== '' && !DIAS.includes(String(r.dia).toLowerCase())) {
+          errores.push(`${donde}: día inválido («${r.dia}»)`);
+        }
+        if (texto(r.hasta) && !fecha(r.hasta)) {
+          errores.push(`${donde}: «repeticion.hasta» no es una fecha válida («${r.hasta}»)`);
+        } else if (texto(r.hasta) && texto(inicio) && r.hasta < inicio) {
+          errores.push(`${donde}: «repeticion.hasta» no puede ser anterior a «inicio»`);
+        }
+      }
+    }
+  }
+
   if (e.descripcion != null && typeof e.descripcion !== 'string') {
     errores.push(`${donde}: «descripcion» debe ser texto`);
   }
   imagen(e.afiche, donde, 'afiche');
+  galeria(e.galeria, donde);
 });
 unicos(agenda, 'id', 'agenda.json');
 
@@ -117,6 +188,7 @@ efemerides.forEach((e, i) => {
     errores.push(`${donde}: «detalle» debe ser texto`);
   }
   imagen(e.imagen, donde, 'imagen');
+  galeria(e.galeria, donde);
 });
 
 // Comunicados
@@ -127,6 +199,8 @@ comunicados.forEach((c, i) => {
     if (!texto(c[campo])) errores.push(`${donde}: falta «${campo}»`);
   });
   if (texto(c.fecha) && !fecha(c.fecha)) errores.push(`${donde}: fecha inválida («${c.fecha}»)`);
+  imagen(c.imagen, donde);
+  galeria(c.galeria, donde);
 });
 unicos(comunicados, 'id', 'comunicados.json');
 
@@ -140,6 +214,8 @@ recortes.forEach((r, i) => {
   ['autor', 'fuente', 'cuerpo'].forEach(c => {
     if (r[c] != null && typeof r[c] !== 'string') errores.push(`${donde}: «${c}» debe ser texto`);
   });
+  imagen(r.imagen, donde);
+  galeria(r.galeria, donde);
 });
 unicos(recortes, 'id', 'recortes.json');
 

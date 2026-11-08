@@ -1,6 +1,10 @@
 # Configuración de Pages CMS (https://pagescms.org)
 # Se lee desde la raíz del repo. Cada entrada edita un archivo de datos.
-# Las imágenes se suben a assets/; los PDFs de MAREA van aparte, a R2.
+# Las imágenes se suben a assets/.
+#
+# Textos largos: todos los campos `rich-text` guardan Markdown y el sitio los
+# renderiza con markdown.js (párrafos, listas, citas, enlaces e imágenes).
+# Imágenes: `imagen`/`afiche` es la portada y `galeria` suma más fotos.
 
 media:
   input: assets
@@ -54,19 +58,30 @@ content:
         required: true
       - name: bajada
         label: Bajada (opcional)
-        type: text
-        description: "Una o dos frases que resumen la nota. Puede quedar vacía."
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+          switcher: false
+        description: "Una o dos frases que resumen la nota. Admite Markdown: negrita, cursiva y enlaces."
       - name: cuerpo
         label: Cuerpo (opcional)
         type: rich-text
         options:
           format: markdown
-          media: false
-        description: "Admite negrita, cursiva, listas, citas y enlaces. Puede quedar vacío si la nota es solo un afiche con imagen."
+        description: "Markdown: negrita, cursiva, listas, citas, enlaces e imágenes. Puede quedar vacío si la nota es solo un afiche con imagen."
       - name: imagen
-        label: Imagen (opcional)
+        label: Imagen principal (opcional)
         type: image
-        description: "Se sube a assets/ y aparece al abrir la nota. Si falta, la nota va solo con texto."
+        description: "Se sube a assets/ y aparece al abrir la nota."
+      - name: galeria
+        label: Galería (opcional)
+        type: image
+        options:
+          multiple:
+            max: 8
+          unique: true
+        description: "Más fotos de la nota. Se muestran como galería al abrirla."
       - name: id
         label: Identificador (opcional)
         type: string
@@ -99,15 +114,13 @@ content:
         required: true
         options:
           format: markdown
-          media: false
-        description: "La entrada: la frase, el extracto o el primer párrafo de la historia. Admite negrita, cursiva y enlaces. En la lista se muestra este primer párrafo."
+        description: "La entrada: la frase, el extracto o el primer párrafo de la historia. Markdown con negrita, cursiva, enlaces e imágenes. En la lista se muestra este primer párrafo."
       - name: cuerpo
         label: Resto de la historia (opcional)
         type: rich-text
         options:
           format: markdown
-          media: false
-        description: "Continúa el texto. Se lee al abrir «Leer completo», después del primer párrafo. Admite negrita, cursiva, listas, citas y enlaces."
+        description: "Continúa el texto. Se lee al abrir «Leer completo», después del primer párrafo."
       - name: autor
         label: Autoría
         type: string
@@ -116,13 +129,25 @@ content:
         label: Fuente
         type: string
         description: "Libro, año o lugar. Opcional."
+      - name: imagen
+        label: Imagen principal (opcional)
+        type: image
+        description: "Se muestra al abrir la lectura completa."
+      - name: galeria
+        label: Galería (opcional)
+        type: image
+        options:
+          multiple:
+            max: 8
+          unique: true
+        description: "Más imágenes para la lectura completa."
       - name: id
         label: Identificador (opcional)
         type: string
         description: "Déjalo vacío: se genera solo con el tipo y el título."
 
   - name: agenda
-    label: Agenda
+    label: Eventos
     type: file
     path: datos/agenda.json
     format: json
@@ -132,17 +157,79 @@ content:
         label: Actividad
         type: string
         required: true
-      - name: fecha
-        label: Fecha
+
+      - name: inicio
+        label: Fecha de inicio
         type: date
         required: true
         options:
           format: yyyy-MM-dd
+        description: "El primer día. Si es un evento de un solo día, esto basta."
+
+      - name: fin
+        label: Fecha de fin (opcional)
+        type: date
+        options:
+          format: yyyy-MM-dd
+        description: "Solo para eventos de varios días seguidos (una semana, un campamento). Debe ser igual o posterior al inicio."
+
+      - name: fechas
+        label: Fechas sueltas (opcional)
+        type: date
+        list:
+          max: 60
+        options:
+          format: yyyy-MM-dd
+        description: "Para fechas que no son un rango ni una repetición fija: por ejemplo, el 3, el 17 y el 24."
+
+      - name: repeticion
+        label: Repetición (opcional)
+        type: object
+        description: "Para «todos los jueves». Si no se repite, déjalo vacío."
+        fields:
+          - name: cada
+            label: Frecuencia
+            type: select
+            options:
+              values:
+                - name: semanal
+                  label: Todas las semanas
+                - name: quincenal
+                  label: Cada 15 días
+                - name: mensual
+                  label: Una vez al mes
+          - name: dia
+            label: Día de la semana
+            type: select
+            options:
+              values: [lunes, martes, miércoles, jueves, viernes, sábado, domingo]
+            description: "Solo para repeticiones semanales o quincenales."
+          - name: hasta
+            label: Repetir hasta
+            type: date
+            options:
+              format: yyyy-MM-dd
+            description: "Obligatoria si hay repetición. Sin esta fecha, el sitio corta a 12 meses."
+
+      - name: excepciones
+        label: Fechas suspendidas (opcional)
+        type: date
+        list:
+          max: 60
+        options:
+          format: yyyy-MM-dd
+        description: "Días que caen dentro del rango o la repetición pero no habrá actividad (feriados, suspensiones)."
+
       - name: hora
-        label: Hora
+        label: Hora de inicio
         type: string
         required: true
         description: "Formato 24 h, por ejemplo 19:30."
+      - name: hora_fin
+        label: Hora de término (opcional)
+        type: string
+        description: "Formato 24 h, por ejemplo 21:30."
+
       - name: lugar
         label: Lugar
         type: string
@@ -151,17 +238,28 @@ content:
         label: Ciudad
         type: string
         required: true
+
       - name: descripcion
         label: Descripción (opcional)
         type: rich-text
         options:
           format: markdown
-          media: false
-        description: "Se muestra al abrir «Leer más», nunca en la lista. Admite negrita, cursiva, listas, citas y enlaces."
+        description: "Se muestra al abrir «Leer más», nunca en la lista. Markdown con listas, citas, enlaces e imágenes."
+
       - name: afiche
-        label: Afiche (opcional)
+        label: Afiche principal (opcional)
         type: image
-        description: "Se muestra solo dentro de «Leer más», nunca en la lista. Se sube a assets/."
+        description: "Se muestra solo dentro de «Leer más»."
+
+      - name: galeria
+        label: Galería (opcional)
+        type: image
+        options:
+          multiple:
+            max: 8
+          unique: true
+        description: "Más imágenes del evento."
+
       - name: id
         label: Identificador (opcional)
         type: string
@@ -196,18 +294,24 @@ content:
         required: true
         options:
           format: markdown
-          media: false
       - name: detalle
         label: Detalle (opcional)
         type: rich-text
         options:
           format: markdown
-          media: false
-        description: "Se muestra al abrir «Leer más». Admite negrita, cursiva, listas, citas y enlaces."
+        description: "Se muestra al abrir «Leer más»."
       - name: imagen
-        label: Imagen (opcional)
+        label: Imagen principal (opcional)
         type: image
-        description: "Se muestra solo dentro de «Leer más», nunca en la lista. Se sube a assets/."
+        description: "Se muestra solo dentro de «Leer más»."
+      - name: galeria
+        label: Galería (opcional)
+        type: image
+        options:
+          multiple:
+            max: 8
+          unique: true
+        description: "Más imágenes para el detalle."
 
   - name: comunicados
     label: Comunicados
@@ -232,7 +336,18 @@ content:
         required: true
         options:
           format: markdown
-          media: false
+      - name: imagen
+        label: Imagen principal (opcional)
+        type: image
+        description: "Se muestra al abrir el comunicado."
+      - name: galeria
+        label: Galería (opcional)
+        type: image
+        options:
+          multiple:
+            max: 8
+          unique: true
+        description: "Más imágenes del comunicado."
       - name: id
         label: Identificador (opcional)
         type: string

@@ -1,8 +1,9 @@
 /* Por la anarquía — render mínimo de Markdown.
    Los campos largos del CMS (Pages CMS, `type: rich-text`) guardan Markdown.
    Aquí se convierte a HTML con un subconjunto deliberado: párrafos, títulos,
-   listas, citas, separadores, negrita, cursiva, tachado, código y enlaces.
-   Todo el texto se escapa antes de formatear: no se acepta HTML del CMS. */
+   listas, citas, separadores, negrita, cursiva, tachado, código, enlaces e
+   imágenes. Todo el texto se escapa antes de formatear: no se acepta HTML del
+   CMS. */
 
 const mdEsc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
   c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -11,6 +12,18 @@ const mdUrl = u => {
   const t = u.replace(/&amp;/g, '&').trim();
   if (/^(https?:|mailto:|tel:)/i.test(t)) return u;
   if (/^[#/.]/.test(t)) return u;
+  return null;
+};
+
+/* Las imágenes del CMS se guardan como rutas relativas («assets/foto.jpg»),
+   sin barra inicial. Se aceptan rutas internas y http(s); se rechaza el resto. */
+const mdImgUrl = u => {
+  const t = u.replace(/&amp;/g, '&').trim();
+  if (/^https?:\/\//i.test(t)) return u;
+  if (/^\/\//.test(t)) return null;
+  if (/^(javascript|vbscript|data|file):/i.test(t)) return null;
+  if (t.split('/').includes('..')) return null;
+  if (/^[a-z0-9._~\/-]+$/i.test(t)) return u;
   return null;
 };
 
@@ -28,6 +41,11 @@ const mdInline = src => {
   let s = mdEsc(src);
 
   s = s.replace(/`([^`\n]+)`/g, (_, c) => guardar(`<code>${c}</code>`));
+
+  s = s.replace(/!\[([^\]\n]*)\]\(([^)\s]+)\)/g, (todo, alt, url) => {
+    const src = mdImgUrl(url);
+    return src ? guardar(`<img src="${src}" alt="${alt}" loading="lazy">`) : todo;
+  });
 
   s = s.replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, (todo, txt, url) => {
     const href = mdUrl(url);
@@ -75,6 +93,18 @@ const mdBlocks = src => {
     }
 
     if (/^\s*((\*|-|_)\s*){3,}$/.test(linea)) { cerrar(); return out.push('<hr>'); }
+
+    // Una línea que es solo una imagen se muestra como figura con su leyenda.
+    const img = linea.match(/^\s*!\[([^\]]*)\]\(([^)\s]+)\)\s*$/);
+    if (img) {
+      const src = mdImgUrl(img[2]);
+      if (src) {
+        cerrar();
+        const alt = mdEsc(img[1]);
+        return out.push(`<figure class="md-img"><img src="${src}" alt="${alt}" loading="lazy">` +
+          (img[1].trim() ? `<figcaption>${alt}</figcaption>` : '') + '</figure>');
+      }
+    }
 
     const ul = linea.match(/^\s*[-*+]\s+(.*)$/);
     const ol = linea.match(/^\s*\d+[.)]\s+(.*)$/);

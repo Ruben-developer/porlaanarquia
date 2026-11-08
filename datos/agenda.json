@@ -1,7 +1,7 @@
 [
   {
     "titulo": "Comedor Vegano",
-    "fecha": "2016-01-24",
+    "inicio": "2016-01-24",
     "hora": "12:00",
     "lugar": "Antártica #3212, San Joaquín",
     "ciudad": "Santiago",
@@ -10,7 +10,7 @@
   },
   {
     "titulo": "Marginales Solidarios",
-    "fecha": "2016-01-30",
+    "inicio": "2016-01-30",
     "hora": "12:00",
     "lugar": "Av. Santa Ana 0496",
     "ciudad": "Santiago",
@@ -19,7 +19,7 @@
   },
   {
     "titulo": "Proyección película \"Los ojos de América\"",
-    "fecha": "2016-01-06",
+    "inicio": "2016-01-06",
     "hora": "16:00",
     "lugar": "Casa Volnitza, Vidaurre #1629",
     "ciudad": "Santiago",
@@ -28,7 +28,7 @@
   },
   {
     "titulo": "Semana internacional de agitación contra el desalojo del centro social autónomo La Solidaria",
-    "fecha": "2016-02-22",
+    "inicio": "2016-02-22",
     "hora": "00:00",
     "lugar": "Uruguay",
     "ciudad": "Montevideo",
@@ -37,7 +37,7 @@
   },
   {
     "titulo": "Comedor Vegano + Bingo bailable",
-    "fecha": "2016-02-27",
+    "inicio": "2016-02-27",
     "hora": "17:00",
     "lugar": "Antártica #3212, San Joaquin",
     "ciudad": "Santiago",
@@ -46,7 +46,7 @@
   },
   {
     "titulo": "Jornadas anárquicas en defensa de la tierra y el mar, Kallfuko [24 y 25 de Febrero]",
-    "fecha": "2016-02-24",
+    "inicio": "2016-02-24",
     "hora": "00:00",
     "lugar": "Kallfuko ",
     "ciudad": "Los Rios",
@@ -55,7 +55,7 @@
   },
   {
     "titulo": "Jornada de Protesta \"Contra los Recortes y la educación de Mercado\"",
-    "fecha": "2026-11-05",
+    "inicio": "2026-11-05",
     "hora": "12:00",
     "lugar": "En Todo el Territorio",
     "ciudad": "Santiago",
@@ -64,7 +64,7 @@
   },
   {
     "titulo": "II Jornada por la Niñez Rebelde y lxs animales libres",
-    "fecha": "2026-11-28",
+    "inicio": "2026-11-28",
     "hora": "16:00",
     "lugar": "Av Mexico con Licanrray, Puente Alto",
     "ciudad": "Santiago",
@@ -73,7 +73,7 @@
   },
   {
     "titulo": "8vo Encuentro del Libro y la Propaganda Anarquista de Santiago 2026",
-    "fecha": "2026-11-07",
+    "inicio": "2026-11-07",
     "hora": "11:30",
     "lugar": "Espacio Comunitario \"Pablo Vergara Toledo\" Las estepas #845, Villa Francia",
     "ciudad": "Santiago",
