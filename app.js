@@ -30,6 +30,102 @@ const slug = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u030
 const idDe = (item, campoFecha, campoTitulo) =>
   item.id || `${item[campoFecha]}-${slug(item[campoTitulo])}`;
 
+/* --- Imágenes de una entrada -------------------------------------------
+   `imagen`/`afiche` es la portada y `galeria` suma más fotos. Cada foto puede
+   ser una ruta suelta o un objeto { imagen, alt } para no perder el alt. */
+const rutaImg = v => (typeof v === 'string' && v.trim() ? v.replace(/^\/+/, '') : null);
+const imgsDe = (item, campo) => {
+  const out = [];
+  const add = (src, alt) => { const s = rutaImg(src); if (s) out.push({ src: s, alt: String(alt || '').trim() }); };
+  add(item[campo], item.alt);
+  (Array.isArray(item.galeria) ? item.galeria : []).forEach(g => {
+    if (typeof g === 'string') add(g, '');
+    else if (g && typeof g === 'object') add(g.imagen || g.src || g.archivo, g.alt);
+  });
+  return out;
+};
+const figura = (im, titulo, clase = 'foto') =>
+  `<figure class="${clase}"><img src="${esc(im.src)}" alt="${esc(im.alt || titulo)}" loading="lazy">` +
+  (clase === 'foto' && im.alt ? `<figcaption>${esc(im.alt)}</figcaption>` : '') + '</figure>';
+const galeriaHTML = (imgs, titulo) => imgs.length ? `<div class="galeria">${imgs.map((im, i) => `
+  <figure><img src="${esc(im.src)}" alt="${esc(im.alt || `Imagen ${i + 1} de ${titulo}`)}" loading="lazy">` +
+  (im.alt ? `<figcaption>${esc(im.alt)}</figcaption>` : '') + '</figure>').join('')}</div>` : '';
+
+/* --- Fechas de eventos: día, rango y recurrencia -----------------------
+   Todo se maneja como ISO local (YYYY-MM-DD) para no depender de la zona
+   horaria del navegador. Una recurrencia sin `hasta` se corta a 12 meses. */
+const pad2 = n => String(n).padStart(2, '0');
+const isoHoy = () => { const n = new Date(); return `${n.getFullYear()}-${pad2(n.getMonth() + 1)}-${pad2(n.getDate())}`; };
+const sumarDias = (iso, n) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
+};
+const sumarMeses = (iso, n) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  const t = new Date(Date.UTC(y, m - 1 + n, 1));
+  const ultimo = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate();
+  t.setUTCDate(Math.min(d, ultimo));
+  return t.toISOString().slice(0, 10);
+};
+const DIAS_SEMANA = { domingo: 0, lunes: 1, martes: 2, miercoles: 3, 'miércoles': 3, jueves: 4, viernes: 5, sabado: 6, 'sábado': 6 };
+const NOMBRE_DIA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+const fechaDe = f => (typeof f === 'string' ? f : f && (f.fecha || f.inicio));
+
+const fechasDeEvento = e => {
+  const set = new Set();
+  const add = v => { if (/^\d{4}-\d{2}-\d{2}$/.test(v || '')) set.add(v); };
+  const inicio = e.inicio || e.fecha;
+  const r = e.repeticion;
+  const recurrente = !!(inicio && r && r.cada);
+  // Con repetición, la primera fecha la pone el cálculo: si se pidió «jueves» y
+  // el inicio cae lunes, el lunes no debe aparecer como ocurrencia.
+  if (!recurrente) add(inicio);
+  (Array.isArray(e.fechas) ? e.fechas : []).forEach(f => add(fechaDe(f)));
+  if (recurrente) {
+    let desde = inicio;
+    const dia = r.dia ? DIAS_SEMANA[String(r.dia).toLowerCase()] : null;
+    if (dia != null) {
+      let guarda = 0;
+      while (new Date(desde + 'T00:00:00Z').getUTCDay() !== dia && guarda++ < 7) desde = sumarDias(desde, 1);
+    }
+    const hasta = r.hasta || sumarMeses(desde, 12);
+    if (r.cada === 'mensual') {
+      // Se calcula desde el día original para no arrastrar el recorte de febrero.
+      let i = 0, cur = desde;
+      while (cur <= hasta && i < 400) { add(cur); i++; cur = sumarMeses(desde, i); }
+    } else {
+      let cur = desde, guarda = 0;
+      while (cur <= hasta && guarda++ < 400) {
+        add(cur);
+        cur = sumarDias(cur, r.cada === 'quincenal' ? 14 : 7);
+      }
+    }
+  }
+  const exc = new Set((Array.isArray(e.excepciones) ? e.excepciones : []).map(fechaDe).filter(Boolean));
+  return [...set].filter(f => !exc.has(f)).sort();
+};
+
+const textoFechas = (e, inicio) => {
+  const r = e.repeticion;
+  if (r && r.cada) {
+    const dia = r.dia ? NOMBRE_DIA[DIAS_SEMANA[String(r.dia).toLowerCase()]] : '';
+    const base = r.cada === 'quincenal' ? 'Cada 15 días'
+      : r.cada === 'mensual' ? 'Una vez al mes'
+        : dia ? `Todos los ${dia}` : 'Todas las semanas';
+    return r.hasta ? `${base} · hasta el ${fmt(r.hasta)}` : base;
+  }
+  if (e.fin && e.fin > inicio) {
+    const [yi, mi, di] = inicio.split('-').map(Number);
+    const [yf, mf, df] = e.fin.split('-').map(Number);
+    if (yi === yf && mi === mf) return `Del ${di} al ${df} de ${MES[mi - 1]} de ${yi}`;
+    return `Del ${fmt(inicio)} al ${fmt(e.fin)}`;
+  }
+  const extra = (Array.isArray(e.fechas) ? e.fechas : []).map(fechaDe).filter(f => f && f !== inicio);
+  if (extra.length) return `${fmt(inicio)} y ${extra.length} ${extra.length === 1 ? 'fecha más' : 'fechas más'}`;
+  return '';
+};
+
+
 async function getJSON(url) {
   const r = await fetch(url, { cache: 'no-cache' });
   if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
@@ -48,23 +144,41 @@ async function cargarDatos() {
 
   ARTS = noticias.map(n => {
     const body = mdBlocks(n.cuerpo);
+    const deck = mdInline(n.bajada || '');
     return {
-      id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck: String(n.bajada || '').trim(),
+      id: idDe(n, 'fecha', 'titulo'), cat: n.categoria, t: n.titulo, deck,
+      deckTxt: mdPlano(deck),
       date: n.fecha, place: n.lugar, body, plain: mdPlano(body),
-      img: n.imagen ? String(n.imagen).replace(/^\/+/, '') : null
+      imgs: imgsDe(n, 'imagen')
     };
   }).sort(porFecha);
   CATS = ['Todas', ...new Set(ARTS.map(a => a.cat))];
 
-  AGENDA = agenda.map(e => ({
-    id: idDe(e, 'fecha', 'titulo'), iso: e.fecha, hora: e.hora, t: e.titulo, place: e.lugar, city: e.ciudad,
-    desc: mdBlocks(e.descripcion), afiche: e.afiche ? String(e.afiche).replace(/^\/+/, '') : null
-  })).sort((a, b) => a.iso.localeCompare(b.iso));
+  const hoy = isoHoy();
+  AGENDA = agenda.map(e => {
+    const inicio = e.inicio || e.fecha;
+    const fin = e.fin && e.fin > inicio ? e.fin : null;
+    const fechas = fechasDeEvento({ ...e, inicio });
+    const enCurso = !!fin && hoy >= inicio && hoy <= fin;
+    const proximo = enCurso ? (hoy > inicio ? hoy : inicio) : (fechas.find(f => f >= hoy) || null);
+    const ultimo = fin && fin > (fechas[fechas.length - 1] || inicio) ? fin : (fechas[fechas.length - 1] || inicio);
+    return {
+      id: idDe({ fecha: inicio, titulo: e.titulo }, 'fecha', 'titulo'),
+      inicio, fin, fechas, hora: e.hora, horaFin: e.hora_fin || '',
+      t: e.titulo, place: e.lugar, city: e.ciudad,
+      desc: mdBlocks(e.descripcion),
+      imgs: imgsDe(e, 'afiche'),
+      fechaTexto: textoFechas({ ...e, inicio, fin }, inicio),
+      enCurso, proximo, ultimo,
+      mostrar: enCurso ? inicio : (proximo || ultimo || inicio),
+      orden: enCurso ? '0000-00-00' : (proximo || '9999-12-31')
+    };
+  }).sort((a, b) => a.orden.localeCompare(b.orden) || a.mostrar.localeCompare(b.mostrar));
   CITIES = ['Todas', ...new Set(AGENDA.map(a => a.city))];
 
   EFEM = efem.map(e => ({
     m: e.mes, d: e.dia, y: e.anio, t: e.titulo, x: mdInline(e.texto), det: mdBlocks(e.detalle),
-    img: e.imagen ? String(e.imagen).replace(/^\/+/, '') : null
+    imgs: imgsDe(e, 'imagen')
   }));
 
   // Recortes: el primer párrafo de `texto` es la entrada de la tarjeta; el resto
@@ -75,12 +189,13 @@ async function cargarDatos() {
       id: idDe(r, 'tipo', 'titulo'), tipo: r.tipo, t: r.titulo,
       lead: parrafos(r.texto)[0] || '', body: mdBlocks(completo),
       more: parrafos(completo).length > 1,
-      src: credito(r.autor, r.fuente)
+      src: credito(r.autor, r.fuente),
+      imgs: imgsDe(r, 'imagen')
     };
   });
   REC_TIPOS = ['Todos', ...new Set(RECORTES.map(r => r.tipo))];
 
-  COMS = coms.map(c => ({ id: idDe(c, 'fecha', 'titulo'), iso: c.fecha, t: c.titulo, x: c.texto }))
+  COMS = coms.map(c => ({ id: idDe(c, 'fecha', 'titulo'), iso: c.fecha, t: c.titulo, x: c.texto, imgs: imgsDe(c, 'imagen') }))
     .sort((a, b) => b.iso.localeCompare(a.iso));
 
   // Imagen de portada: si el JSON falla o viene vacío, queda la del HTML.
@@ -142,17 +257,21 @@ function renderPortada() {
     </article>`).join('') || '<p class="empty">Todavía no hay notas.</p>';
 
   // Eventos próximos, hasta tres; el título se ajusta si el primero ya no es de este mes.
-  const iso = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
-  const proximos = AGENDA.filter(e => e.iso >= iso).slice(0, 3);
-  $('#homeEventsTitle').textContent = proximos.length && proximos[0].iso.slice(0, 7) === iso.slice(0, 7)
+  const iso = isoHoy();
+  const proximos = AGENDA.filter(e => e.enCurso || e.proximo)
+    .sort((a, b) => String(a.proximo || a.inicio).localeCompare(String(b.proximo || b.inicio)))
+    .slice(0, 3);
+  $('#homeEventsTitle').textContent = proximos.length && String(proximos[0].mostrar).slice(0, 7) === iso.slice(0, 7)
     ? 'Eventos del mes' : 'Próximos eventos';
   $('#homeEvents').innerHTML = proximos.map(e => {
-    const [y, m, d] = e.iso.split('-').map(Number);
+    const [y, m, d] = e.mostrar.split('-').map(Number);
+    const h = e.hora + (e.horaFin ? '–' + e.horaFin : '');
     return `<li class="mini-ag">
       <div class="mini-date"><span class="mini-day">${d}</span><span class="mini-mon">${MES3[m - 1]}</span><span class="mini-year">${y}</span></div>
       <div>
         <h4><button type="button" data-go="agenda">${esc(e.t)}</button></h4>
-        <p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+        <p class="meta">${esc(h)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+        ${e.fechaTexto ? `<p class="meta mini-when">${esc(e.fechaTexto)}</p>` : ''}
       </div>
     </li>`;
   }).join('') || '<li class="empty">No hay eventos próximos.</li>';
@@ -199,7 +318,7 @@ function renderNews() {
     (S.cat === 'Todas' || a.cat === S.cat) &&
     (S.year === 'Todos' || a.date.startsWith(S.year)) &&
     (!S.month || +a.date.slice(5, 7) === S.month) &&
-    (!q || (a.t + ' ' + a.deck + ' ' + a.plain).toLowerCase().includes(q))
+    (!q || (a.t + ' ' + a.deckTxt + ' ' + a.plain).toLowerCase().includes(q))
   );
 
   const periodo = S.year === 'Todos' ? '' : (S.month ? ` · ${MES[S.month - 1]} ${S.year}` : ` · ${S.year}`);
@@ -211,7 +330,7 @@ function renderNews() {
       <span class="kick">${esc(a.cat)}</span>
       <h3>${esc(a.t)}</h3>
       <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
-      ${a.deck ? `<p class="deck">${esc(a.deck)}</p>` : ''}
+      ${a.deck ? `<p class="deck">${a.deck}</p>` : ''}
       <button class="linkbtn" data-open="${esc(a.id)}" type="button">Leer nota</button>
     </div>`).join('')
     : `<p class="empty" style="grid-column:1/-1">${filtros ? 'No hay notas en ese período.' : 'Todavía no hay notas publicadas.'}</p>`;
@@ -226,10 +345,11 @@ function renderReader() {
     <button class="linkbtn back" data-close type="button">Volver a las notas</button>
     <span class="kick">${esc(a.cat)}</span>
     <h2>${esc(a.t)}</h2>
-    ${a.deck ? `<p class="deck">${esc(a.deck)}</p>` : ''}
+    ${a.deck ? `<p class="deck">${a.deck}</p>` : ''}
     <p class="meta">${esc(a.place)} · ${fmt(a.date)}</p>
-    ${a.img ? `<figure class="foto"><img src="${esc(a.img)}" alt="" loading="lazy"></figure>` : ''}
-    ${a.body ? `<div class="body">${a.body.replace(/^<p>/, '<p class="dropcap">')}</div>` : ''}`;
+    ${a.imgs.length ? figura(a.imgs[0], a.t) : ''}
+    ${a.body ? `<div class="body">${a.body.replace(/^<p>/, '<p class="dropcap">')}</div>` : ''}
+    ${galeriaHTML(a.imgs.slice(1), a.t)}`;
 }
 
 /* Render: agenda */
@@ -238,18 +358,21 @@ function renderAgenda() {
     + `<button class="chip" type="button" data-city="__saved" aria-pressed="${S.city === '__saved'}">Guardados (${S.saved.size})</button>`;
   const list = AGENDA.filter(e => S.city === 'Todas' || (S.city === '__saved' ? S.saved.has(e.id) : e.city === S.city));
 
-  // Hoy en ISO local, para separar lo que viene de lo que ya pasó.
-  const ahora = new Date();
-  const hoy = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, '0')}-${String(ahora.getDate()).padStart(2, '0')}`;
-  const proximas = list.filter(e => e.iso >= hoy);
-  const pasadas = list.filter(e => e.iso < hoy).reverse(); // AGENDA viene ascendente
+  // Lo que está en curso va primero; después lo próximo; al final lo que ya pasó.
+  const proximas = list.filter(e => e.enCurso || e.proximo)
+    .sort((a, b) => String(a.proximo || a.inicio).localeCompare(String(b.proximo || b.inicio)));
+  const pasadas = list.filter(e => !e.enCurso && !e.proximo)
+    .sort((a, b) => String(b.ultimo || b.inicio).localeCompare(String(a.ultimo || a.inicio)));
 
   $('#agCount').textContent = `${list.length} ${list.length === 1 ? 'actividad' : 'actividades'}`
     + (pasadas.length ? ` · ${pasadas.length} ${pasadas.length === 1 ? 'pasada' : 'pasadas'}` : '');
 
   const fila = (e, paso) => {
-    const [y, m, d] = e.iso.split('-').map(Number), on = S.saved.has(e.id);
-    const extra = e.desc || e.afiche;
+    const fecha = e.mostrar || e.inicio;
+    const [y, m, d] = fecha.split('-').map(Number), on = S.saved.has(e.id);
+    const imgs = e.imgs || [];
+    const extra = e.desc || imgs.length;
+    const h = e.hora + (e.horaFin ? '–' + e.horaFin : '');
     const accion = paso
       ? (on
         ? `<button class="btn alt" type="button" data-save="${esc(e.id)}" aria-pressed="true">Quitar</button>`
@@ -258,11 +381,14 @@ function renderAgenda() {
     return `<div class="ag${paso ? ' pasada' : ''}">
       <div class="ag-date"><span class="ag-day">${d}</span><span class="ag-mon">${MES3[m - 1]}</span><span class="ag-year">${y}</span></div>
       <div class="ag-body">
+        ${e.enCurso ? '<span class="ag-flag">En curso</span>' : ''}
         <h3>${esc(e.t)}</h3>
-        <p class="meta">${esc(e.hora)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+        <p class="meta">${esc(h)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+        ${e.fechaTexto ? `<p class="meta ag-when">${esc(e.fechaTexto)}</p>` : ''}
         ${extra ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
-          ${e.afiche ? `<figure class="afiche"><img src="${esc(e.afiche)}" alt="Afiche: ${esc(e.t)}" loading="lazy"></figure>` : ''}
+          ${imgs[0] ? figura(imgs[0], 'Afiche: ' + e.t, 'afiche') : ''}
+          ${galeriaHTML(imgs.slice(1), e.t)}
           ${e.desc}
         </details>` : ''}
       </div>
@@ -276,7 +402,7 @@ function renderAgenda() {
     bloques.push(`<h3 class="ag-sep"><span>Ya pasaron (${pasadas.length})</span></h3>`);
     bloques.push(pasadas.map(e => fila(e, true)).join(''));
   }
-  $('#agList').innerHTML = list.length ? bloques.join('') : '<p class="empty">Todavía no has guardado actividades.</p>';
+  $('#agList').innerHTML = list.length ? bloques.join('') : '<p class="empty">No hay actividades para este filtro.</p>';
 }
 
 /* Render: efemérides */
@@ -293,9 +419,10 @@ function renderEfem() {
         <span class="kick">${e.left === 0 ? 'Hoy' : e.left === 1 ? 'Mañana' : 'Faltan ' + e.left + ' días'}</span>
         <h3>${esc(e.t)}</h3>
         <p>${e.x}</p>
-        ${e.det || e.img ? `<details class="more">
+        ${e.det || e.imgs.length ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
-          ${e.img ? `<figure class="detail-img"><img src="${esc(e.img)}" alt="Imagen: ${esc(e.t)}" loading="lazy"></figure>` : ''}
+          ${e.imgs.length ? figura(e.imgs[0], 'Imagen: ' + e.t, 'detail-img') : ''}
+          ${galeriaHTML(e.imgs.slice(1), e.t)}
           ${e.det}
         </details>` : ''}
       </div>
@@ -333,7 +460,9 @@ function renderRecorte() {
     <button class="linkbtn back" type="button" data-gorec>Volver a las lecturas</button>
     <span class="kick">${esc(r.tipo)}</span>
     <h2>${esc(r.t)}</h2>
+    ${r.imgs.length ? figura(r.imgs[0], r.t) : ''}
     <div class="body">${r.body.replace(/^<p>/, '<p class="dropcap">')}</div>
+    ${galeriaHTML(r.imgs.slice(1), r.t)}
     ${r.src ? `<p class="rec-src">${esc(r.src)}</p>` : ''}`;
 }
 
@@ -342,7 +471,9 @@ function renderComs() {
   $('#comList').innerHTML = COMS.map((c, i) => `
     <details${i === 0 ? ' open' : ''}>
       <summary><h3>${esc(c.t)}</h3><span>${fmt(c.iso)}</span></summary>
+      ${c.imgs.length ? figura(c.imgs[0], c.t) : ''}
       ${mdBlocks(c.x)}
+      ${galeriaHTML(c.imgs.slice(1), c.t)}
     </details>`).join('');
 }
 

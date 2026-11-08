@@ -68,6 +68,9 @@ Lo que se puede escribir:
 - Enlaces: `[texto](https://ejemplo.cl)`. Las URL sueltas también quedan como enlace.
 - Listas con `- ` o `1. `, citas con `> `, títulos con `## ` y separadores con `---`.
 - Los párrafos se separan con una línea en blanco.
+- Imágenes dentro del texto: `![descripción](assets/foto.jpg)`. Si la línea tiene
+  solo la imagen, se muestra como figura con su leyenda; si va dentro de un
+  párrafo, se muestra en línea.
 
 En **Lecturas**, la tarjeta muestra el primer párrafo de `texto`; el resto se lee
 con **Leer completo**.
@@ -84,31 +87,52 @@ recorte en su propia vista de lectura (`#recorte`). `cuerpo` es la continuación
 del texto: se lee después del primer párrafo y sus párrafos se separan con una
 línea en blanco. Las frases de un solo párrafo no muestran el botón.
 
-En **Eventos** (la agenda) las actividades se ordenan por cercanía: primero las
-que vienen y, al final, las que ya pasaron. Cada fila muestra día, mes y año. Las
-pasadas van apagadas, con la marca **«Ya pasó»** y bajo el separador
-**«Ya pasaron»**; las que vienen llevan el botón **Guardar**.
+En **Eventos** (la agenda) las actividades se ordenan por cercanía: primero la
+que está en curso, después las que vienen y, al final, las que ya pasaron. Cada
+fila muestra día, mes y año. Las pasadas van apagadas, con la marca **«Ya pasó»**
+y bajo el separador **«Ya pasaron»**; las que vienen llevan el botón **Guardar**.
+
+Una actividad puede durar un solo día o varias formas:
+
+- **Un día**: `inicio` y listo.
+- **Varios días seguidos**: `inicio` + `fin` (una semana, un campamento). Se
+  muestra como «Del 3 al 9 de noviembre» y queda **En curso** mientras dure.
+- **Fechas sueltas**: `fechas` con cada día (por ejemplo, el 3, el 17 y el 24).
+- **Todos los jueves**: `repeticion` con `cada` (semanal, quincenal o mensual),
+  `dia` y `hasta`. El sitio calcula las ocurrencias y muestra la próxima; sin
+  `hasta` corta a 12 meses para no repetir sin fin.
+- **Suspensiones**: `excepciones` con las fechas que caen dentro del rango o la
+  repetición pero no habrá actividad (feriados, cancelaciones).
 
 En **Eventos** y **Efemérides** la lista va sin imágenes. El campo
 `descripcion` (Eventos) y `detalle` (Efemérides) se muestran al abrir
-**«Leer más»**. En Eventos se puede sumar un `afiche` opcional y en Efemérides
-una `imagen` opcional: ambas aparecen solo dentro del detalle.
+**«Leer más»**. En Eventos se puede sumar un `afiche` y una `galeria`
+opcionales; en Efemérides, una `imagen` y una `galeria`.
 
 ### Imágenes
 
-Se suben desde Pages CMS (sección **Portada**, campo **Imagen** de una nota o de
-una efeméride, o **Afiche** de una actividad) y quedan en `assets/`:
+Se suben desde Pages CMS y quedan en `assets/`. Cada entrada puede tener una
+imagen principal y una **galería** con varias más:
 
 - `datos/portada.json` — grabado de la cabecera (`imagen` + `alt`).
-- Campo `imagen` de una nota — opcional; se muestra al abrirla, en blanco y
-  negro y con marco, para no romper la estética de imprenta.
-- Campo `afiche` de una actividad — opcional; se muestra solo dentro de
-  **«Leer más»**, nunca en la lista de Eventos.
-- Campo `imagen` de una efeméride — opcional; se muestra solo dentro de
-  **«Leer más»**, nunca en la lista.
+- Noticias — `imagen` (principal, se muestra al abrir la nota) y `galeria`
+  (hasta 8 fotos, en grilla).
+- Lecturas — `imagen` y `galeria` opcionales, al abrir la lectura completa.
+- Eventos — `afiche` (principal) y `galeria` opcionales, solo dentro de
+  **«Leer más»**.
+- Efemérides — `imagen` y `galeria` opcionales, solo dentro de la vista.
+- Comunicados — `imagen` y `galeria` opcionales, al abrir el comunicado.
 
-Fuera del CMS también se pueden copiar a mano a `assets/` y escribir la ruta
-(`assets/mi-foto.jpg`). El validador avisa si la imagen no existe.
+La galería acepta rutas sueltas (`assets/foto.jpg`) o entradas con descripción
+(`{ "imagen": "assets/foto.jpg", "alt": "Qué se ve" }`). Conviene usar el
+formato con `alt` para que la foto tenga texto alternativo.
+
+Los campos largos también aceptan imágenes dentro del texto con
+`![descripción](assets/foto.jpg)`.
+
+Fuera del CMS se pueden copiar a mano a `assets/` y escribir la ruta. El
+validador avisa si la imagen no existe. No hay compresión automática: conviene
+subir WebP o JPG de hasta 1600 px y unos 300 KB.
 
 ## Contacto
 
