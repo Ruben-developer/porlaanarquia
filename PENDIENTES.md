@@ -74,6 +74,24 @@ cd /home/nbk/Repositorios/porlaanarquia
 scripts/publicar.sh "feat: qué cambia"
 ```
 
+## Archivo del WordPress (2016–2019)
+
+- [x] Inventario de las 103 entradas de `porlaanarquia.wordpress.com` y de sus
+      149 imágenes.
+- [x] 111 imágenes pasadas por el filtro de grabado de `utils.antarquia.cl`;
+      las 71 que quedaron en uso se guardan en `assets/` como WebP.
+- [x] Triaje: 57 entradas conservadas y 17 descartadas (duplicados, avisos
+      vencidos o entradas sin contenido propio). 29 ya estaban migradas.
+- [x] Reparto: 25 notas en `datos/noticias.json`, 31 lecturas en
+      `datos/recortes.json` y 1 comunicado en `datos/comunicados.json`.
+- [x] Tipos nuevos en `.pages.yml` para Lecturas: Artículo, Biografía,
+      Entrevista y Documento.
+- [ ] 38 imágenes del WordPress viejo no se pudieron recuperar (403/410 en
+      `fbcdn.net`, `editorialgatonegro` y otros). Quedan 15 entradas sin imagen.
+- [ ] (Opcional) Revisar los textos migrados uno por uno: se limpió el HTML y se
+      corrigieron acentos y mayúsculas de los títulos, pero no se reescribió el
+      contenido.
+
 ## Bandeja de prensa
 
 - [ ] Revisar la lista inicial de `datos/fuentes.json` (9 medios) y sacar o sumar

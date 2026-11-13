@@ -103,7 +103,11 @@ content:
             - Extracto
             - Frase
             - Historia
-        description: "Extracto de un libro o artículo, una frase célebre o una historia anarquista breve."
+            - Artículo
+            - Biografía
+            - Entrevista
+            - Documento
+        description: "Extracto de un libro o artículo, una frase célebre, una historia anarquista breve, un artículo de fondo, una biografía, una entrevista o un documento de archivo."
       - name: titulo
         label: Título
         type: string
