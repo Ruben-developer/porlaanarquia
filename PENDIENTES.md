@@ -53,8 +53,8 @@ Dominio final: `porlaanarquia.antarquia.cl`
 
 ## Contenido real (antes de publicar)
 
-- [ ] Terminar de cargar las notas rescatadas del blog viejo.
-- [ ] Reemplazar las lecturas, actividades y comunicados que sigan siendo de ejemplo.
+- [x] Terminar de cargar las notas rescatadas del blog viejo.
+- [x] Reemplazar las lecturas, actividades y comunicados que sigan siendo de ejemplo.
 - [x] Quitar la nota al pie del lector: ya no queda ningún aviso de maqueta en el código. Todo el texto de ejemplo vive en `datos/*.json` y se puede borrar desde Pages CMS.
 - [x] Probar Pages CMS de punta a punta: se subió `assets/1.png`, se editó una
       efeméride y se agregó la actividad «Comedor Vegano»; los commits del CMS
@@ -82,10 +82,11 @@ scripts/publicar.sh "feat: qué cambia"
       las 71 que quedaron en uso se guardan en `assets/` como WebP.
 - [x] Triaje: 57 entradas conservadas y 17 descartadas (duplicados, avisos
       vencidos o entradas sin contenido propio). 29 ya estaban migradas.
-- [x] Reparto: 25 notas en `datos/noticias.json`, 31 lecturas en
-      `datos/recortes.json` y 1 comunicado en `datos/comunicados.json`.
-- [x] Tipos nuevos en `.pages.yml` para Lecturas: Artículo, Biografía,
-      Entrevista y Documento.
+- [x] Reparto: 7 notas en `datos/noticias.json`, 31 lecturas en
+      `datos/recortes.json`, 13 actividades en `datos/agenda.json` y 6 avisos y
+      convocatorias en `datos/comunicados.json`.
+- [x] Tipos de Lecturas en `.pages.yml`: Extracto, Frase, Historia, Artículo,
+      Biografía, Entrevista y Documento.
 - [ ] 38 imágenes del WordPress viejo no se pudieron recuperar (403/410 en
       `fbcdn.net`, `editorialgatonegro` y otros). Quedan 15 entradas sin imagen.
 - [ ] (Opcional) Revisar los textos migrados uno por uno: se limpió el HTML y se
@@ -107,4 +108,4 @@ scripts/publicar.sh "feat: qué cambia"
 
 - [ ] Desactivar Web Analytics en Cloudflare: el CSP bloquea su script y deja
       un error en la consola. El sitio no usa analítica a propósito.
-- [ ] (Opcional) Dejar aviso en el WordPress viejo apuntando al nuevo sitio.
+- [ ] (Opcional) Cerrar el WordPress viejo cuando el sitio nuevo esté verificado.

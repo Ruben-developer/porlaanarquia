@@ -121,7 +121,7 @@ unicos(noticias, 'id', 'noticias.json');
 const agenda = leer('agenda.json');
 agenda.forEach((e, i) => {
   const donde = `agenda.json[${i}]`;
-  ['titulo', 'hora', 'lugar', 'ciudad'].forEach(c => {
+  ['titulo', 'lugar', 'ciudad'].forEach(c => {
     if (!texto(e[c])) errores.push(`${donde}: falta «${c}»`);
   });
 

@@ -225,10 +225,9 @@ content:
         description: "Días que caen dentro del rango o la repetición pero no habrá actividad (feriados, suspensiones)."
 
       - name: hora
-        label: Hora de inicio
+        label: Hora de inicio (opcional)
         type: string
-        required: true
-        description: "Formato 24 h, por ejemplo 19:30."
+        description: "Formato 24 h, por ejemplo 19:30. Si el aviso no indica hora, déjala vacía."
       - name: hora_fin
         label: Hora de término (opcional)
         type: string

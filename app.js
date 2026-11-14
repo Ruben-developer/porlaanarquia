@@ -265,12 +265,12 @@ function renderPortada() {
     ? 'Eventos del mes' : 'Próximos eventos';
   $('#homeEvents').innerHTML = proximos.map(e => {
     const [y, m, d] = e.mostrar.split('-').map(Number);
-    const h = e.hora + (e.horaFin ? '–' + e.horaFin : '');
+    const h = e.hora ? e.hora + (e.horaFin ? '–' + e.horaFin : '') + ' h · ' : '';
     return `<li class="mini-ag">
       <div class="mini-date"><span class="mini-day">${d}</span><span class="mini-mon">${MES3[m - 1]}</span><span class="mini-year">${y}</span></div>
       <div>
         <h4><button type="button" data-go="agenda">${esc(e.t)}</button></h4>
-        <p class="meta">${esc(h)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+        <p class="meta">${esc(h)}${esc(e.place)} · ${esc(e.city)}</p>
         ${e.fechaTexto ? `<p class="meta mini-when">${esc(e.fechaTexto)}</p>` : ''}
       </div>
     </li>`;
@@ -372,7 +372,7 @@ function renderAgenda() {
     const [y, m, d] = fecha.split('-').map(Number), on = S.saved.has(e.id);
     const imgs = e.imgs || [];
     const extra = e.desc || imgs.length;
-    const h = e.hora + (e.horaFin ? '–' + e.horaFin : '');
+    const h = e.hora ? e.hora + (e.horaFin ? '–' + e.horaFin : '') + ' h · ' : '';
     const accion = paso
       ? (on
         ? `<button class="btn alt" type="button" data-save="${esc(e.id)}" aria-pressed="true">Quitar</button>`
@@ -383,7 +383,7 @@ function renderAgenda() {
       <div class="ag-body">
         ${e.enCurso ? '<span class="ag-flag">En curso</span>' : ''}
         <h3>${esc(e.t)}</h3>
-        <p class="meta">${esc(h)} h · ${esc(e.place)} · ${esc(e.city)}</p>
+        <p class="meta">${esc(h)}${esc(e.place)} · ${esc(e.city)}</p>
         ${e.fechaTexto ? `<p class="meta ag-when">${esc(e.fechaTexto)}</p>` : ''}
         ${extra ? `<details class="more">
           <summary class="linkbtn"><span class="more-open">Leer más</span><span class="more-close">Leer menos</span></summary>
